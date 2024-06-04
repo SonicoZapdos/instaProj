@@ -9,11 +9,15 @@ namespace instaProj.Models
             Users = Set<User>();
             Archives = Set<Archive>();
             Comments = Set<Comment>();
+            Ratings = Set<Rating>();
+            SubComments = Set<SubComment>();
         }
 
         public DbSet<User> Users { get; set; }
         public DbSet<Archive> Archives { get; set; }
         public DbSet<Comment> Comments { get; set; }
+        public DbSet<Rating> Ratings { get; set; }
+        public DbSet<SubComment> SubComments { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -21,11 +25,20 @@ namespace instaProj.Models
 
             modelBuilder.Entity<Archive>().HasKey(a => a.Id);
 
+            modelBuilder.Entity<Comment>().HasKey(c => c.Id);
+
+            modelBuilder.Entity<Rating>().HasKey(r => r.Id);
+
             modelBuilder.Entity<Archive>()
                 .HasOne(e => e.User)
                 .WithMany()
                 .HasForeignKey(e => e.Id);
 
+            modelBuilder.Entity<Comment>().HasOne(e => e.Archive).WithMany().HasForeignKey(e => e.Id);
+
+            modelBuilder.Entity<Comment>().HasOne(e => e.User).WithMany().HasForeignKey(e => e.Id);
+
+            modelBuilder.Entity<SubComment>().HasOne(e => e.Comment).WithMany().HasForeignKey(e => e.Id);
         }
     }
 }
