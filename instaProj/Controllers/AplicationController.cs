@@ -11,7 +11,19 @@ namespace instaProj.Controllers
         {
             _context = context;
         }
+        public IActionResult Main()
+        {
+            return View();
+        }
         public IActionResult ForYou()
+        {
+            return View();
+        }
+        public IActionResult Menu()
+        {
+            return View();
+        }
+        public IActionResult Follows()
         {
             return View();
         }
