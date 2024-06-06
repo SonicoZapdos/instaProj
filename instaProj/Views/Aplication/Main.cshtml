@@ -3,20 +3,24 @@
 }
 
 <div class="row" style="width: 100%; height: 100%">
-    <div class="col vlr">
+    <div class="col vlr no-config">
        <partial name="Menu" />
     </div>
-    <div class="col-6">
+    <div class="col-6 no-config">
         <partial name="ForYou" />
     </div>
-    <div class="col vll">
+    <div class="col vll no-config">
         <partial name="Follows" />
     </div>
 </div>
 
 
 <style>
+    .select:hover {
+        background-color: whitesmoke;
+    }
     .no-config {
+        padding: 0px;
         margin: 0px;
     }
     .row {

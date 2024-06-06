@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using instaProj.Models;
 
@@ -11,9 +12,11 @@ using instaProj.Models;
 namespace instaProj.Migrations
 {
     [DbContext(typeof(Contexto))]
-    partial class ContextoModelSnapshot : ModelSnapshot
+    [Migration("20240606170643_updateTable")]
+    partial class updateTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -67,35 +70,6 @@ namespace instaProj.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Comments");
-                });
-
-            modelBuilder.Entity("instaProj.Models.Follow", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int?>("User_FollowedId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("User_FollowingId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("User_Id_Followed")
-                        .HasColumnType("int");
-
-                    b.Property<int>("User_Id_Following")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("User_FollowedId");
-
-                    b.HasIndex("User_FollowingId");
-
-                    b.ToTable("Follow");
                 });
 
             modelBuilder.Entity("instaProj.Models.Rating", b =>
@@ -214,21 +188,6 @@ namespace instaProj.Migrations
                     b.Navigation("Archive");
 
                     b.Navigation("User");
-                });
-
-            modelBuilder.Entity("instaProj.Models.Follow", b =>
-                {
-                    b.HasOne("instaProj.Models.User", "User_Followed")
-                        .WithMany()
-                        .HasForeignKey("User_FollowedId");
-
-                    b.HasOne("instaProj.Models.User", "User_Following")
-                        .WithMany()
-                        .HasForeignKey("User_FollowingId");
-
-                    b.Navigation("User_Followed");
-
-                    b.Navigation("User_Following");
                 });
 
             modelBuilder.Entity("instaProj.Models.SubComment", b =>

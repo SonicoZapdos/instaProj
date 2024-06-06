@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using instaProj.Models;
 
 namespace instaProj.Models
 {
@@ -40,5 +41,7 @@ namespace instaProj.Models
 
             modelBuilder.Entity<SubComment>().HasOne(e => e.Comment).WithMany().HasForeignKey(e => e.Id);
         }
+
+        public DbSet<instaProj.Models.Follow>? Follow { get; set; }
     }
 }
