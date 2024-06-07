@@ -1,0 +1,119 @@
+﻿@model instaProj.Models.User
+
+<div class="modal" tabindex="-1" id="loginModal" aria-labelledby="loginModalLabel" aria-hidden="true">
+    >
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Entrar</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form asp-action="Login">
+                <div class="modal-body">
+                    <div class="row justify-content-center">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <div class="form-floating mb-3">
+                            <input asp-for="Name" class="form-control" id="floatingInput" placeholder="User123">
+                            <label asp-for="Name" for="floatingInput">Usuário</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input asp-for="Password" type="password" class="form-control" id="floatingInput" placeholder="User123">
+                            <label asp-for="Password" for="floatingInput">Senha</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#registerModal">
+                        Registre-se
+                    </button>
+                    <input type="submit" value="Entrar" class="btn btn-primary" />
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="registerModal" aria-hidden="true" aria-labelledby="registerModalLabel" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="registerModal">Registre-se</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form asp-action="Create">
+                <div class="modal-body">
+                    <div class="row justify-content-center">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <div class="form-floating mb-3">
+                            <input asp-for="Name" class="form-control" id="floatingInput" placeholder="User123">
+                            <label asp-for="Name" for="floatingInput">Nome</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input asp-for="Telefone" class="form-control" id="floatingInput" placeholder="User123">
+                            <label asp-for="Telefone" for="floatingInput">Telefone</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input asp-for="Password" type="password" class="form-control" id="floatingInput" placeholder="User123">
+                            <label asp-for="Password" for="floatingInput">Senha</label>
+                        </div>
+                        <div class="form-floating">
+                            <select class="form-select" id="floatingSelect" aria-label="Floating label select example">
+                                <option selected>Selecione o Nível de Acesso</option>
+                                <option value="1">Administrador</option>
+                                <option value="2">Comum</option>
+                            </select>
+                            <label for="floatingSelect">Nível de Acesso</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-primary" data-bs-target="#registerModal" data-bs-toggle="modal" data-bs-dismiss="modal">Entrar</button>
+                    <input type="submit" value="Registrar" class="btn btn-primary" />
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="text-center">
+    <h1>@ViewData["Title"]</h1>
+    <div class="centralized-div">
+        <h1>Seja Bem-Vindo ao Site de Armazenagem de Fotos e Vídeos</h1>
+        <h3>Para Acessar seus arquivos faça login!!!</h3>
+        <div class="flex-row">
+            <button type="button" class="btn btn-primary" id="abrirModal" data-bs-toggle="modal" data-bs-target="#loginModal">
+                Login
+            </button>
+            <a asp-action="verifyLogin" class="btn btn-secondary">Voltar Para o Ínicio</a>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
+
+<script>
+    var login = document.getElementById('loginSwitch');
+
+    login.innerHTML = 'login';
+</script>
+
+<style>
+    .centralized-div {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        width: 70vw;
+        height: 80vh;
+        gap: 10px;
+    }
+
+    .form-floating {
+        width: 70%;
+        padding: 3px;
+    }
+</style>
