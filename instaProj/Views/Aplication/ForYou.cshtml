@@ -1,5 +1,50 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
+﻿<div class="maxW d-flex flex-column gap-4" style="height: 100%;">
+    <div class="maxW box-post p-1" id="new-post">
+        <div class="col">
+            <div class="row d-flex align-items-center p-2">
+                <div class="logo"></div>
+                <div class="form-floating p-1" style="width:93%">
+                    <textarea class="form-control" id="floatingTextarea" maxlength="250" placeholder="Novo Post" style="background-color: lightgrey"></textarea>
+                    <label for="floatingTextarea">Novo Post</label>
+                </div>
+            </div>
+            <div class="row d-flex align-items-center justify-content-between p-4 pt-0 pb-1">
+                <div class="row d-flex gap-1 align-items-center" style="width: 20%">
+                    <span class="material-symbols-outlined no-config" style="width: auto">
+                        add_photo_alternate
+                    </span>
+                    <span class="material-symbols-outlined no-config" style="width: auto">
+                        attach_file
+                    </span>
+                    <span class="material-symbols-outlined no-config" style="width: auto">
+                        music_note
+                    </span>
+                </div>
+                <div class="row d-flex gap-1 align-items-center justify-content-end" style="width: 20%">
+                    <span class="material-symbols-outlined" style="width: auto">
+                        send
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card mb-3">
+        <img src="..." class="card-img-top" alt="...">
+        <div class="card-body">
+            <h5 class="card-title">Card title</h5>
+            <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+            <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+        </div>
+    </div>
+</div>
+
+
+<style>
+    #new-post {
+        height: auto;
+    }
+
+    .box-post {
+        background-color: lightgray;
+    }
+</style>

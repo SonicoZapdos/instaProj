@@ -154,14 +154,14 @@ namespace instaProj.Controllers
             {
                 _context.Archives.Remove(archive);
             }
-            
+
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool ArchiveExists(int id)
         {
-          return (_context.Archives?.Any(e => e.Id == id)).GetValueOrDefault();
+            return (_context.Archives?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }
