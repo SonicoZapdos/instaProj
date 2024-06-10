@@ -16,15 +16,13 @@
                 <div class="col d-flex justify-content-start gap-3">
                     <div> </div>
                     <div class="logo" id="logoProj"> 
-                        <img src="./images/BTVlg.png" class="logo"/>
+                        <img src="~/images/BTVlg.png" class="logo"/>
                     </div>
-                    <a class="navbar-brand" asp-area="" asp-controller="Aplication" asp-action="ForYou">instaProj</a>
+                    <a class="navbar-brand" asp-area="" asp-controller="Users" asp-action="verifyLogin">instaProj</a>
                 </div>
-                <div class="col input-group">
-                    <span class="material-symbols-outlined input-group-text">
-                        search
-                    </span>
-                    <input type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">
+                <div class="group">
+                    <span class="material-symbols-outlined no-config icon" style="width: auto;">search</span>
+                    <input placeholder="Search" type="search" class="input">
                 </div>
                 <div class="col"></div>
             </div>
@@ -54,4 +52,45 @@
         border-radius: 100%;
         background-color: black;
     }
+
+    .group {
+        display: flex;
+        line-height: 28px;
+        align-items: center;
+        position: relative;
+        max-width: 40%;
+    }
+
+    .input {
+        width: 100%;
+        height: 40px;
+        line-height: 28px;
+        padding: 0 1rem;
+        padding-left: 2.5rem;
+        border: 2px solid transparent;
+        border-radius: 8px;
+        outline: none;
+        background-color: #f3f3f4;
+        color: #0d0c22;
+        transition: .3s ease;
+    }
+
+        .input::placeholder {
+            color: #9e9ea7;
+        }
+
+        .input:focus, input:hover {
+            outline: none;
+            border-color: rgba(234,76,137,0.4);
+            background-color: #fff;
+            box-shadow: 0 0 0 4px rgb(234 76 137 / 10%);
+        }
+
+    .icon {
+        position: absolute;
+        left: 1rem;
+        fill: #9e9ea7;
+        width: auto;
+    }
+
 </style>

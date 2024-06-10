@@ -61,9 +61,72 @@ namespace instaProj.Controllers
             {
                 _context.Add(user);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("verfifyLogin","Users", user);
             }
-            return View(user);
+            return RedirectToAction("verifyLogin","Users");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Login(string Name, string Password)
+        {
+            string usuario = Name;
+            string senha = Password;
+
+            var pessoa = await _context.Users.FirstOrDefaultAsync(m => m.Name == usuario);
+
+            if (pessoa != null && pessoa.Password == senha)
+            {
+                WriteCookie(pessoa.Id.ToString());
+
+                Console.WriteLine("Entrou no IF");
+
+                HttpContext.Session.SetString("USERLOGADO", pessoa.Id.ToString());
+
+                return RedirectToAction("verifyLogin", "Users");
+            }
+            return RedirectToAction("verifyLogin", "Users");
+        }
+
+        public async Task<IActionResult> verifyLogin()
+        {
+            if (HttpContext.Session.GetString("USERLOGADO") != null)
+            {
+                string? userId = HttpContext.Session.GetString("USERLOGADO");
+
+                if (userId != "" || userId == null)
+                {
+                    var pessoaLogada = await _context.Users.FirstOrDefaultAsync(m => m.Id == int.Parse(userId));
+
+                    if (pessoaLogada != null)
+                    {
+                        string? nomeUsuarioLogado = pessoaLogada.Name;
+                    }
+
+                    var cookieRecebido = HttpContext.Request.Cookies.TryGetValue("LOGADO", out string valor);
+
+                    if (cookieRecebido != null || cookieRecebido != false)
+                    {
+                        Console.WriteLine("\n\n:::::::: Valor do Cookie ::::::::    " + valor);
+                    }
+
+                    return RedirectToAction("Main", "Aplication", pessoaLogada);
+                }
+            }
+            else
+            {
+                return RedirectToAction("Login", "Users");
+            }
+            return RedirectToAction("Login", "Users");
+        }
+
+        public IActionResult WriteCookie(string value)
+        {
+            Response.Cookies.Append("LOGADO", value, new Microsoft.AspNetCore.Http.CookieOptions
+            {
+                HttpOnly = true,
+                Expires = DateTimeOffset.Now.AddDays(7)
+            });
+            return Ok("Cookie gravado com sucesso!");
         }
 
         // GET: Users/Edit/5

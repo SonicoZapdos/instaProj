@@ -7,10 +7,10 @@
 <div class="maxW d-flex flex-column gap-4" style="height: 100%;">
     <div class="maxW box-post p-1" id="new-post">
         <div class="col">
-            <div class="row d-flex align-items-center p-2">
+            <div class="row d-flex align-items-center gap-3 p-2">
                 <div class="logo"></div>
                 <br>
-                <div class="form-floating p-1 border" style="width:100%">
+                <div class="form-floating p-1" style="width:85%">
                     <textarea class="form-control" id="floatingTextarea" maxlength="250" placeholder="Novo Post"
                         asp-for="Desc" style="background-color: lightgrey"></textarea>
                     <label for="floatingTextarea">Novo Post</label>
@@ -21,12 +21,12 @@
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
                 <div class="row d-flex align-items-center justify-content-between p-2 pt-0 pb-2">
-                    <div class="row d-flex gap-1 align-items-center justify-content-between" style="width: 50%">
+                    <div class="row d-flex gap-1 align-items-center justify-content-start" style="width: 50%">
                         <div class="file-input-container">
-                            <label class="btn-icon">
+                            <button class="btn-icon" style="width: auto">
                                 <span class="material-symbols-outlined no-config" style="width: auto;">add_photo_alternate</span>
                                 <input type="file" name="NameLocal" accept="image/*" asp-for="NameLocal" class="form-control">
-                            </label>
+                            </button>
                         </div>
                         <div class="file-input-container">
                             <label class="btn-icon">
@@ -43,7 +43,7 @@
                     </div>
 
                     <div class="file-input-container">
-                        <button type="submit" class="btn-icon">
+                        <button type="submit" class="btn-icon" style="width: auto">
                             <span class="material-symbols-outlined no-config" style="width: auto;">send</span>
                         </button>
                     </div>
@@ -60,6 +60,26 @@
                 content. This content is a little bit longer.
             </p>
             <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+        </div>
+    </div>
+</div>
+
+<!-- - Modais - -->
+
+<div class="modal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="npm-title">Modal title</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="npm-body">
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
         </div>
     </div>
 </div>
@@ -127,4 +147,6 @@
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
+
+
 }

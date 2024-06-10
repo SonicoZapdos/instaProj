@@ -8,7 +8,7 @@
                 <h5 class="modal-title">Entrar</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form asp-action="Login">
+            <form asp-action="Login" asp-controller="Users">
                 <div class="modal-body">
                     <div class="row justify-content-center">
                         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -40,7 +40,7 @@
                 <h5 class="modal-title" id="registerModal">Registre-se</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form asp-action="Create">
+            <form asp-action="Create" asp-controller="Users">
                 <div class="modal-body">
                     <div class="row justify-content-center">
                         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -49,20 +49,16 @@
                             <label asp-for="Name" for="floatingInput">Nome</label>
                         </div>
                         <div class="form-floating mb-3">
-                            <input asp-for="Telefone" class="form-control" id="floatingInput" placeholder="User123">
+                            <input asp-for="Telefone" type="tel" class="form-control" id="floatingInput" placeholder="User123">
                             <label asp-for="Telefone" for="floatingInput">Telefone</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input asp-for="Email" type="email" class="form-control" id="floatingInput" placeholder="User123@user.com">
+                            <label asp-for="Email" for="floatingInput">Email</label>
                         </div>
                         <div class="form-floating mb-3">
                             <input asp-for="Password" type="password" class="form-control" id="floatingInput" placeholder="User123">
                             <label asp-for="Password" for="floatingInput">Senha</label>
-                        </div>
-                        <div class="form-floating">
-                            <select class="form-select" id="floatingSelect" aria-label="Floating label select example">
-                                <option selected>Selecione o Nível de Acesso</option>
-                                <option value="1">Administrador</option>
-                                <option value="2">Comum</option>
-                            </select>
-                            <label for="floatingSelect">Nível de Acesso</label>
                         </div>
                     </div>
                 </div>

@@ -6,12 +6,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using SixLabors.ImageSharp;
-using SixLabors.ImageSharp.Formats.Jpeg;
 using SixLabors.ImageSharp.Processing;
 using System.Net;
 
@@ -25,8 +23,9 @@ namespace instaProj.Controllers
         {
             _context = context;
         }
-        public IActionResult Main()
+        public IActionResult Main(User user)
         {
+            ViewBag.User = user;
             return View();
         }
         public IActionResult ForYou()
