@@ -1,45 +1,76 @@
-﻿<div class="maxW d-flex flex-column gap-4" style="height: 100%;">
+﻿@model instaProj.Models.Archive
+
+@{
+    ViewData["Title"] = "ForYou";
+}
+
+<div class="maxW d-flex flex-column gap-4" style="height: 100%;">
     <div class="maxW box-post p-1" id="new-post">
         <div class="col">
             <div class="row d-flex align-items-center p-2">
                 <div class="logo"></div>
-                <div class="form-floating p-1" style="width:93%">
-                    <textarea class="form-control" id="floatingTextarea" maxlength="250" placeholder="Novo Post" style="background-color: lightgrey"></textarea>
+                <br>
+                <div class="form-floating p-1 border" style="width:100%">
+                    <textarea class="form-control" id="floatingTextarea" maxlength="250" placeholder="Novo Post"
+                        asp-for="Desc" style="background-color: lightgrey"></textarea>
                     <label for="floatingTextarea">Novo Post</label>
                 </div>
             </div>
-            <div class="row d-flex align-items-center justify-content-between p-4 pt-0 pb-1">
-                <div class="row d-flex gap-1 align-items-center" style="width: 20%">
-                    <span class="material-symbols-outlined no-config" style="width: auto">
-                        add_photo_alternate
-                    </span>
-                    <span class="material-symbols-outlined no-config" style="width: auto">
-                        attach_file
-                    </span>
-                    <span class="material-symbols-outlined no-config" style="width: auto">
-                        music_note
-                    </span>
+            <br>
+            <form asp-action="ForYou" enctype="multipart/form-data" method="post">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                <div class="row d-flex align-items-center justify-content-between p-2 pt-0 pb-2">
+                    <div class="row d-flex gap-1 align-items-center justify-content-between" style="width: 50%">
+                        <div class="file-input-container">
+                            <label class="btn-icon">
+                                <span class="material-symbols-outlined no-config" style="width: auto;">add_photo_alternate</span>
+                                <input type="file" name="NameLocal" accept="image/*" asp-for="NameLocal" class="form-control">
+                            </label>
+                        </div>
+                        <div class="file-input-container">
+                            <label class="btn-icon">
+                                <span class="material-symbols-outlined no-config" style="width: auto;">attach_file</span>
+                                <input type="file" name="NameLocal" accept="video/*" asp-for="NameLocal" class="form-control">
+                            </label>
+                        </div>
+                        <div class="file-input-container">
+                            <label class="btn-icon">
+                                <span class="material-symbols-outlined no-config" style="width: auto;">music_note</span>
+                                <input type="file" name="NameLocal" accept="audio/*" asp-for="NameLocal" class="form-control">
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="file-input-container">
+                        <button type="submit" class="btn-icon">
+                            <span class="material-symbols-outlined no-config" style="width: auto;">send</span>
+                        </button>
+                    </div>
                 </div>
-                <div class="row d-flex gap-1 align-items-center justify-content-end" style="width: 20%">
-                    <span class="material-symbols-outlined" style="width: auto">
-                        send
-                    </span>
-                </div>
-            </div>
+            </form>
         </div>
     </div>
     <div class="card mb-3">
         <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS63xCvL5kBcpTLnGDB79NqX0RfOuGGuG_igQ&s" class="card-img-top" alt="...">
         <div class="card-body">
             <h5 class="card-title">Card title</h5>
-            <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+            <p class="card-text">
+                This is a wider card with supporting text below as a natural lead-in to additional
+                content. This content is a little bit longer.
+            </p>
             <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
         </div>
     </div>
 </div>
 
-
 <style>
+    .border {
+        border: 1px solid;
+        border-radius: 15px;
+        height: 100px;
+    }
+
     #new-post {
         height: auto;
     }
@@ -47,4 +78,53 @@
     .box-post {
         background-color: lightgray;
     }
+
+    .file-input-container {
+        overflow: hidden;
+        border-radius: 30%;
+        width: 50px;
+        align-items: center;
+        height: auto;
+        padding: 0%;
+        margin-right: 4px;
+        width: min-content;
+        color: rgb(0, 0, 0);
+        position: relative;
+        display: inline-block;
+    }
+
+    .file-input-container:hover {
+        color: rgb(35, 35, 35);
+    }
+
+    .file-input-container input[type="file"] {
+        position: absolute;
+        opacity: 0;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        cursor: pointer;
+    }
+
+    .btn-icon {
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: min-content;
+        height: min-content;
+        background-color: transparent;
+        border: none;
+    }
+
+    .btn-icon:focus {
+        outline: none;
+    }
 </style>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
