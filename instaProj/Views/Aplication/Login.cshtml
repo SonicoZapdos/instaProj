@@ -1,5 +1,9 @@
 ﻿@model instaProj.Models.User
 
+@{
+    ViewData["Title"] = "Login";
+}
+
 <div class="modal" tabindex="-1" id="loginModal" aria-labelledby="loginModalLabel" aria-hidden="true">
     >
     <div class="modal-dialog modal-dialog-centered">
@@ -45,7 +49,7 @@
                     <div class="row justify-content-center">
                         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                         <div class="form-floating mb-3">
-                            <input asp-for="Name" class="form-control" id="floatingInput" placeholder="User123">
+                            <input asp-for="Name" type="text" class="form-control" id="floatingInput" placeholder="User123">
                             <label asp-for="Name" for="floatingInput">Nome</label>
                         </div>
                         <div class="form-floating mb-3">

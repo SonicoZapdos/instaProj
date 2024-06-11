@@ -13,10 +13,24 @@ namespace instaProj.Controllers
     {
         private readonly Contexto _context;
 
+
+
         public UsersController(Contexto context)
         {
             _context = context;
         }
+
+        public IActionResult Login()
+        {
+            return View();
+        }
+
+
+        public IActionResult Maim()
+        {
+            return View();
+        }
+
 
         // GET: Users
         public async Task<IActionResult> Index()
@@ -114,9 +128,9 @@ namespace instaProj.Controllers
             }
             else
             {
-                return RedirectToAction("Login", "Users");
+                return RedirectToAction("Main", "Aplication");
             }
-            return RedirectToAction("Login", "Users");
+            return RedirectToAction("Main", "Aplication");
         }
 
         public IActionResult WriteCookie(string value)
