@@ -23,9 +23,23 @@ namespace instaProj.Controllers
         {
             _context = context;
         }
-        public IActionResult Main(User user)
+        public IActionResult Main()
         {
-            ViewBag.User = user;
+            if (HttpContext.Session.GetString("USERLOGADO") != null)
+            {
+                string? userId = HttpContext.Session.GetString("USERLOGADO");
+
+                if (userId != "" || userId == null)
+                {
+                    User? pessoaLogada = _context.Users.FirstOrDefault(m => m.Id == int.Parse(userId));
+
+                    if (pessoaLogada != null)
+                    {
+                        ViewBag.User = pessoaLogada;
+                    }
+                    return View();
+                }
+            }
             return View();
         }
         public IActionResult ForYou()

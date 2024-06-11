@@ -75,7 +75,13 @@ namespace instaProj.Controllers
             {
                 _context.Add(user);
                 await _context.SaveChangesAsync();
-                return RedirectToAction("verifyLogin","Users");
+                WriteCookie(user.Id.ToString());
+
+                Console.WriteLine("Entrou no IF");
+
+                HttpContext.Session.SetString("USERLOGADO", user.Id.ToString());
+
+                return RedirectToAction("verifyLogin", "Users");
             }
             return RedirectToAction("verifyLogin","Users");
         }
@@ -109,7 +115,7 @@ namespace instaProj.Controllers
 
                 if (userId != "" || userId == null)
                 {
-                    var pessoaLogada = await _context.Users.FirstOrDefaultAsync(m => m.Id == int.Parse(userId));
+                    User? pessoaLogada = await _context.Users.FirstOrDefaultAsync(m => m.Id == int.Parse(userId));
 
                     if (pessoaLogada != null)
                     {
@@ -122,13 +128,8 @@ namespace instaProj.Controllers
                     {
                         Console.WriteLine("\n\n:::::::: Valor do Cookie ::::::::    " + valor);
                     }
-                    ViewBag.User = pessoaLogada;
                     return RedirectToAction("Main", "Aplication");
                 }
-            }
-            else
-            {
-                return RedirectToAction("Login", "Aplication");
             }
             return RedirectToAction("Login", "Aplication");
         }
