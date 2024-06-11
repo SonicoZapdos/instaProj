@@ -115,16 +115,16 @@ namespace instaProj.Controllers
 
                 if (userId != "" || userId == null)
                 {
-                    User? pessoaLogada = await _context.Users.FirstOrDefaultAsync(m => m.Id == int.Parse(userId));
+                    User? pessoaLogada = await _context.Users.FirstOrDefaultAsync(m => m.Id == int.Parse(userId ?? ""));
 
                     if (pessoaLogada != null)
                     {
                         string? nomeUsuarioLogado = pessoaLogada.Name;
                     }
 
-                    var cookieRecebido = HttpContext.Request.Cookies.TryGetValue("LOGADO", out string valor);
+                    var cookieRecebido = HttpContext.Request.Cookies.TryGetValue("LOGADO", out string? valor);
 
-                    if (cookieRecebido != null || cookieRecebido != false)
+                    if (cookieRecebido != false)
                     {
                         Console.WriteLine("\n\n:::::::: Valor do Cookie ::::::::    " + valor);
                     }

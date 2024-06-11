@@ -31,11 +31,13 @@ namespace instaProj.Controllers
 
                 if (userId != "" || userId == null)
                 {
-                    User? pessoaLogada = _context.Users.FirstOrDefault(m => m.Id == int.Parse(userId));
+                    User? pessoaLogada = _context.Users.FirstOrDefault(m => m.Id == int.Parse(userId ?? ""));
 
                     if (pessoaLogada != null)
                     {
                         ViewBag.User = pessoaLogada;
+                        ViewBag.Following = null;
+                        ViewBag.Followed = null;
                     }
                     return View();
                 }
@@ -96,9 +98,9 @@ namespace instaProj.Controllers
             }
             if (arqRecebido == null && imagem.Link != "")
             {
-                WebClient cli = new WebClient();
+                WebClient cli = new();
 
-                var idVideo = imagem.Link.Substring(32);
+                var idVideo = (imagem.Link ?? "").Substring(32);
 
                 var imgBytes = cli.DownloadData($"http://img.youtube.com/vi/{idVideo}/0.jpg");
 
