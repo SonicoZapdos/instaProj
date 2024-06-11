@@ -75,7 +75,7 @@ namespace instaProj.Controllers
             {
                 _context.Add(user);
                 await _context.SaveChangesAsync();
-                return RedirectToAction("verfifyLogin","Users", user);
+                return RedirectToAction("verifyLogin","Users");
             }
             return RedirectToAction("verifyLogin","Users");
         }
@@ -122,15 +122,15 @@ namespace instaProj.Controllers
                     {
                         Console.WriteLine("\n\n:::::::: Valor do Cookie ::::::::    " + valor);
                     }
-
-                    return RedirectToAction("Main", "Aplication", pessoaLogada);
+                    ViewBag.User = pessoaLogada;
+                    return RedirectToAction("Main", "Aplication");
                 }
             }
             else
             {
-                return RedirectToAction("Main", "Aplication");
+                return RedirectToAction("Login", "Aplication");
             }
-            return RedirectToAction("Main", "Aplication");
+            return RedirectToAction("Login", "Aplication");
         }
 
         public IActionResult WriteCookie(string value)

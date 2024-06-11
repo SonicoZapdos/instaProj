@@ -1,4 +1,8 @@
-﻿<div class="col">
+﻿@{
+    Console.WriteLine("aaaaaa" + ViewBag.User);
+}
+
+<div class="col">
     <div class="box-follow">
         <div class="row">
             <div class="col box-follow-select" id="following" onclick="changeList(1)">
@@ -7,6 +11,12 @@
             <div class="col box-follow-select" id="followed" onclick="changeList(2)">
                 <h6 class="no-config text-select">Seguidores</h6>
             </div>
+        </div>
+        <div class="col d-flex flex-column justify-content-center align-items-center">
+            @if (ViewBag.Following == null)
+            {
+                <h3>Você ainda não está seguindo ninguém!!!</h3>
+            }
         </div>
     </div>
 </div>
@@ -33,6 +43,7 @@
         .box-follow-select:hover {
             background-color: dimgray;
         }
+
     .select-follow {
         background-color: gray;
     }
@@ -42,6 +53,7 @@
     var fing = document.getElementById('following');
     var fed = document.getElementById('followed');
     fing.classList.add('select-follow');
+    
 
     function changeList(index) {
         if (index == 1) {
