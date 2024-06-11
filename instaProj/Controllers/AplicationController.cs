@@ -35,7 +35,7 @@ namespace instaProj.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> ForYou(Archive imagem, IFormFile NameLocal)
+        public async Task<IActionResult> ForYou(Archive imagem,IFormFile NameLocal) /* [Bind("Id, Description, DataPub, Private, User_Id, User, ContLike")]Post post  */
         {
             var arqRecebido = Request.Form.Files["NameLocal"];
 

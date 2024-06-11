@@ -12,8 +12,8 @@ using instaProj.Models;
 namespace instaProj.Migrations
 {
     [DbContext(typeof(Contexto))]
-    [Migration("20240606171245_testeNewTable")]
-    partial class testeNewTable
+    [Migration("20240611040823_createAllTables")]
+    partial class createAllTables
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -28,16 +28,10 @@ namespace instaProj.Migrations
             modelBuilder.Entity("instaProj.Models.Archive", b =>
                 {
                     b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("DatePub")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Desc")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("FK_Comments_User_Id")
-                        .HasColumnType("int");
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Link")
                         .HasColumnType("nvarchar(max)");
@@ -45,10 +39,15 @@ namespace instaProj.Migrations
                     b.Property<string>("NameLocal")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("Private")
-                        .HasColumnType("bit");
+                    b.Property<int>("Post_Id")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Type")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Post_Id");
 
                     b.ToTable("Archives");
                 });
@@ -56,18 +55,28 @@ namespace instaProj.Migrations
             modelBuilder.Entity("instaProj.Models.Comment", b =>
                 {
                     b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<string>("Commeting")
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("ContLike")
-                        .HasColumnType("int");
 
                     b.Property<bool>("Ocult")
                         .HasColumnType("bit");
 
+                    b.Property<int>("Post_Id")
+                        .HasColumnType("int");
+
+                    b.Property<int>("User_Id")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("Post_Id");
+
+                    b.HasIndex("User_Id");
 
                     b.ToTable("Comments");
                 });
@@ -80,12 +89,6 @@ namespace instaProj.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int?>("User_FollowedId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("User_FollowingId")
-                        .HasColumnType("int");
-
                     b.Property<int>("User_Id_Followed")
                         .HasColumnType("int");
 
@@ -94,11 +97,41 @@ namespace instaProj.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("User_FollowedId");
+                    b.HasIndex("User_Id_Followed");
 
-                    b.HasIndex("User_FollowingId");
+                    b.HasIndex("User_Id_Following");
 
-                    b.ToTable("Follow");
+                    b.ToTable("Follows");
+                });
+
+            modelBuilder.Entity("instaProj.Models.Post", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("ContLike")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("DatePub")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("Private")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("User_Id")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("User_Id");
+
+                    b.ToTable("Posts");
                 });
 
             modelBuilder.Entity("instaProj.Models.Rating", b =>
@@ -109,16 +142,27 @@ namespace instaProj.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("Archive_Id")
-                        .HasColumnType("int");
-
                     b.Property<int>("Comment_Id")
                         .HasColumnType("int");
 
-                    b.Property<int>("FK_Comments_User_Id")
+                    b.Property<int>("Post_Id")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SubComment_Id")
+                        .HasColumnType("int");
+
+                    b.Property<int>("User_Id")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Comment_Id");
+
+                    b.HasIndex("Post_Id");
+
+                    b.HasIndex("SubComment_Id");
+
+                    b.HasIndex("User_Id");
 
                     b.ToTable("Ratings");
                 });
@@ -126,34 +170,28 @@ namespace instaProj.Migrations
             modelBuilder.Entity("instaProj.Models.SubComment", b =>
                 {
                     b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<int>("Arc_Id")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("ArchiveId")
-                        .HasColumnType("int");
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<int>("Comment_Id")
                         .HasColumnType("int");
 
-                    b.Property<string>("Commeting")
+                    b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("FK_Comments_User_Id")
-                        .HasColumnType("int");
 
                     b.Property<bool>("Ocult")
                         .HasColumnType("bit");
 
-                    b.Property<int?>("UserId")
+                    b.Property<int>("User_Id")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ArchiveId");
+                    b.HasIndex("Comment_Id");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("User_Id");
 
                     b.ToTable("SubComments");
                 });
@@ -178,6 +216,9 @@ namespace instaProj.Migrations
                     b.Property<string>("Password")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("PictureLocal")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Telefone")
                         .HasColumnType("nvarchar(max)");
 
@@ -191,30 +232,30 @@ namespace instaProj.Migrations
 
             modelBuilder.Entity("instaProj.Models.Archive", b =>
                 {
-                    b.HasOne("instaProj.Models.User", "User")
+                    b.HasOne("instaProj.Models.Post", "Post")
                         .WithMany()
-                        .HasForeignKey("Id")
+                        .HasForeignKey("Post_Id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("User");
+                    b.Navigation("Post");
                 });
 
             modelBuilder.Entity("instaProj.Models.Comment", b =>
                 {
-                    b.HasOne("instaProj.Models.Archive", "Archive")
+                    b.HasOne("instaProj.Models.Post", "Post")
                         .WithMany()
-                        .HasForeignKey("Id")
+                        .HasForeignKey("Post_Id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("instaProj.Models.User", "User")
                         .WithMany()
-                        .HasForeignKey("Id")
+                        .HasForeignKey("User_Id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Archive");
+                    b.Navigation("Post");
 
                     b.Navigation("User");
                 });
@@ -223,34 +264,80 @@ namespace instaProj.Migrations
                 {
                     b.HasOne("instaProj.Models.User", "User_Followed")
                         .WithMany()
-                        .HasForeignKey("User_FollowedId");
+                        .HasForeignKey("User_Id_Followed")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("instaProj.Models.User", "User_Following")
                         .WithMany()
-                        .HasForeignKey("User_FollowingId");
+                        .HasForeignKey("User_Id_Following")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("User_Followed");
 
                     b.Navigation("User_Following");
                 });
 
-            modelBuilder.Entity("instaProj.Models.SubComment", b =>
+            modelBuilder.Entity("instaProj.Models.Post", b =>
                 {
-                    b.HasOne("instaProj.Models.Archive", "Archive")
+                    b.HasOne("instaProj.Models.User", "User")
                         .WithMany()
-                        .HasForeignKey("ArchiveId");
+                        .HasForeignKey("User_Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("instaProj.Models.Rating", b =>
+                {
                     b.HasOne("instaProj.Models.Comment", "Comment")
                         .WithMany()
-                        .HasForeignKey("Id")
+                        .HasForeignKey("Comment_Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("instaProj.Models.Post", "Post")
+                        .WithMany()
+                        .HasForeignKey("Post_Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("instaProj.Models.SubComment", "SubComment")
+                        .WithMany()
+                        .HasForeignKey("SubComment_Id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("instaProj.Models.User", "User")
                         .WithMany()
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("User_Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.Navigation("Archive");
+                    b.Navigation("Comment");
+
+                    b.Navigation("Post");
+
+                    b.Navigation("SubComment");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("instaProj.Models.SubComment", b =>
+                {
+                    b.HasOne("instaProj.Models.Comment", "Comment")
+                        .WithMany()
+                        .HasForeignKey("Comment_Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("instaProj.Models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("User_Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Comment");
 
