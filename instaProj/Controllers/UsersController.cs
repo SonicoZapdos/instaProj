@@ -83,7 +83,27 @@ namespace instaProj.Controllers
 
                 return RedirectToAction("verifyLogin", "Users");
             }
-            return RedirectToAction("verifyLogin","Users");
+            else
+            {
+                if (string.IsNullOrWhiteSpace(user.Name))
+                {
+                    ModelState.AddModelError("Name", "Campo nome não pode ser Vazio!");
+                }
+                if (string.IsNullOrWhiteSpace(user.Email))
+                {
+                    ModelState.AddModelError("Email", "Campo Email não pode ser Vazio!");
+                }
+                if (string.IsNullOrWhiteSpace(user.Password))
+                {
+                    ModelState.AddModelError("Password", "Campo Senha não pode ser Vazio!");
+                }
+                if (string.IsNullOrWhiteSpace(user.Telefone))
+                {
+                    ModelState.AddModelError("Telefone", "Campo Telefone não pode ser Vazio!");
+                }
+
+                return View(user); // Return to the form view with validation errors
+            }
         }
 
         [HttpPost]
@@ -96,7 +116,8 @@ namespace instaProj.Controllers
 
             if (pessoa != null && pessoa.Password == senha)
             {
-                WriteCookie(pessoa.Id.ToString());
+                
+               // WriteCookie(pessoa.Id.ToString());
 
                 Console.WriteLine("Entrou no IF");
 
@@ -104,33 +125,36 @@ namespace instaProj.Controllers
 
                 return RedirectToAction("verifyLogin", "Users");
             }
+
             return RedirectToAction("verifyLogin", "Users");
         }
 
         public async Task<IActionResult> verifyLogin()
         {
-            if (HttpContext.Session.GetString("USERLOGADO") != null)
-            {
-                string? userId = HttpContext.Session.GetString("USERLOGADO");
+            string? userId = HttpContext.Session.GetString("USERLOGADO");
 
-                if (userId != "" || userId == null)
+            if (!string.IsNullOrEmpty(userId))
+            {
+                // Tenta converter userId para um inteiro
+                if (int.TryParse(userId, out int parsedUserId))
                 {
-                    User? pessoaLogada = await _context.Users.FirstOrDefaultAsync(m => m.Id == int.Parse(userId ?? ""));
+                    User? pessoaLogada = await _context.Users.FirstOrDefaultAsync(m => m.Id == parsedUserId);
 
                     if (pessoaLogada != null)
                     {
                         string? nomeUsuarioLogado = pessoaLogada.Name;
-                    }
 
-                    var cookieRecebido = HttpContext.Request.Cookies.TryGetValue("LOGADO", out string? valor);
+                        bool cookieRecebido = HttpContext.Request.Cookies.TryGetValue("LOGADO", out string? valor);
 
-                    if (cookieRecebido != false)
-                    {
-                        Console.WriteLine("\n\n:::::::: Valor do Cookie ::::::::    " + valor);
+                        if (cookieRecebido)
+                        {
+                            Console.WriteLine("\n\n:::::::: Valor do Cookie ::::::::    " + valor);
+                        }
+                        return RedirectToAction("Main", "Aplication");
                     }
-                    return RedirectToAction("Main", "Aplication");
                 }
             }
+
             return RedirectToAction("Login", "Aplication");
         }
 
