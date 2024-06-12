@@ -27,12 +27,10 @@
                                 placeholder="User123">
                             <label asp-for="Password" for="floatingInput">Senha</label>
                             <span asp-validation-for="Password" class="text-danger"></span>
-
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btnPu2" data-bs-dismiss="modal">Fechar</button>
                     <input type="submit" value="Entrar" class="btn btnPu1"/>
                 </div>
             </form>
@@ -137,11 +135,13 @@
     }
 
     .modal-content {
-        background-color: #292929;
-        
+        background-color: #292929;        
     }
 
     .modal-title{
         color: #e8e8e8;
+    }
+    .btn-close{
+        background-color: #fff;
     }
 </style>
