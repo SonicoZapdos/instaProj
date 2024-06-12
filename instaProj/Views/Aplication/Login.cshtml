@@ -19,10 +19,14 @@
                         <div class="form-floating mb-3">
                             <input asp-for="Name" class="form-control" id="floatingInput" placeholder="User123">
                             <label asp-for="Name" for="floatingInput">Usuário</label>
+                            <span asp-validation-for="Name" class="text-danger"></span>
+
                         </div>
                         <div class="form-floating mb-3">
                             <input asp-for="Password" type="password" class="form-control" id="floatingInput" placeholder="User123">
                             <label asp-for="Password" for="floatingInput">Senha</label>
+                            <span asp-validation-for="Password" class="text-danger"></span>
+
                         </div>
                     </div>
                 </div>
@@ -49,20 +53,24 @@
                     <div class="row justify-content-center">
                         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                         <div class="form-floating mb-3">
-                            <input asp-for="Name" type="text" class="form-control" id="floatingInput" placeholder="User123">
-                            <label asp-for="Name" for="floatingInput">Nome</label>
+                            <input asp-for="Name" type="text" class="form-control" id="floatingInputName" placeholder="Nome">
+                            <label asp-for="Name" for="floatingInputName">Nome</label>
+                            <span asp-validation-for="Name" class="text-danger"></span>
                         </div>
                         <div class="form-floating mb-3">
-                            <input asp-for="Telefone" type="tel" class="form-control" id="floatingInput" placeholder="User123">
-                            <label asp-for="Telefone" for="floatingInput">Telefone</label>
+                            <input asp-for="Telefone" type="tel" class="form-control" id="floatingInputPhone" placeholder="Telefone">
+                            <label asp-for="Telefone" for="floatingInputPhone">Telefone</label>
+                            <span asp-validation-for="Telefone" class="text-danger"></span>
                         </div>
                         <div class="form-floating mb-3">
-                            <input asp-for="Email" type="email" class="form-control" id="floatingInput" placeholder="User123@user.com">
-                            <label asp-for="Email" for="floatingInput">Email</label>
+                            <input asp-for="Email" type="email" class="form-control" id="floatingInputEmail" placeholder="Email">
+                            <label asp-for="Email" for="floatingInputEmail">Email</label>
+                            <span asp-validation-for="Email" class="text-danger"></span>
                         </div>
                         <div class="form-floating mb-3">
-                            <input asp-for="Password" type="password" class="form-control" id="floatingInput" placeholder="User123">
-                            <label asp-for="Password" for="floatingInput">Senha</label>
+                            <input asp-for="Password" type="password" class="form-control" id="floatingInputRegisterPassword" placeholder="Senha">
+                            <label asp-for="Password" for="floatingInputRegisterPassword">Senha</label>
+                            <span asp-validation-for="Password" class="text-danger"></span>
                         </div>
                     </div>
                 </div>
