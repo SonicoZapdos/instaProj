@@ -19,6 +19,7 @@ namespace instaProj.Models
         public string Password { get; set; }
 
         [Required(ErrorMessage = "O campo Telefone é obrigatório.")]
+
         [Phone(ErrorMessage = "O campo Telefone deve ser um número de telefone válido.")]
         public string Telefone { get; set; }
 
