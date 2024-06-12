@@ -12,6 +12,7 @@ using Microsoft.EntityFrameworkCore;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Processing;
 using System.Net;
+using System.ComponentModel.DataAnnotations;
 
 namespace instaProj.Controllers
 {
@@ -51,7 +52,16 @@ namespace instaProj.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> ForYou(Archive imagem,IFormFile NameLocal) /* [Bind("Id, Description, DataPub, Private, User_Id, User, ContLike")]Post post  */
+        public async Task<IActionResult> CreatePost([Bind("Id, Description, DataPub, Private, User_Id, User, ContLike")] Post post, List<IFormFile> archive)
+        {
+            /* Post - - - Criado: Id - 1 */
+            /* - For( CreateArchive [ {List}archive, {List}string, Post.Id ] ) */
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ForYou(Archive imagem,List<IFormFile> NameLocal) /* [Bind("Id, Description, DataPub, Private, User_Id, User, ContLike")]Post post  */
         {
             var arqRecebido = Request.Form.Files["NameLocal"];
 
