@@ -4,8 +4,7 @@
     ViewData["Title"] = "Login";
 }
 
-<div class="modal" tabindex="-1" id="loginModal" aria-labelledby="loginModalLabel" aria-hidden="true">
-    >
+<div class="modal" tabindex="-1" id="loginModal" aria-labelledby="loginModalLabel" aria-hidden="true" style="height:100vh">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
@@ -41,6 +40,7 @@
         </div>
     </div>
 </div>
+
 <div class="modal fade" id="registerModal" aria-hidden="true" aria-labelledby="registerModalLabel" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
@@ -75,7 +75,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button class="btn btn-primary" data-bs-target="#registerModal" data-bs-toggle="modal" data-bs-dismiss="modal">Entrar</button>
+                    <button class="btn btn-primary" type="button" data-bs-target="#registerModal" data-bs-toggle="modal" data-bs-dismiss="modal">Entrar</button>
                     <input type="submit" value="Registrar" class="btn btn-primary" />
                 </div>
             </form>
@@ -83,7 +83,7 @@
     </div>
 </div>
 
-<div class="text-center d-flex maxW flex-column justify-content-center align-items-center">
+<div class="d-flex maxW flex-column justify-content-center align-items-center" style="height: 100%">
     <div class="centralized-div">
         <h1>Seja Bem-Vindo ao Site de Armazenagem de Fotos e Vídeos</h1>
         <h3>Para Acessar seus arquivos faça login!!!</h3>
