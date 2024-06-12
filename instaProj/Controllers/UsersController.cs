@@ -83,7 +83,28 @@ namespace instaProj.Controllers
 
                 return RedirectToAction("verifyLogin", "Users");
             }
-            return RedirectToAction("verifyLogin","Users");
+            else
+            {
+                if (user.Name == null)
+                
+                    ModelState.AddModelError("Name", "Campo nome não pode ser Vazio!");
+                
+                if (user.Email == null)
+                
+                    ModelState.AddModelError("Email", "Campo Email não pode ser Vazio!");
+                
+                if (user.Password == null)
+                
+                    ModelState.AddModelError("Password", "Campo Senha não pode ser Vazio!");
+                
+                if (user.Name == null)
+                
+                    ModelState.AddModelError("Telefone", "Campo Telefone não pode ser Vazio!");
+
+                return RedirectToAction("verifyLogin", "Users");
+
+
+            }
         }
 
         [HttpPost]
@@ -96,7 +117,8 @@ namespace instaProj.Controllers
 
             if (pessoa != null && pessoa.Password == senha)
             {
-                WriteCookie(pessoa.Id.ToString());
+                
+               // WriteCookie(pessoa.Id.ToString());
 
                 Console.WriteLine("Entrou no IF");
 
@@ -104,6 +126,7 @@ namespace instaProj.Controllers
 
                 return RedirectToAction("verifyLogin", "Users");
             }
+
             return RedirectToAction("verifyLogin", "Users");
         }
 
