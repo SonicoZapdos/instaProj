@@ -1,40 +1,38 @@
 ﻿@model instaProj.Models.Post
 
 @{
-    ViewData["Title"] = "ForYou";
+    ViewData["Title"] = "Post";
 }
 
 <div class="maxW d-flex flex-column gap-4" style="height: 100%; overflow: scroll; overflow-x: hidden">
     <div class="maxW box-post p-1" id="new-post">
         <div class="col">
-            <form asp-action="ForYou" enctype="multipart/form-data" method="post">
+            <form asp-action="Post" enctype="multipart/form-data" method="post">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <div class="row d-flex align-items-center gap-3 p-2">
                     <div class="logo"></div>
                     <br>
                     <div class="form-floating p-1" style="width:85%">
-                        <textarea class="form-control" id="floatingTextarea" maxlength="250" placeholder="Novo Post"
-                                  asp-for="Description" style="background-color: lightgrey"></textarea>
+                        <textarea class="form-control" id="floatingTextarea" maxlength="250" placeholder="Novo Post" asp-for="Description" style="background-color: lightgrey"></textarea>
                         <label for="floatingTextarea">Novo Post</label>
+                        <span asp-validation-for="Description" class="text-danger"></span>
                     </div>
                 </div>
                 <br>
-
-
                 <div class="row d-flex align-items-center justify-content-between p-2 pt-0 pb-2">
                     <div class="row d-flex gap-1 align-items-center justify-content-start" style="width: 50%">
                         <div class="file-input-container">
-                            <a class="btn-icon" style="width: auto">
-                                <span class="material-symbols-outlined no-config" style="width: auto;">Upload_File</span>
-                            </a>
+                            <label class="btn-icon">
+                                <span class="material-symbols-outlined no-config" style="width: auto;">upload_file</span>
+@*                                 <input asp-for="Archive" type="file" multiple />
+ *@                            </label>
                         </div>
                         <div class="file-input-container">
                             <label class="btn-icon">
-                                <span class="material-symbols-outlined no-config" style="width: auto;">Link</span>
+                                <span class="material-symbols-outlined no-config" style="width: auto;">link</span>
                             </label>
                         </div>
                     </div>
-
                     <div class="file-input-container">
                         <button type="submit" class="btn-icon" style="width: auto">
                             <span class="material-symbols-outlined no-config" style="width: auto;">send</span>
@@ -49,16 +47,14 @@
         <div class="card-body">
             <h5 class="card-title">Card title</h5>
             <p class="card-text">
-                This is a wider card with supporting text below as a natural lead-in to additional
-                content. This content is a little bit longer.
+                This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.
             </p>
             <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
         </div>
     </div>
 </div>
 
-<!-- - Modais - -->
-
+<!-- Modais -->
 <div class="modal" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
@@ -93,14 +89,11 @@
 
     .file-input-container {
         overflow: hidden;
-        border-radius: 30%;
+        border-radius: 50%;
         width: 50px;
         align-items: center;
-        height: auto;
-        padding: 0%;
+        height: 50px;
         margin-right: 4px;
-        width: min-content;
-        color: rgb(0, 0, 0);
         position: relative;
         display: inline-block;
     }
@@ -124,8 +117,8 @@
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        width: min-content;
-        height: min-content;
+        width: 50px;
+        height: 50px;
         background-color: transparent;
         border: none;
     }
@@ -139,6 +132,4 @@
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
-
-
 }

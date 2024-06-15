@@ -4,15 +4,16 @@
     ViewData["Title"] = "Login";
 }
 
-<div class="modal" tabindex="-1" id="loginModal" aria-labelledby="loginModalLabel" aria-hidden="true"
-     style="height:100vh">
+<div class="modal" tabindex="-1" id="loginModal" aria-labelledby="loginModalLabel" aria-hidden="true" style="height:100vh">
     <div class="modal-dialog modal-dialog-centered">
         <form asp-action="Login" asp-controller="Users">
             <div class="modal-content">
                 <div class="modal-body d-flex flex-column gap-3 align-items-center justify-content-center maxW">
                     <div class="row maxW">
                         <div class="col"></div>
-                        <div class="col d-flex justify-content-center"><h5 class="modal-title">Entrar</h5></div>
+                        <div class="col d-flex justify-content-center">
+                            <h5 class="modal-title">Entrar</h5>
+                        </div>
                         <div class="col d-flex justify-content-end me-3">
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
@@ -20,15 +21,13 @@
                     <div class="row justify-content-center">
                         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                         <div class="form-floating mb-3">
-                            <input asp-for="Name" class="form-control" id="floatingInput" placeholder="User123">
-                            <label asp-for="Name" for="floatingInput">Usuário</label>
+                            <input asp-for="Name" class="form-control" id="floatingInputLogin" placeholder="User123">
+                            <label asp-for="Name" for="floatingInputLogin">Usuário</label>
                             <span asp-validation-for="Name" class="text-danger"></span>
-
                         </div>
                         <div class="form-floating mb-3">
-                            <input asp-for="Password" type="password" class="form-control" id="floatingInput"
-                                   placeholder="User123">
-                            <label asp-for="Password" for="floatingInput">Senha</label>
+                            <input asp-for="Password" type="password" class="form-control" id="floatingInputPassword" placeholder="Senha">
+                            <label asp-for="Password" for="floatingInputPassword">Senha</label>
                             <span asp-validation-for="Password" class="text-danger"></span>
                         </div>
                     </div>
@@ -36,10 +35,9 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btnPu2" data-bs-dismiss="modal">Fechar</button>
-                    <input type="submit" value="Entrar" class="btn btnPu1"/>
                 </div>
+            </div>
         </form>
-
     </div>
 </div>
 
@@ -47,7 +45,7 @@
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="registerModal">Registre-se</h5>
+                <h5 class="modal-title" id="registerModalLabel">Registre-se</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <form asp-action="Create" asp-controller="Users">
@@ -55,36 +53,29 @@
                     <div class="row justify-content-center">
                         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                         <div class="form-floating mb-3">
-                            <input asp-for="Name" type="text" class="form-control" id="floatingInputName"
-                                   placeholder="Nome">
+                            <input asp-for="Name" type="text" class="form-control" id="floatingInputName" placeholder="Nome">
                             <label asp-for="Name" for="floatingInputName">Nome</label>
                             <span asp-validation-for="Name" class="text-danger"></span>
                         </div>
                         <div class="form-floating mb-3">
-                            <input asp-for="Telefone" type="tel" class="form-control" id="floatingInputPhone"
-                                   placeholder="Telefone">
+                            <input asp-for="Telefone" type="tel" class="form-control" id="floatingInputPhone" placeholder="Telefone">
                             <label asp-for="Telefone" for="floatingInputPhone">Telefone</label>
                             <span asp-validation-for="Telefone" class="text-danger"></span>
                         </div>
                         <div class="form-floating mb-3">
-                            <input asp-for="Email" type="email" class="form-control" id="floatingInputEmail"
-                                   placeholder="Email">
+                            <input asp-for="Email" type="email" class="form-control" id="floatingInputEmail" placeholder="Email">
                             <label asp-for="Email" for="floatingInputEmail">Email</label>
                             <span asp-validation-for="Email" class="text-danger"></span>
                         </div>
                         <div class="form-floating mb-3">
-                            <input asp-for="Password" type="password" class="form-control"
-                                   id="floatingInputRegisterPassword" placeholder="Senha">
+                            <input asp-for="Password" type="password" class="form-control" id="floatingInputRegisterPassword" placeholder="Senha">
                             <label asp-for="Password" for="floatingInputRegisterPassword">Senha</label>
                             <span asp-validation-for="Password" class="text-danger"></span>
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button class="btn btnPd" type="button" data-bs-target="#registerModal" data-bs-toggle="modal"
-                            data-bs-dismiss="modal">
-                        Entrar
-                    </button>
+                    <button class="btn btnPd" type="button" data-bs-dismiss="modal">Fechar</button>
                     <input type="submit" value="Registrar" class="btn btn-primary" />
                 </div>
             </form>
@@ -97,12 +88,12 @@
         <h1>Bem-Te-Vi</h1>
         <h3>Veja o que está acontecendo pelo mundo</h3>
         <div class="flex-row">
-            <button type="button" class="btnLg" id="abrirModal" data-bs-toggle="modal"
-                    data-bs-target="#loginModal">
+            <button type="button" class="btnLg" id="abrirModal" data-bs-toggle="modal" data-bs-target="#loginModal">
                 Login
             </button>
-            <a asp-action="verifyLogin" type="button" class="btnLg" style="text-decoration: none; color: #fff; text-align:center" data-bs-toggle="modal"
-               data-bs-target="#registerModal">Registre-se</a>
+            <button type="button" class="btnLg" data-bs-toggle="modal" data-bs-target="#registerModal">
+                Registre-se
+            </button>
         </div>
     </div>
 </div>
@@ -115,8 +106,9 @@
 
 <script>
     var login = document.getElementById('loginSwitch');
-
-    login.innerHTML = 'login';
+    if (login) {
+        login.innerHTML = 'login';
+    }
 </script>
 
 <style>
@@ -143,7 +135,6 @@
 
     .modal-content {
         background-color: #292929;
-        
     }
 
     .modal-title {

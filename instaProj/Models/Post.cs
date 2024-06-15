@@ -3,6 +3,7 @@
     public class Post
     {
         public int Id { get; set; } /* auto */
+
         public string? Description { get; set; } /* . */
         public int ContLike { get; set; } /* after */
         public DateTime DatePub { get; set; } /* . */
