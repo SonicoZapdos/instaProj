@@ -18,12 +18,12 @@
                         <span asp-validation-for="Description" class="text-danger"></span>
                     </div>
                 </div>
-                <input asp-for="Archives" type="file" multiple class="invisible" />
+                <input asp-for="Archives" onchange="incrementFiles()" type="file" multiple id="inputFile" />
                 <input asp-for="Links" multiple type="text" class="invisible" />
                 <div class="row d-flex align-items-center justify-content-between p-2 pt-0 pb-2">
                     <div class="row d-flex gap-1 align-items-center justify-content-start" style="width: 50%">
                         <div class="file-input-container">
-                            <label class="btn-icon" onclick="">
+                            <label class="btn-icon" onclick="inputFile.click()">
                                 <span class="material-symbols-outlined no-config" style="width: auto;">upload_file</span>
                             </label>
                         </div>
@@ -133,3 +133,23 @@
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
 }
+
+<script>
+    var inputFile = document.getElementById('inputFile');
+    var inputLink = document.getElementById('inputLink');
+    FileList fileList = [];
+
+    function incrementFiles() {
+        if (inputFile.files.length > 0) {
+            for (let i = 0; i < inputFile.files.length; i++) {
+                fileList.push(inputFile.files[i]);
+            }
+            for (let i = 0; i < fileList.length;i++) {
+                inputFile.append(fileList[i]);
+            }
+
+            console.log("filesList = " + fileList.length);
+            console.log("inputList = " +inputFile.files.length);
+        }
+    }
+</script>

@@ -50,7 +50,7 @@ namespace instaProj.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CreatePost([Bind("Id, Description, DataPub, Private, User_Id, User, ContLike")] Post post, List<IFormFile> archive)
+        public async Task<IActionResult> CreatePost([Bind("Id, Description, DataPub, Private, User_Id, User, ContLike, Archives")] Post post, List<IFormFile> archive)
         {
             if (ModelState.IsValid)
             {
