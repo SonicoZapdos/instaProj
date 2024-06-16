@@ -1,4 +1,7 @@
-﻿namespace instaProj.Models
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
+
+namespace instaProj.Models
 {
     public class Post
     {
@@ -11,5 +14,13 @@
 
         public int User_Id { get; set; } /* . */
         public User? User { get; set; } /* auto */
+
+        [NotMapped]
+        [JsonIgnore]
+        public List<IFormFile>? Archives { get; set; }
+
+        [NotMapped]
+        [JsonIgnore]
+        public List<IFormFile>? Links { get; set; }
     }
 }

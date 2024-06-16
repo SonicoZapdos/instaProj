@@ -62,10 +62,12 @@ namespace instaProj.Controllers
 
                     _context.Add(post);
                     await _context.SaveChangesAsync();
+                    if (archive != null)
+                    {
+                        await CreateArchive(post.Id, archive);
+                    }
 
-                    await CreateArchive(post.Id, archive);
-
-                    return RedirectToAction("Home", "Aplication");
+                    return RedirectToAction("Main", "Aplication");
                 }
             }
 
