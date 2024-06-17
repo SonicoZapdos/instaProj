@@ -24,7 +24,7 @@ namespace instaProj.Controllers
         {
             _context = context;
         }
-        public IActionResult Main()
+        public IActionResult Main(string page)
         {
             if (HttpContext.Session.GetString("USERLOGADO") != null)
             {
@@ -39,6 +39,7 @@ namespace instaProj.Controllers
                         ViewBag.User = pessoaLogada;
                         ViewBag.Following = null;
                         ViewBag.Followed = null;
+                        ViewBag.MainPage = page ?? "ForYou";
                     }
                     return View();
                 }

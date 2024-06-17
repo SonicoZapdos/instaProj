@@ -1,0 +1,61 @@
+﻿
+<div class="maxW d-flex flex-column gap-2">
+    <div class="maxW box-post p-2">
+        <div class="maxW d-flex justify-content-end">
+            <button class="btn btn-dark">Editar</button>
+        </div>
+        <div class="maxW d-flex gap-2">
+            <div class="logo"></div>
+            <div>
+                <h3>@ViewBag.User.Name</h3>
+                <h4>@ViewBag.User.Url</h4>
+            </div>
+            <div>
+                <p>@ViewBag.User.Bio</p>
+            </div>
+        </div>
+    </div>
+    <div class="maxW d-flex flex-column">
+        @if (ViewBag.Posts != null)
+        {
+            <div class="maxW d-flex justify-content-between p-1">
+                <div class="d-flex gap-3">
+                    <div class="logo"></div>
+                    <h4>@ViewBag.User.Name</h4>
+                </div>
+                <span class="material-symbols-outlined">
+                    more_horiz
+                </span>
+            </div>
+
+            for (int i = 0; i < ViewBag.Posts.length; i++)
+            {
+                @if (ViewBag.Posts[i].Archives != null)
+                {
+                    foreach (Archive x in ViewBag.Posts[i].Archives)
+                    {
+                        if (x.Link != "" && x.Link != null)
+                        {
+                            <p>This is Video</p>
+                        }
+                        else if (x.Type != ".mp4")
+                        {
+                            <p>This is a Image</p>
+                        }
+                        else
+                        {
+                            <p>This is a Video Local</p>
+                        }
+                    }
+                }
+            }
+        }
+        else
+        {
+            <div>
+                Não existe postagens ainda!!!
+            </div>
+        }
+
+    </div>
+</div>
