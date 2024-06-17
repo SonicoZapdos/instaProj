@@ -50,25 +50,26 @@ namespace instaProj.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CreatePost([Bind("Id, Description, DataPub, Private, User_Id, User, ContLike")] Post post, List<IFormFile> Archives)
+        public async Task<IActionResult> CreatePost([Bind("Id, Description, DataPub, Private, User_Id, User, ContLike, Archive")] Post post, List<IFormFile> Archives)
         {
             if (ModelState.IsValid)
             {
-                post.User_Id = int.Parse(HttpContext.Session.GetString("USERLOGADO"));
-                post.DatePub = DateTime.Now;
-                post.Private = false;
-
-                _context.Add(post);
-                await _context.SaveChangesAsync();
-
-                if (Archives != null && Archives.Count > 0)
+                if (HttpContext.Session.GetString("USERLOGADO") != null && int.TryParse(HttpContext.Session.GetString("USERLOGADO"),out int id))
                 {
-                    await CreateArchive(post.Id, Archives); // Chama o método para salvar os arquivos
+                    post.User_Id = id;
+                    post.DatePub = DateTime.Now;
+                    post.Private = false;
+
+                    _context.Add(post);
+                    await _context.SaveChangesAsync();
+                    if (post.Archives != null && post.Archives.Count > 0)
+                    {
+                        await CreateArchive(post.Id, post.Archives); // Chama o método para salvar os arquivos
+                    }
+
+                    return RedirectToAction("Main", "Aplication"); // Redireciona após o sucesso
                 }
-
-                return RedirectToAction("Main", "Aplication"); // Redireciona após o sucesso
             }
-
             return RedirectToAction("Main", "Aplication"); // Redireciona após o sucesso
         }
 

@@ -6,7 +6,7 @@
 
 @* POP-UP LOGIN *@
 <div class="modal" tabindex="-1" id="loginModal" aria-labelledby="loginModalLabel" aria-hidden="true"
-    style="height:100vh">
+     style="height:100vh">
     <div class="modal-dialog modal-dialog-centered">
         <form asp-action="Login" asp-controller="Users">
             <div class="modal-content">
@@ -29,7 +29,7 @@
                         </div>
                         <div class="form-floating mb-3">
                             <input asp-for="Password" type="password" class="form-control" id="floatingInputPassword"
-                                placeholder="Senha">
+                                   placeholder="Senha">
                             <label asp-for="Password" for="floatingInputPassword">Senha</label>
                             <span asp-validation-for="Password" class="text-danger"></span>
                         </div>
@@ -63,33 +63,33 @@
                             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                             <div class="form-floating mb-3">
                                 <input asp-for="Name" type="text" class="form-control" id="floatingInputName"
-                                    placeholder="Nome">
+                                       placeholder="Nome">
                                 <label asp-for="Name" for="floatingInputName">Nome</label>
                                 <span asp-validation-for="Name" class="text-danger"></span>
                             </div>
                             <div class="form-floating mb-3">
                                 <input asp-for="Telefone" type="tel" class="form-control" id="floatingInputPhone"
-                                    placeholder="(00) 00000-0000" data-mask="(00) 00000-0000" maxlength="11">
+                                       placeholder="(00) 00000-0000" data-mask="(00) 00000-0000" maxlength="11">
                                 <label asp-for="Telefone" for="floatingInputPhone">Telefone</label>
                                 <span asp-validation-for="Telefone" class="text-danger"></span>
                             </div>
                             <div class="form-floating mb-3">
                                 <input asp-for="Email" type="email" class="form-control" id="floatingInputEmail"
-                                    placeholder="Email">
+                                       placeholder="Email">
                                 <label asp-for="Email" for="floatingInputEmail">Email</label>
                                 <span asp-validation-for="Email" class="text-danger"></span>
                             </div>
                             <div class="form-floating mb-3">
                                 <input asp-for="Password" type="password" class="form-control"
-                                    id="floatingInputRegisterPassword" placeholder="Senha">
+                                       id="floatingInputRegisterPassword" placeholder="Senha">
                                 <label asp-for="Password" for="floatingInputRegisterPassword">Senha</label>
                                 <span asp-validation-for="Password" class="text-danger"></span>
                             </div>
                         </div>
                         <input type="submit" value="Registrar" class="btn btnPu1" />
                     </div>
+                </form>
             </div>
-            </form>
         </div>
     </div>
 </div>
@@ -114,7 +114,7 @@
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
-}
+    }
 
 <script>
     var login = document.getElementById('loginSwitch');
@@ -156,7 +156,5 @@
     .btn-close {
         background-color: white;
         color: white;
-        "
-
     }
 </style>
