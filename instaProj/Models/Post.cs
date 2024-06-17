@@ -21,6 +21,6 @@ namespace instaProj.Models
 
         [NotMapped]
         [JsonIgnore]
-        public List<IFormFile>? Links { get; set; }
+        public List<string>? Links { get; set; }
     }
 }
