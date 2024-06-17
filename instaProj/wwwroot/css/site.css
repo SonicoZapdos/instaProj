@@ -22,16 +22,23 @@ Paleta de Cores
 #292929 - Preto
 #E8E8E8 - cinza
 #F6F6F6 - branco gelo?
-#F4F440 - (super) amarelo
+#F4F440 - amarelo
+#b9b92f - amarelo escuro
 
 Verdes
-#05B41C
-#008712
+#05B41C - Padrão
+#008712 - Hover
 
 Vermelhos
-#F73F34
-#BA0001
+#F73F34 - Padrão
+#BA0001 - Hover
 */
+
+.fontLg {
+  font-family: "ohno-softie-variable",sans-serif;
+  font-weight: 900;
+  /* font-variation-settings: 'wght' 900; */
+}
 
 /* Botoes */
 .btnPu1{

@@ -2,16 +2,16 @@
     <div class="no-config p-3">
         <div class="row">
             <div class="col box-follow-select" id="following" onclick="changeList(1)">
-                <h6 class="no-config text-select">Seguindo</h6>
+                <h6 class="no-config text-select">SEGUINDO</h6>
             </div>
             <div class="col box-follow-select" id="followed" onclick="changeList(2)">
-                <h6 class="no-config text-select">Seguidores</h6>
+                <h6 class="no-config text-select">SEGUIDORES</h6>
             </div>
         </div>
         <div class="col d-flex flex-column justify-content-center align-items-center">
             @if (ViewBag.Following == null)
             {
-                <h3>Você ainda não está seguindo ninguém!!!</h3>
+                <h3>Você não está seguindo ninguém ainda.</h3>
             }
         </div>
     </div>
@@ -33,15 +33,18 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        background-color: lightgrey;
+        color: #292929;
+    @*background-color:#a7a7a7;*@
     }
 
-        .box-follow-select:hover {
-            background-color: dimgray;
-        }
+    .box-follow-select:hover {
+        background-color: #d8d838;
+        border-radius: 50px;
+    }
 
     .select-follow {
-        background-color: gray;
+        background-color: #F4F440;
+        border-radius: 50px;
     }
 </style>
 
@@ -49,7 +52,7 @@
     var fing = document.getElementById('following');
     var fed = document.getElementById('followed');
     fing.classList.add('select-follow');
-    
+
 
     function changeList(index) {
         if (index == 1) {
