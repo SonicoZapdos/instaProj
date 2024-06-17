@@ -50,87 +50,57 @@ namespace instaProj.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CreatePost([Bind("Id, Description, DataPub, Private, User_Id, User, ContLike, Archives")] Post post, List<IFormFile> archive)
+        public async Task<IActionResult> CreatePost([Bind("Id, Description, DataPub, Private, User_Id, User, ContLike")] Post post, List<IFormFile> Archives)
         {
             if (ModelState.IsValid)
             {
-                if (!string.IsNullOrEmpty(post.Description))
+                post.User_Id = int.Parse(HttpContext.Session.GetString("USERLOGADO"));
+                post.DatePub = DateTime.Now;
+                post.Private = false;
+
+                _context.Add(post);
+                await _context.SaveChangesAsync();
+
+                if (Archives != null && Archives.Count > 0)
                 {
-                    post.User_Id = int.Parse(HttpContext.Session.GetString("USERLOGADO"));
-                    post.DatePub = DateTime.Now;
-                    post.Private = false;
-
-                    _context.Add(post);
-                    await _context.SaveChangesAsync();
-                    if (archive != null)
-                    {
-                        await CreateArchive(post.Id, archive);
-                    }
-
-                    return RedirectToAction("Main", "Aplication");
+                    await CreateArchive(post.Id, Archives); // Chama o método para salvar os arquivos
                 }
+
+                return RedirectToAction("Main", "Aplication"); // Redireciona após o sucesso
             }
 
-            return View(post);
+            return RedirectToAction("Main", "Aplication"); // Redireciona após o sucesso
         }
-
-/*        public async List<Post> ListPosts(int idUser)
-        {
-            List<Post> p = await _context.Posts.(m => m.Id == idUser);
-        }*/
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CreateArchive(int postId, List<IFormFile> arquivos )
+        public async Task CreateArchive(int postId, List<IFormFile> archives)
         {
-            foreach (var arquivo in arquivos)
+            foreach (var archive in archives)
             {
-                if (arquivo != null && arquivo.Length < 10)
+                if (archive != null && archive.Length > 0)
                 {
-                    // Processar imagem
-                    string nomeArquivo = Path.GetFileName(arquivo.FileName);
-                    string extensaoArquivo = Path.GetExtension(arquivo.FileName).ToLower();
-                    string novoNome = geraNomeRandomizado(25) + extensaoArquivo;
+                    string extension = Path.GetExtension(archive.FileName).ToLower();
+                    string filename = geraNomeRandomizado(25) + extension;
+                    string uploadPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "img", filename);
 
-                    // Diretórios de armazenamento
-                    string caminhoArquivo = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "img", novoNome);
-                    string caminhoMiniatura = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "imgMINI", novoNome);
 
-                    // Salvar arquivo no servidor
-                    using (var stream = new FileStream(caminhoArquivo, FileMode.Create))
+                    using (var stream = new FileStream(uploadPath, FileMode.Create))
                     {
-                        await arquivo.CopyToAsync(stream);
+                        await archive.CopyToAsync(stream);
                     }
 
-                    // Processar a imagem e criar miniatura
-                    using (var image = Image.Load(caminhoArquivo))
+                    var archiveEntry = new Archive
                     {
-                        int larguraDesejada = 100;
-                        int alturaDesejada = 100;
-
-                        image.Mutate(x => x.Resize(new ResizeOptions
-                        {
-                            Size = new Size(larguraDesejada, alturaDesejada),
-                            Mode = ResizeMode.Max
-                        }));
-
-                        image.Save(caminhoMiniatura, new JpegEncoder());
-                    }
-
-                    var imagem = new Archive
-                    {
-                        Link = novoNome,
-                        NameLocal = "/img/" + novoNome,
+                        Link = filename,
+                        NameLocal = "/img/" + filename,
                         Post_Id = postId
                     };
 
-                    // Grava dados no banco de dados
-                    _context.Add(imagem);
+                    _context.Add(archiveEntry);
                     await _context.SaveChangesAsync();
                 }
             }
-
-            return RedirectToAction("Main", "Aplication");
         }
 
         public string VerificaExtensao(string nomeArquivo)

@@ -230,4 +230,35 @@
         selectedFiles.forEach(file => dataTransfer.items.add(file));
         document.getElementById('inputFile').files = dataTransfer.files;
     });
+
+    document.getElementById('postForm').addEventListener('submit', function (event) {
+        event.preventDefault(); // Evitar o envio automático do formulário
+
+        const formData = new FormData(this);
+        selectedFiles.forEach((file, index) => {
+            formData.append('Archives', file); // Adicionar cada arquivo ao FormData
+        });
+
+        fetch('@Url.Action("CreatePost", "Posts")', {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'X-CSRF-TOKEN': $('input[name="__RequestVerificationToken"]').val() // CSRF token
+            }
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Erro ao enviar o post.');
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log('Post enviado com sucesso:', data);
+                // Redirecionar ou atualizar a página conforme necessário
+            })
+            .catch(error => {
+                console.error('Erro:', error);
+                // Tratar o erro conforme necessário
+            });
+    });
 </script>
