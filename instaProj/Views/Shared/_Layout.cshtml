@@ -11,14 +11,14 @@
 </head>
 <body style="margin-bottom: 0px; height: 100vh">
     <header style="height: 8vh">
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom">
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark border-bottom">
             <div class="row" style="width: 100%;">
                 <div class="col d-flex justify-content-start gap-3">
                     <div> </div>
                     <div class="logo" id="logoProj"> 
                         <img src="~/images/BTVlg.png" class="logo"/>
                     </div>
-                    <a class="navbar-brand" asp-area="" asp-controller="Users" asp-action="verifyLogin">instaProj</a>
+                    <a class="navbar-brand" asp-area="" asp-controller="Users" asp-action="verifyLogin">Bem-Te-Vi</a>
                 </div>
                 <div class="group">
                     <span class="material-symbols-outlined no-config icon" style="width: auto;">search</span>
@@ -43,6 +43,15 @@
     *{
         -webkit-user-select: none;
     }
+
+    body{
+        background-color: #F6F6F6;
+    }
+
+    .navbar{
+        background-color: #292929;
+    }
+
     .maxW {
         width:100%;
     }
@@ -50,7 +59,6 @@
         width: 40px;
         height: 40px;
         border-radius: 100%;
-        background-color: black;
     }
 
     .group {
@@ -70,7 +78,7 @@
         border: 2px solid transparent;
         border-radius: 8px;
         outline: none;
-        background-color: #f3f3f4;
+        background-color: #F6F6F6;
         color: #0d0c22;
         transition: .3s ease;
     }
@@ -81,9 +89,9 @@
 
         .input:focus, input:hover {
             outline: none;
-            border-color: rgba(234,76,137,0.4);
+            border-color: #f4f440;
             background-color: #fff;
-            box-shadow: 0 0 0 4px rgb(234 76 137 / 10%);
+            box-shadow: 0 0 0 4px #f4f4408e;
         }
 
     .icon {
