@@ -4,7 +4,7 @@
     ViewData["Title"] = "Post";
 }
 
-<div class="maxW d-flex flex-column gap-4" style="height: 100%; overflow: scroll; overflow-x: hidden">
+<div class="maxW d-flex flex-column gap-4" style="height: 100%; overflow: auto;" id="forYou">
     <div class="maxW box-post p-1" id="new-post">
         <div class="col">
             <form asp-action="CreatePost" asp-controller="Posts" enctype="multipart/form-data" method="post">

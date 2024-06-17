@@ -45,6 +45,27 @@ namespace instaProj.Controllers
             }
             return View();
         }
+
+        public IActionResult Users()
+        {
+            if (HttpContext.Session.GetString("USERLOGADO") != null)
+            {
+                string? userId = HttpContext.Session.GetString("USERLOGADO");
+
+                if (userId != "" || userId == null)
+                {
+                    User? pessoaLogada = _context.Users.FirstOrDefault(m => m.Id == int.Parse(userId ?? ""));
+
+                    if (pessoaLogada != null)
+                    {
+                        ViewBag.User = pessoaLogada;
+                        ViewBag.Posts = RedirectToAction("ListPosts", "Posts");
+                    }
+                    return View();
+                }
+            }
+            return View();
+        }
         public IActionResult ForYou()
         {
             return View();

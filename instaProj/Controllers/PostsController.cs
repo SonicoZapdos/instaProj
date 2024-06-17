@@ -74,6 +74,11 @@ namespace instaProj.Controllers
             return View(post);
         }
 
+        public async List<Post> ListPosts(int idUser)
+        {
+            List<Post> p = await _context.Posts.(m => m.Id == idUser);
+        }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> CreateArchive(int postId, List<IFormFile> arquivos )
