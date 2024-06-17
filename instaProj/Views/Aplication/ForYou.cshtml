@@ -7,7 +7,7 @@
 <div class="maxW d-flex flex-column gap-4" style="height: 100%; overflow: auto;" id="forYou">
     <div class="maxW box-post p-1" id="new-post">
         <div class="col">
-            <form asp-action="CreatePost" asp-controller="Posts" enctype="multipart/form-data" method="post">
+            <form asp-action="CreatePost" asp-controller="Posts" enctype="multipart/form-data" method="post" id="postForm">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <div class="row d-flex align-items-center gap-3 p-2">
                     <div class="logo"></div>
@@ -225,7 +225,7 @@
         displaySelectedFiles();
     }
 
-    document.querySelector('form').addEventListener('submit', function (event) {
+    document.getElementById('postForm').addEventListener('submit', function (event) {
         const dataTransfer = new DataTransfer();
         selectedFiles.forEach(file => dataTransfer.items.add(file));
         document.getElementById('inputFile').files = dataTransfer.files;

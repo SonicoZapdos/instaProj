@@ -9,32 +9,15 @@
         <partial name="Menu" />
     </div>
     <div class="col-6 no-config" style="height: 100%" id="mainContainer">
-        <partial name="ForYou" /> @{/* - Partial Indexar uma página na outra - */}
+        <partial name="@ViewBag.MainPage" /> @{
+            /* - Partial Indexar uma página na outra - */
+        }
     </div>
     <div class="col vll no-config" style="height: 100%">
         <partial name="Follows" />
     </div>
 </div>
 
-<script>
-    var main = document.getElementById('mainContainer');
-
-    function Perfil() {
-        clearMain();
-        var partial = document.createElement('partial');
-        partial.name = 'User';
-        main.appendChild(partial);
-    }
-
-    function clearMain() {
-        if (main.contains('forYou')) {
-            main.removeChild('forYou');
-        }
-        if (main.contains('user')) {
-            main.removeChild('user');
-        }
-    }
-</script>
 
 <style>
     .select:hover {
