@@ -85,6 +85,10 @@ namespace instaProj.Controllers
                 {
                     string extension = Path.GetExtension(archive.FileName).ToLower();
                     string filename = geraNomeRandomizado(25) + extension;
+                    if(!Directory.Exists(Directory.GetCurrentDirectory() + "/wwwroot" + "/img"))
+                    {
+                        Directory.CreateDirectory(Directory.GetCurrentDirectory() + "/wwwroot" + "/img");
+                    }
                     string uploadPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "img", filename);
 
                     // Salva o arquivo no sistema de arquivos
@@ -95,10 +99,10 @@ namespace instaProj.Controllers
 
                     var archiveEntry = new Archive
                     {
-                        Link = filename,
                         NameLocal = "/img/" + filename,
-                        Post_Id = postId
-                    };
+                        Post_Id = postId,
+                        Type = Path.GetExtension(archive.FileName).ToLower()
+                };
 
                     _context.Add(archiveEntry); // Adiciona o registro do arquivo ao contexto do banco de dados
                     await _context.SaveChangesAsync(); // Salva as mudanças no banco de dados
