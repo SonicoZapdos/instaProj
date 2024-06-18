@@ -8,10 +8,10 @@
                 <h6 class="no-config text-select">SEGUIDORES</h6>
             </div>
         </div>
-        <div class="col d-flex flex-column justify-content-center align-items-center">
+        <div class="col d-flex flex-column justify-content-center align-items-center" style="padding-top: 15px;">
             @if (ViewBag.Following == null)
             {
-                <h3>Você não está seguindo ninguém ainda.</h3>
+                <h5>Você não está seguindo ninguém ainda.</h5>
             }
         </div>
     </div>
@@ -34,11 +34,11 @@
         align-items: center;
         justify-content: center;
         color: #292929;
-    @*background-color:#a7a7a7;*@
+        border-radius: 50px;
     }
 
     .box-follow-select:hover {
-        background-color: #d8d838;
+        background-color: #dddd46;
         border-radius: 50px;
     }
 
