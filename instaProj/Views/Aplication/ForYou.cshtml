@@ -59,7 +59,7 @@
         </div>
     </div>
     <div class="card mb-3">
-        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS63xCvL5kBcpTLnGDB79NqX0RfOuGGuG_igQ&s" class="card-img-top" alt="..." />
+        <img src="https://webartdevelopers.com/blog/wp-content/uploads/2020/10/500-error-666x333.gif" class="card-img-top" alt="..." />
         <div class="card-body">
             <h5 class="card-title">Card title</h5>
             <p class="card-text">
@@ -209,9 +209,9 @@
                 const item = document.createElement('div');
                 item.className = 'carousel-item' + (index === 0 ? ' active' : '');
                 item.innerHTML = `
-                        <img src="${e.target.result}" class="d-block w-100" alt="Imagem Selecionada">
-                        <button type="button" class="remove-btn" onclick="removeFile(${index})">&times;</button>
-                    `;
+                            <img src="${e.target.result}" class="d-block w-100" alt="Imagem Selecionada">
+                            <button type="button" class="remove-btn" onclick="removeFile(${index})">&times;</button>
+                        `;
                 carouselInner.appendChild(item);
             };
             reader.readAsDataURL(file);
@@ -238,16 +238,6 @@
                 'X-CSRF-TOKEN': $('input[name="__RequestVerificationToken"]').val() // CSRF token
             }
         })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Erro ao enviar o post.');
-                }
-                return response.json();
-            })
-            .then(data => {
-                console.log('Post enviado com sucesso:', data);
-                // Redirecionar ou atualizar a página conforme necessário
-            })
             .catch(error => {
                 console.error('Erro:', error);
                 // Tratar o erro conforme necessário
