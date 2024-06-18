@@ -163,7 +163,6 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        
     }
 
         .remove-btn:hover {
@@ -173,7 +172,6 @@
 
     /* Reduzir o tamanho dos botões de controle do carrossel */
     .small-carousel-control {
-        
         width: 30px;
         height: 30px;
     }
@@ -224,12 +222,6 @@
         selectedFiles.splice(index, 1);
         displaySelectedFiles();
     }
-
-    document.getElementById('postForm').addEventListener('submit', function (event) {
-        const dataTransfer = new DataTransfer();
-        selectedFiles.forEach(file => dataTransfer.items.add(file));
-        document.getElementById('inputFile').files = dataTransfer.files;
-    });
 
     document.getElementById('postForm').addEventListener('submit', function (event) {
         event.preventDefault(); // Evitar o envio automático do formulário

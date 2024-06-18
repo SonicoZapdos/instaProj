@@ -50,11 +50,11 @@ namespace instaProj.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CreatePost([Bind("Id, Description, DataPub, Private, User_Id, User, ContLike, Archive")] Post post, List<IFormFile> Archives)
+        public async Task<IActionResult> CreatePost([Bind("Id, Description, DatePub, Private, User_Id, ContLike")] Post post, List<IFormFile> Archives)
         {
             if (ModelState.IsValid)
             {
-                if (HttpContext.Session.GetString("USERLOGADO") != null && int.TryParse(HttpContext.Session.GetString("USERLOGADO"),out int id))
+                if (HttpContext.Session.GetString("USERLOGADO") != null && int.TryParse(HttpContext.Session.GetString("USERLOGADO"), out int id))
                 {
                     post.User_Id = id;
                     post.DatePub = DateTime.Now;
@@ -62,16 +62,18 @@ namespace instaProj.Controllers
 
                     _context.Add(post);
                     await _context.SaveChangesAsync();
-                    if (post.Archives != null && post.Archives.Count > 0)
+
+                    if (Archives != null && Archives.Count > 0)
                     {
-                        await CreateArchive(post.Id, post.Archives); // Chama o método para salvar os arquivos
+                        await CreateArchive(post.Id, Archives);
                     }
 
-                    return RedirectToAction("Main", "Aplication"); // Redireciona após o sucesso
+                    return RedirectToAction("Main", "Aplication");
                 }
             }
-            return RedirectToAction("Main", "Aplication"); // Redireciona após o sucesso
+            return RedirectToAction("Main", "Aplication");
         }
+
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -85,7 +87,7 @@ namespace instaProj.Controllers
                     string filename = geraNomeRandomizado(25) + extension;
                     string uploadPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "img", filename);
 
-
+                    // Salva o arquivo no sistema de arquivos
                     using (var stream = new FileStream(uploadPath, FileMode.Create))
                     {
                         await archive.CopyToAsync(stream);
@@ -98,8 +100,8 @@ namespace instaProj.Controllers
                         Post_Id = postId
                     };
 
-                    _context.Add(archiveEntry);
-                    await _context.SaveChangesAsync();
+                    _context.Add(archiveEntry); // Adiciona o registro do arquivo ao contexto do banco de dados
+                    await _context.SaveChangesAsync(); // Salva as mudanças no banco de dados
                 }
             }
         }
@@ -112,6 +114,7 @@ namespace instaProj.Controllers
             return validacaoLista.Contains(extensaoArquivo) ? extensaoArquivo : "none";
         }
 
+        // Gera um nome de arquivo randomizado com um comprimento especificado
         static string geraNomeRandomizado(int comprimento)
         {
             const string caracteres = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
