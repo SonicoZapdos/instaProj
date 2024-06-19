@@ -64,6 +64,7 @@
             </form>
         </div>
     </div>
+
     <div class="card mb-3">
         <img src="https://webartdevelopers.com/blog/wp-content/uploads/2020/10/500-error-666x333.gif" class="card-img-top" alt="..." />
         <div class="card-body">
@@ -246,6 +247,16 @@
                 'X-CSRF-TOKEN': $('input[name="__RequestVerificationToken"]').val() // CSRF token
             }
         })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    console.log('Post enviado com sucesso:', data);
+                    window.location.href = data.redirectUrl; // Redireciona para a URL de sucesso
+                } else {
+                    console.error('Erro ao enviar o post.');
+                    window.location.href = data.redirectUrl; // Redireciona para a URL de falha, se desejado
+                }
+            })
             .catch(error => {
                 console.error('Erro:', error);
                 // Tratar o erro conforme necessário

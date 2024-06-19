@@ -68,10 +68,10 @@ namespace instaProj.Controllers
                         await CreateArchive(post.Id, Archives);
                     }
 
-                    return RedirectToAction("Main", "Aplication");
+                    return Json(new { success = true, redirectUrl = Url.Action("Main", "Aplication") }); // Retorna JSON com a URL de redirecionamento
                 }
             }
-            return RedirectToAction("Main", "Aplication");
+            return Json(new { success = false, redirectUrl = Url.Action("Main", "Aplication") }); // Retorna JSON em caso de falha
         }
 
         public List<Post> ListPosts()
