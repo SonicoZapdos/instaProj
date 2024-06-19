@@ -17,10 +17,6 @@ namespace instaProj.Models
 
         [NotMapped]
         [JsonIgnore]
-        public List<IFormFile>? Archives { get; set; }
-
-        [NotMapped]
-        [JsonIgnore]
-        public List<string>? Links { get; set; }
+        public List<Archive>? Archives { get; set; }
     }
 }

@@ -74,6 +74,15 @@ namespace instaProj.Controllers
             return RedirectToAction("Main", "Aplication");
         }
 
+        public List<Post> ListPosts()
+        {
+           if (HttpContext.Session.GetString("USERLOGADO") != null && int.TryParse(HttpContext.Session.GetString("USERLOGADO"), out int id))
+            {
+                return _context.Posts.Where(m => m.User_Id != id).Include(m => m.Archives).ToList();
+            }
+            return null;
+        }
+
 
         [HttpPost]
         [ValidateAntiForgeryToken]
