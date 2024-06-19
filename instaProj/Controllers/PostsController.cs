@@ -74,13 +74,14 @@ namespace instaProj.Controllers
             return Json(new { success = false, redirectUrl = Url.Action("Main", "Aplication") }); // Retorna JSON em caso de falha
         }
 
-        public List<Post> ListPosts()
+        public List<Post> ListPost()
         {
-           if (HttpContext.Session.GetString("USERLOGADO") != null && int.TryParse(HttpContext.Session.GetString("USERLOGADO"), out int id))
+            Console.WriteLine("FODASEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE");
+            if (HttpContext.Session.GetString("USERLOGADO") != null && int.TryParse(HttpContext.Session.GetString("USERLOGADO"), out int id))
             {
-                return _context.Posts.Where(m => m.User_Id != id).Include(m => m.Archives).ToList();
+                return _context.Posts.Where(m => m.User_Id != id).ToList();
             }
-            return null;
+            return new List<Post>();
         }
 
 
@@ -94,7 +95,7 @@ namespace instaProj.Controllers
                 {
                     string extension = Path.GetExtension(archive.FileName).ToLower();
                     string filename = geraNomeRandomizado(25) + extension;
-                    if(!Directory.Exists(Directory.GetCurrentDirectory() + "/wwwroot" + "/img"))
+                    if (!Directory.Exists(Directory.GetCurrentDirectory() + "/wwwroot" + "/img"))
                     {
                         Directory.CreateDirectory(Directory.GetCurrentDirectory() + "/wwwroot" + "/img");
                     }
@@ -111,7 +112,7 @@ namespace instaProj.Controllers
                         NameLocal = "/img/" + filename,
                         Post_Id = postId,
                         Type = Path.GetExtension(archive.FileName).ToLower()
-                };
+                    };
 
                     _context.Add(archiveEntry); // Adiciona o registro do arquivo ao contexto do banco de dados
                     await _context.SaveChangesAsync(); // Salva as mudanças no banco de dados
@@ -238,14 +239,14 @@ namespace instaProj.Controllers
             {
                 _context.Posts.Remove(post);
             }
-            
+
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool PostExists(int id)
         {
-          return (_context.Posts?.Any(e => e.Id == id)).GetValueOrDefault();
+            return (_context.Posts?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }

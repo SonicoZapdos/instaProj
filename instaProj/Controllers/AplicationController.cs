@@ -26,44 +26,39 @@ namespace instaProj.Controllers
         }
         public IActionResult Main(string page)
         {
-            if (HttpContext.Session.GetString("USERLOGADO") != null)
+            if (HttpContext.Session.GetString("USERLOGADO") != null && int.TryParse(HttpContext.Session.GetString("USERLOGADO"), out int id))
             {
-                string? userId = HttpContext.Session.GetString("USERLOGADO");
+                User? pessoaLogada = _context.Users.FirstOrDefault(m => m.Id == id);
 
-                if (userId != "" || userId == null)
+                if (pessoaLogada != null)
                 {
-                    User? pessoaLogada = _context.Users.FirstOrDefault(m => m.Id == int.Parse(userId ?? ""));
-
-                    if (pessoaLogada != null)
+                    ViewBag.User = pessoaLogada;
+                    ViewBag.Following = _context.Follows.Where(m => m.User_Id_Followed == id);
+                    ViewBag.Followed = _context.Follows.Where(m => m.User_Id_Following == id);
+                    ViewBag.MainPage = page ?? "ForYou";
+                    List<Post> post = _context.Posts.Where(m => m.User_Id == id).ToList() ?? new List<Post>();
+                    foreach (Post p in post) 
                     {
-                        ViewBag.User = pessoaLogada;
-                        ViewBag.Following = null;
-                        ViewBag.Followed = null;
-                        ViewBag.MainPage = page ?? "ForYou";
+                        p.Archives = _context.Archives.Where(m => m.Post_Id == p.Id).ToList();
                     }
-                    return View();
+                    ViewBag.MyPosts = post;
                 }
+                return View();
             }
             return View();
         }
 
-        public IActionResult Users()
+        public IActionResult MyPage()
         {
-            if (HttpContext.Session.GetString("USERLOGADO") != null)
+            if (HttpContext.Session.GetString("USERLOGADO") != null && int.TryParse(HttpContext.Session.GetString("USERLOGADO"), out int id))
             {
-                string? userId = HttpContext.Session.GetString("USERLOGADO");
+                User? pessoaLogada = _context.Users.FirstOrDefault(m => m.Id == id);
 
-                if (userId != "" || userId == null)
+                if (pessoaLogada != null)
                 {
-                    User? pessoaLogada = _context.Users.FirstOrDefault(m => m.Id == int.Parse(userId ?? ""));
-
-                    if (pessoaLogada != null)
-                    {
-                        ViewBag.User = pessoaLogada;
-                        ViewBag.Posts = RedirectToAction("ListPosts", "Posts");
-                    }
-                    return View();
+                    ViewBag.User = pessoaLogada;
                 }
+                return View();
             }
             return View();
         }

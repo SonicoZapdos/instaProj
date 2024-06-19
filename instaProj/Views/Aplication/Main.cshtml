@@ -1,5 +1,6 @@
 ﻿@{
     ViewData["Title"] = "Bem-Te-Vi";
+    string view = ViewBag.MainPage;
 }
 
 
@@ -9,7 +10,7 @@
         <partial name="Menu" />
     </div>
     <div class="col-6 no-config" style="height: 100%" id="mainContainer">
-        <partial name="@ViewBag.MainPage" /> @{
+        <partial name="@view" /> @{
             /* - Partial Indexar uma página na outra - */
         }
     </div>

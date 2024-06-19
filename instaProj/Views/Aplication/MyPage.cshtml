@@ -1,0 +1,91 @@
+﻿
+<div class="maxW d-flex flex-column gap-2">
+    <div class="maxW box-post p-2">
+        <div class="maxW d-flex justify-content-end">
+            <button class="btn btn-dark">Editar</button>
+        </div>
+        <div class="maxW d-flex gap-2">
+            <div class="user"></div>
+            <div>
+                <h3>@ViewBag.User.Name</h3>
+                <h4>@ViewBag.User.Url</h4>
+            </div>
+            <div>
+                <p>@ViewBag.User.Bio</p>
+            </div>
+        </div>
+    </div>
+    <div class="maxW d-flex flex-column gap-4">
+        @if (ViewBag.MyPosts != null && ViewBag.MyPosts != new List<Post>())
+        {
+            foreach (Post p in ViewBag.MyPosts)
+            {
+                <div class="maxW d-flex flex-column">
+                    <div class="maxW d-flex justify-content-between align-items-center pe-4 ps-4">
+                        <div class="d-flex gap-3 justify-content-center align-items-center">
+                            <div class="user"></div>
+                            <h4 class="no-config">@ViewBag.User.Name</h4>
+                        </div>
+                        <span class="material-symbols-outlined" style="height: 20px">
+                            more_horiz
+                        </span>
+                    </div>
+                    <hr class="maxW no-config" />
+                    @if (p.Archives != null && p.Archives.Count > 0)
+                    {
+                        <script>
+                            console.log('@p.Archives.Count')
+                        </script>
+                        string id = "carousel-" + p.Id.ToString();
+                        <div id="@id" class="carousel slide maxW" data-bs-ride="carousel" style="height: 150px;">
+                            <div class="carousel-inner maxW d-flex justify-content-center align-items-center">
+                                @foreach (Archive x in p.Archives)
+                                {
+                                    if (x.Link != "" && x.Link != null)
+                                    {
+                                        <div class="carousel-item active">
+                                            <p>This is Video</p>
+                                        </div>
+                                    }
+                                    else if (x.Type != ".mp4")
+                                    {
+                                        <div class="carousel-item">
+                                            <p>This is Image</p>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div class="carousel-item">
+                                            <p>This is Video Local</p>
+                                        </div>
+                                    }
+                                }
+                            </div>
+                            <button class="carousel-control-prev" type="button" data-bs-target="#@id" data-bs-slide="prev">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Previous</span>
+                            </button>
+                            <button class="carousel-control-next" type="button" data-bs-target="#@id" data-bs-slide="next">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Next</span>
+                            </button>
+                        </div>
+                    }
+                    <div class="maxW d-flex justify-content-center" style="height: 50px">
+
+                    </div>
+                    <div class="maxW ps-3 pe-3">
+                        <p>@p.Description</p>
+                    </div>
+                </div>
+            }
+        }
+        else
+        {
+            <div>
+                Não existe postagens ainda!!!
+            </div>
+        }
+
+    </div>
+</div>
