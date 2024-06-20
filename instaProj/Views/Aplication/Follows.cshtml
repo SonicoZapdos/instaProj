@@ -9,10 +9,31 @@
             </div>
         </div>
         <div class="col d-flex flex-column justify-content-center align-items-center" style="padding-top: 15px;">
-            @if (ViewBag.Following == null)
+
+            @* Card User *@
+            <div class="card w-100">
+                <div class="card-body p-4 text-black">
+                    <div class="d-flex align-items-center">
+                        <div class="flex-shrink-0">
+                            <img src="https://static.wikia.nocookie.net/bb9e7171-e0be-4410-897e-bb0305949cdb/scale-to-width/370"
+                                alt="Generic placeholder image" class="img-fluid rounded-circle"
+                                style="width: 70px; height: 70px;">
+                        </div>
+                        <div class="flex-grow-1 ms-3 h-100 d-flex align-content-center">
+                            <h6 style="font-size: 1.5rem; color: #e8e8e8">Gustavo</h6>
+                        </div>
+                        <button type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn-outline-light btn-rounded btn-sm d-flex justify-content-center"
+                                data-mdb-ripple-color="dark">
+                            + Seguir
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+@*             @if (ViewBag.Following == null)
             {
                 <h5>Você não está seguindo ninguém ainda.</h5>
-            }
+            } *@
         </div>
     </div>
 </div>
@@ -38,7 +59,7 @@
     }
 
     .box-follow-select:hover {
-        background-color: #dddd46;
+        background-color: #F3F6A1;
         border-radius: 50px;
     }
 
@@ -46,6 +67,11 @@
         background-color: #F4F440;
         border-radius: 50px;
     }
+
+    .card{
+        background-color: #292929;
+        border-radius: 15px;
+}
 </style>
 
 <script>
