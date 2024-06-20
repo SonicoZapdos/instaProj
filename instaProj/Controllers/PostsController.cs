@@ -76,7 +76,6 @@ namespace instaProj.Controllers
 
         public List<Post> ListPost()
         {
-            Console.WriteLine("FODASEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE");
             if (HttpContext.Session.GetString("USERLOGADO") != null && int.TryParse(HttpContext.Session.GetString("USERLOGADO"), out int id))
             {
                 return _context.Posts.Where(m => m.User_Id != id).ToList();

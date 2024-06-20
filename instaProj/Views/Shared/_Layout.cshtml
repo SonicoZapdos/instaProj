@@ -14,8 +14,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Concert+One&display=swap" rel="stylesheet" />
 </head>
 
-<body style="margin-bottom: 0px; height: 100vh">
-    <header style="height: 8vh">
+<body style="margin: 0px; height: 100vh;" id="body">
+    <header class="row no-config" id="header">
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark border-bottom">
             <div class="row" style="width: 100%;">
                 <div class="col d-flex justify-content-start gap-3">
@@ -33,7 +33,7 @@
             </div>
         </nav>
     </header>
-    <main role="main" style="width: 100%; height: 92vh">
+    <main role="main" id="main">
         @RenderBody()
     </main>
 </body>
@@ -110,3 +110,11 @@
         width: auto;
     }
 </style>
+
+<script>
+    var h = document.getElementById('header');
+    var m = document.getElementById('main');
+    var b = document.getElementById('body');
+    m.style.height = b.clientHeight - h.clientHeight + 'px';
+    console.log('height: ${b.clientHeight - h.clientHeight}' + (b.clientHeight - h.clientHeight));
+</script>
