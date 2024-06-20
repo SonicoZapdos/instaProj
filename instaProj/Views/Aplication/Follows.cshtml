@@ -9,10 +9,31 @@
             </div>
         </div>
         <div class="col d-flex flex-column justify-content-center align-items-center" style="padding-top: 15px;">
-            @if (ViewBag.Following == null)
+
+            @* Card User *@
+            <div class="card w-100" style="border-radius: 15px; background-color: yellow;">
+                <div class="card-body p-4 text-black">
+                    <div class="d-flex align-items-center">
+                        <div class="flex-shrink-0">
+                            <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-profiles/avatar-2.webp"
+                                 alt="Generic placeholder image" class="img-fluid rounded-circle border border-dark border-3"
+                                 style="width: 70px; height: 70px">
+                        </div>
+                        <div class="flex-grow-1 ms-3 h-100 d-flex align-content-center">
+                            <h6 style="font-size: 1.5rem">Gustavo</h6>
+                        </div>
+                        <button type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn-outline-dark btn-rounded btn-sm d-flex justify-content-end"
+                                data-mdb-ripple-color="dark">
+                            + Follow
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+@*             @if (ViewBag.Following == null)
             {
                 <h5>Você não está seguindo ninguém ainda.</h5>
-            }
+            } *@
         </div>
     </div>
 </div>
