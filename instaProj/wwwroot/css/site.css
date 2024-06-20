@@ -17,6 +17,10 @@ body {
     margin-bottom: 60px;
 }
 
+.box-post {
+    background-color: lightgray;
+}
+
 /*
 Paleta de Cores
 #292929 - Preto
@@ -171,21 +175,22 @@ Vermelhos
     .fav .star-regular {
         position: absolute;
         animation: keyframes-star .5s;
-        display: none
+        display: block;
     }
 
     .fav .star-solid {
         position: absolute;
         animation: keyframes-star .5s;
+        display: none;
     }
 
     /* ------ On check event ------ */
     .fav input:checked ~ .star-regular {
-        display: block;
+        display: none;
     }
 
     .fav input:checked ~ .star-solid {
-        display: none;
+        display: block;
     }
 
     /* ------ Hide the default checkbox ------ */
@@ -220,4 +225,10 @@ Vermelhos
 .vlr {
     border-left: 1px solid #dee2e6;
     box-shadow: 0px 2px 2px 2px #dee2e6;
+}
+
+.hrdiv {
+    box-shadow: 0px 1px 1px 3px darkgray;
+    margin: 0px;
+    margin-bottom: 30px;
 }

@@ -50,7 +50,7 @@ namespace instaProj.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CreatePost([Bind("Id, Description, DatePub, Private, User_Id, ContLike")] Post post, List<IFormFile> Archives)
+        public async Task<IActionResult> CreatePost([Bind("Id, Description, DatePub, Private, User_Id, ContLike")] Post post, List<IFormFile> Archives, List<string> Link)
         {
             if (ModelState.IsValid)
             {
@@ -66,6 +66,10 @@ namespace instaProj.Controllers
                     if (Archives != null && Archives.Count > 0)
                     {
                         await CreateArchive(post.Id, Archives);
+                    }
+                    if (Link != null && Link.Count > 0)
+                    {
+                        await CreateLink(post.Id, Link);
                     }
 
                     return Json(new { success = true, redirectUrl = Url.Action("Main", "Aplication") }); // Retorna JSON com a URL de redirecionamento
@@ -119,6 +123,26 @@ namespace instaProj.Controllers
             }
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task CreateLink(int postId, List<string> link)
+        {
+            foreach (var l in link)
+            {
+                if (l != null && l != "")
+                {
+                    var archiveEntry = new Archive
+                    {
+                        Link = l.Substring(32),
+                        Post_Id = postId,
+                    };
+
+                    _context.Add(archiveEntry); // Adiciona o registro do arquivo ao contexto do banco de dados
+                    await _context.SaveChangesAsync(); // Salva as mudanças no banco de dados
+                }
+            }
+        }
+
         public string VerificaExtensao(string nomeArquivo)
         {
             string extensaoArquivo = Path.GetExtension(nomeArquivo).ToLower();
@@ -133,23 +157,6 @@ namespace instaProj.Controllers
             const string caracteres = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
             Random random = new();
             return new string(Enumerable.Range(0, comprimento).Select(_ => caracteres[random.Next(caracteres.Length)]).ToArray());
-        }
-
-        // POST: Posts/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Description,ContLike,DatePub,Private,User_Id")] Post post)
-        {
-            if (ModelState.IsValid)
-            {
-                _context.Add(post);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            ViewData["User_Id"] = new SelectList(_context.Users, "Id", "Email", post.User_Id);
-            return View(post);
         }
 
         // GET: Posts/Edit/5
