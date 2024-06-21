@@ -129,7 +129,14 @@ namespace instaProj.Controllers
             return RedirectToAction("verifyLogin", "Users");
         }
 
-        public async Task<IActionResult> VerifyLogin()
+        public IActionResult Logout()
+        {
+            HttpContext.Session.Clear();
+
+            return RedirectToAction("verifyLogin", "Users");
+        }
+
+        public async Task<IActionResult> verifyLogin()
         {
             string? userId = HttpContext.Session.GetString("USERLOGADO");
 
