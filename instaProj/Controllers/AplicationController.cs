@@ -92,6 +92,11 @@ namespace instaProj.Controllers
             return View();
         }
 
+        public IActionResult UpdateUser()
+        {
+            return View();
+        }
+
         public IActionResult Menu()
         {
             return View();
