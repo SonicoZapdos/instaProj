@@ -36,7 +36,7 @@ namespace instaProj.Controllers
                     ViewBag.Following = _context.Follows.Where(m => m.User_Id_Followed == id);
                     ViewBag.Followed = _context.Follows.Where(m => m.User_Id_Following == id);
                     ViewBag.MainPage = page ?? "ForYou";
-                    List<Post> post = _context.Posts.Where(m => m.User_Id == id).ToList() ?? new List<Post>();
+                    List<Post> post = _context.Posts.Where(m => m.User_Id == id).OrderBy(m => m.DatePub).Reverse().ToList() ?? new List<Post>();
                     foreach (Post p in post) 
                     {
                         p.Archives = _context.Archives.Where(m => m.Post_Id == p.Id).ToList();
