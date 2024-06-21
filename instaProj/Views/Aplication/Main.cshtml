@@ -10,9 +10,16 @@
         <partial name="Menu" />
     </div>
     <div class="col-6 no-config" style="height: 100%" id="mainContainer">
-        <partial name="@view" /> @{
+        @if (ViewBag.Model != null)
+        {
+           <partial name="@view" model="@ViewBag.User" />
             /* - Partial Indexar uma página na outra - */
         }
+        else
+        {
+            <partial name="@view" />
+        }
+
     </div>
     <div class="col vlr no-config" style="height: 100%">
         <partial name="Follows" />

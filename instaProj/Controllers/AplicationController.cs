@@ -51,7 +51,14 @@ namespace instaProj.Controllers
                         p.Comment = _context.Comments.Where(m => m.Post_Id == p.Id).ToList() ?? new List<Comment>();
                     }
                     ViewBag.MyPosts = post;
-
+                    if (page == "UpdateUser")
+                    {
+                        ViewBag.Model = ViewBag.User;
+                    }
+                    else
+                    {
+                        ViewBag.Model = null;
+                    }
                     post = _context.Posts.Where(m => m.User_Id != id).Include(m => m.User).ToList() ?? new List<Post>();
                     foreach (Post p in post)
                     {
