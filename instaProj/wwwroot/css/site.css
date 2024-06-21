@@ -232,3 +232,38 @@ Vermelhos
     margin: 0px;
     margin-bottom: 30px;
 }
+
+.linkA {
+    animation-timing-function: linear;
+}
+
+@keyframes mymove {
+    from {
+        
+        width: 0px;
+    }
+
+    to {
+        width: 300px;
+    }
+}
+
+.linkA {
+    width: 200px;
+    height: 50px;
+    animation: mymove 0.5s;
+    animation-fill-mode: forwards;
+    
+}
+
+input{
+    overflow:hidden;
+}
+
+.post_desc {
+    text-indent: 25px;
+    text-align: justify;
+    word-wrap: break-word;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}

@@ -55,9 +55,9 @@
                             </label>
                         </div>
                         <div class="d-none w-auto gap-1" id="linkShow">
-                            <div class="form-floating" style="height: 40px">
+                            <div class="form-floating linkA" style="height: 40px">
                                 <input type="url" class="form-control p-0" id="linkInput" placeholder="Insira um Link" style="height: 40px">
-                                <label class="pt-2" for="linkInput">Insira um Link</label>
+                                <label class="pt-2" for="linkInput" style="overflow:hidden;">Insira um Link</label>
                             </div>
                             <button type="button" onclick="stringSelect()" class="btn btn-primary">Enviar</button>
                             <div class="form-check d-none">
@@ -188,8 +188,9 @@
 
 
                     </div>
+                    <hr>
                     <div class="maxW ps-3 pe-3">
-                        <p>@p.Description</p>
+                        <p class="post_desc">@p.Description</p>
                     </div>
                 </div>
                 <hr class="maxW hrdiv" />
@@ -277,6 +278,8 @@
         .btn-icon:focus {
             outline: none;
         }
+
+        twtaw
 
     /* Garantir que as imagens do carrossel tenham uma altura de 200px */
     .carousel-inner img {

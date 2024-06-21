@@ -129,7 +129,7 @@ namespace instaProj.Controllers
             return RedirectToAction("verifyLogin", "Users");
         }
 
-        public async Task<IActionResult> verifyLogin()
+        public async Task<IActionResult> VerifyLogin()
         {
             string? userId = HttpContext.Session.GetString("USERLOGADO");
 
@@ -167,6 +167,9 @@ namespace instaProj.Controllers
             });
             return Ok("Cookie gravado com sucesso!");
         }
+
+
+
 
         // GET: Users/Edit/5
         public async Task<IActionResult> Edit(int? id)
