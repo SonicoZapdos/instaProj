@@ -189,7 +189,7 @@ namespace instaProj.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Email,Password,Telefone,Url,Bio")] User user)
+        public async Task<IActionResult> UpdateUser(int id, [Bind("Id,Name,Email,Password,Telefone,Url,Bio")] User user)
         {
             if (id != user.Id)
             {
@@ -214,7 +214,7 @@ namespace instaProj.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Main","Aplication", new { page = "MyPage"});
             }
             return View(user);
         }

@@ -40,8 +40,40 @@ namespace instaProj.Controllers
                     foreach (Post p in post) 
                     {
                         p.Archives = _context.Archives.Where(m => m.Post_Id == p.Id).ToList();
+                        if (_context.Ratings.FirstOrDefault(m => m.Post_Id == p.Id && m.User_Id == id) != null)
+                        {
+                            p.Rating = true;
+                        }
+                        else
+                        {
+                            p.Rating = false;
+                        }
+                        p.Comment = _context.Comments.Where(m => m.Post_Id == p.Id).ToList() ?? new List<Comment>();
                     }
                     ViewBag.MyPosts = post;
+                    if (page == "UpdateUser")
+                    {
+                        ViewBag.Model = ViewBag.User;
+                    }
+                    else
+                    {
+                        ViewBag.Model = null;
+                    }
+                    post = _context.Posts.Where(m => m.User_Id != id).Include(m => m.User).ToList() ?? new List<Post>();
+                    foreach (Post p in post)
+                    {
+                        p.Archives = _context.Archives.Where(m => m.Post_Id == p.Id).ToList();
+                        if (_context.Ratings.FirstOrDefault(m => m.Post_Id == p.Id && m.User_Id == id) != null)
+                        {
+                            p.Rating = true;
+                        }
+                        else
+                        {
+                            p.Rating = false;
+                        }
+                        p.Comment = _context.Comments.Where(m => m.Post_Id == p.Id).ToList() ?? new List<Comment>();
+                    }
+                    ViewBag.OtherPosts = post;
                 }
                 return View();
             }
@@ -67,6 +99,11 @@ namespace instaProj.Controllers
             return View();
         }
 
+        public IActionResult UpdateUser()
+        {
+            return View();
+        }
+
         public IActionResult Menu()
         {
             return View();
@@ -78,6 +115,31 @@ namespace instaProj.Controllers
         public IActionResult Login()
         {
             return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Favorite(int post)
+        {
+            if (post != 0 && HttpContext.Session.GetString("USERLOGADO") != null && int.TryParse(HttpContext.Session.GetString("USERLOGADO"), out int id))
+            {
+                Rating r = await _context.Ratings.FirstOrDefaultAsync(m => m.User_Id == id && m.Post_Id == post);
+                if (r == null)
+                {
+                    Rating rNew = new Rating
+                    {
+                        User_Id = id,
+                        Post_Id = post
+                    };
+                    _context.Ratings.Add(rNew);
+                    return Json(new { success = true, redirectUrl = Url.Action("Main", "Aplication") }); // Retorna JSON com a URL de redirecionamento
+                }
+                else
+                {
+                    _context.Ratings.Remove(r);
+                }
+            }
+            return Json(new { success = true, redirectUrl = Url.Action("Main", "Aplication") }); // Retorna JSON com a URL de redirecionamento
         }
         /* if (arqRecebido == null && imagem.imagemLink != "")
             {

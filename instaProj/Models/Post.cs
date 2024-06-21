@@ -18,5 +18,12 @@ namespace instaProj.Models
         [NotMapped]
         [JsonIgnore]
         public List<Archive>? Archives { get; set; }
+        [NotMapped]
+        [JsonIgnore]
+        public bool Rating { get; set; }
+        [NotMapped]
+        [JsonIgnore]
+        public List<Comment>? Comment { get; set; }
+
     }
 }
