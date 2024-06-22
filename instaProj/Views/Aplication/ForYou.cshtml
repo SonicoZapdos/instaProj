@@ -72,6 +72,7 @@
                     </div>
                 </div>
             </form>
+            <div id="error-message" class="text-danger" style="display: none;">Por favor, preencha a descrição ou adicione pelo menos um arquivo.</div>
         </div>
     </div>
 
@@ -153,12 +154,12 @@
                                     }
                                 }
                             </div>
-                            <button class="carousel-control-prev" type="button" data-bs-target="#@id" data-bs-slide="prev">
-                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <button class="carousel-control-prev small-carousel-control" type="button" data-bs-target="#@id" data-bs-slide="prev">
+                                <span class="carousel-control-prev-icon small-carousel-icon" aria-hidden="true"></span>
                                 <span class="visually-hidden">Previous</span>
                             </button>
-                            <button class="carousel-control-next" type="button" data-bs-target="#@id" data-bs-slide="next">
-                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <button class="carousel-control-next small-carousel-control" type="button" data-bs-target="#@id" data-bs-slide="next">
+                                <span class="carousel-control-next-icon small-carousel-icon" aria-hidden="true"></span>
                                 <span class="visually-hidden">Next</span>
                             </button>
                         </div>
@@ -279,8 +280,7 @@
             outline: none;
         }
 
-        twtaw
-
+    twtaw
     /* Garantir que as imagens do carrossel tenham uma altura de 200px */
     .carousel-inner img {
         height: 200px;
@@ -355,11 +355,11 @@
                     const item = document.createElement('div');
                     item.className = 'carousel-item' + (index === 0 ? ' active' : '');
                     item.innerHTML = `
-                                                    <img src="${e.target.result}" class="maxW" style="height: 300px" alt="Imagem Selecionada">
-                                                        <button type="button" class="remove-btn z-3" onclick="removeFile(${index})"><span class="material-symbols-outlined no-config">
-                            close
-                            </span></button>
-                                                `;
+                                                        <img src="${e.target.result}" class="maxW" style="height: 300px" alt="Imagem Selecionada">
+                                                            <button type="button" class="remove-btn z-3" onclick="removeFile(${index})"><span class="material-symbols-outlined no-config">
+                                close
+                                </span></button>
+                                                    `;
                     carouselInner.appendChild(item);
                     document.getElementById('carouselExampleControls').classList.remove('d-none');
                 };
@@ -370,11 +370,11 @@
                 var linkShow = 'http://img.youtube.com/vi/' + file.substring(32) + '/0.jpg';
                 item.className = 'carousel-item' + (index === 0 ? ' active' : '');
                 item.innerHTML = `
-                                                                <img src="${linkShow}" class="maxW" style="height: 300px" alt="Imagem Selecionada">
-                                                            <button type="button" class="remove-btn z-3" onclick="removeFile(${index})"><span class="material-symbols-outlined no-config">
-                                close
-                                </span></button>
-                                                    `;
+                                                                    <img src="${linkShow}" class="maxW" style="height: 300px" alt="Imagem Selecionada">
+                                                                <button type="button" class="remove-btn z-3" onclick="removeFile(${index})"><span class="material-symbols-outlined no-config">
+                                    close
+                                    </span></button>
+                                                        `;
                 carouselInner.appendChild(item);
                 document.getElementById('carouselExampleControls').classList.remove('d-none');
             }
@@ -392,13 +392,22 @@
     document.getElementById('postForm').addEventListener('submit', function (event) {
         event.preventDefault(); // Evitar o envio automático do formulário
 
+        const description = document.getElementById('floatingTextarea').value.trim();
+        const errorMessage = document.getElementById('error-message');
+
+        if (description === "" && selectedFiles.length === 0) {
+            errorMessage.style.display = 'block';
+            return;
+        } else {
+            errorMessage.style.display = 'none';
+        }
+
         const formData = new FormData(this);
         selectedFiles.forEach((file, index) => {
             if (typeof file !== 'string') {
                 formData.append('Archives', file); // Adicionar cada arquivo ao FormData
-            }
-            else {
-                formData.append('Link', file); // Adicionar cada link ao FormData
+            } else {
+                formData.append('Links', file); // Adicionar cada link ao FormData
             }
         });
 
@@ -431,10 +440,10 @@
         if (document.getElementById('checkLink').checked) {
             link.classList.remove('d-none');
             link.classList.add('d-flex');
-        }
-        else {
+        } else {
             link.classList.add('d-none');
             link.classList.remove('d-flex');
         }
     }
 </script>
+
