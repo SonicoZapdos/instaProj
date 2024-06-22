@@ -1,43 +1,95 @@
-﻿<div class="col">
+﻿@{
+    ViewData["Title"] = "Página de Seguidores";
+    var followers = ViewBag.Followers as List<instaProj.Models.Follow>;
+    var followings = ViewBag.Followings as List<instaProj.Models.Follow>;
+}
+
+<div class="col">
     <div class="no-config p-3">
         <div class="row">
             <div class="col box-follow-select" id="following" onclick="changeList(1)">
-                <h6 class="no-config text-select">SEGUINDO</h6>
+                <h6 class="no-config text-select">SEGUINDO (@ViewBag.FollowingCount)</h6>
             </div>
             <div class="col box-follow-select" id="followed" onclick="changeList(2)">
-                <h6 class="no-config text-select">SEGUIDORES</h6>
+                <h6 class="no-config text-select">SEGUIDORES (@ViewBag.FollowerCount)</h6>
             </div>
         </div>
-        <div class="col d-flex flex-column justify-content-center align-items-center" style="padding-top: 15px;">
+        <div class="w-100 col d-flex flex-column justify-content-center align-items-center" style="padding-top: 15px;">
 
-            @* Card User *@
-            <div class="card w-100">
-                <div class="card-body p-4 text-black">
-                    <div class="d-flex align-items-center">
-                        <div class="flex-shrink-0">
-                            <img src="https://static.wikia.nocookie.net/bb9e7171-e0be-4410-897e-bb0305949cdb/scale-to-width/370"
-                                alt="Generic placeholder image" class="img-fluid rounded-circle"
-                                style="width: 70px; height: 70px;">
-                        </div>
-                        <div class="flex-grow-1 ms-3 h-100 d-flex align-content-center">
-                            <h6 style="font-size: 1.5rem; color: #e8e8e8">Gustavo</h6>
-                        </div>
-                        <button type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn-outline-light btn-rounded btn-sm d-flex justify-content-center"
-                                data-mdb-ripple-color="dark">
-                            + Seguir
-                        </button>
-                    </div>
-                </div>
+
+            <div id="seguindo-lista" class="w-100">
+                @if (followings != null && followings.Count > 0)
+                {
+                    <h5>Seguindo:</h5>
+                    <ul>
+                        @foreach (var following in followings)
+                        {
+                            @* Card User *@
+                            <div class="card w-100">
+                                <div class="card-body p-4 text-black">
+                                    <div class="d-flex align-items-center">
+                                        <div class="flex-shrink-0">
+                                            <img src="@following.User_Followed?.PictureLocal"
+                                                 alt="Imagem genérica" class="img-fluid rounded-circle"
+                                                 style="width: 70px; height: 70px;">
+                                        </div>
+                                        <div class="flex-grow-1 ms-3 h-100 d-flex align-content-center">
+                                            <h6 style="font-size: 1.5rem; color: #e8e8e8">@following.User_Followed?.Name</h6>
+                                        </div>
+                                        <button type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn-outline-light btn-rounded btn-sm d-flex justify-content-center"
+                                                data-mdb-ripple-color="dark">
+                                            - Seguir
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </ul>
+                }
+                else
+                {
+
+                    <h5>Você não está seguindo ninguém ainda.</h5>
+                }
             </div>
 
-@*             @if (ViewBag.Following == null)
-            {
-                <h5>Você não está seguindo ninguém ainda.</h5>
-            } *@
+            <div id="seguidores-lista" style="display: none;" class="w-100">
+                @if (followers != null && followers.Count > 0)
+                {
+                    <h5>Seguidores:</h5>
+                    <ul>
+                        @foreach (var follower in followers)
+                        {
+                            @* Card User *@
+                            <div class="card w-100">
+                                <div class="card-body p-4 text-black">
+                                    <div class="d-flex align-items-center">
+                                        <div class="flex-shrink-0">
+                                            <img src="@ViewBag."
+                                                 alt="Imagem genérica" class="img-fluid rounded-circle"
+                                                 style="width: 70px; height: 70px;">
+                                        </div>
+                                        <div class="flex-grow-1 ms-3 h-100 d-flex align-content-center">
+                                            <h6 style="font-size: 1.5rem; color: #e8e8e8">@follower.User_Followed.Name</h6>
+                                        </div>
+                                        <button type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn-outline-light btn-rounded btn-sm d-flex justify-content-center"
+                                                data-mdb-ripple-color="dark">
+                                            + Seguir
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </ul>
+                }
+                else
+                {
+                    <h5>Você não tem seguidores ainda.</h5>
+                }
+            </div>
         </div>
     </div>
 </div>
-
 
 <style>
     .box-follow {
@@ -56,38 +108,49 @@
         justify-content: center;
         color: #292929;
         border-radius: 50px;
+        cursor: pointer;
     }
 
-    .box-follow-select:hover {
-        background-color: #F3F6A1;
-        border-radius: 50px;
-    }
+        .box-follow-select:hover {
+            background-color: #F3F6A1;
+            border-radius: 50px;
+        }
 
     .select-follow {
         background-color: #F4F440;
         border-radius: 50px;
     }
 
-    .card{
+    .card {
         background-color: #292929;
         border-radius: 15px;
-}
+    }
 </style>
 
 <script>
-    var fing = document.getElementById('following');
-    var fed = document.getElementById('followed');
-    fing.classList.add('select-follow');
+    var followingTab = document.getElementById('following');
+    var followersTab = document.getElementById('followed');
+    var followingList = document.getElementById('seguindo-lista');
+    var followersList = document.getElementById('seguidores-lista');
 
+    // Inicialmente, exibe a lista de seguindo
+    followingTab.classList.add('select-follow');
+    followingList.style.display = 'block';
+    followersList.style.display = 'none';
 
     function changeList(index) {
-        if (index == 1) {
-            fing.classList.add('select-follow');
-            fed.classList.remove('select-follow');
-        }
-        else {
-            fing.classList.remove('select-follow');
-            fed.classList.add('select-follow');
+        if (index === 1) {
+            followingTab.classList.add('select-follow');
+            followersTab.classList.remove('select-follow');
+            followingList.style.display = 'block';
+            followersList.style.display = 'none';
+        } else {
+            followingTab.classList.remove('select-follow');
+            followersTab.classList.add('select-follow');
+            followingList.style.display = 'none';
+            followersList.style.display = 'block';
         }
     }
 </script>
+
+
