@@ -56,7 +56,7 @@ Vermelhos
 /* BOTOES */
 .btnPu1 {
     width: 130px;
-    height: auto;
+    height: 40px;
     background-color: #F4F440;
     color: #292929;
 }
@@ -64,7 +64,7 @@ Vermelhos
     .btnPu1:hover {
         background-color: #d9d93a;
         box-shadow: none;
-        border: transparent;
+        border: #d9d93a;
     }
 
 .btnPu2 {

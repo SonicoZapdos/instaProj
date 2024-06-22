@@ -5,9 +5,9 @@
 }
 
 @* POP-UP LOGIN *@
-<div class="modal" tabindex="-1" id="loginModal" aria-labelledby="loginModalLabel" aria-hidden="true"
-     style="height:100vh">
-    <div class="modal-dialog modal-dialog-centered">
+<div class="modal fade" tabindex="-1" id="loginModal" aria-labelledby="loginModalLabel" aria-hidden="true"
+     style="height:100vh;">
+    <div class="modal-dialog modal-dialog-centered d-flex justify-content-center">
         <form asp-action="Login" asp-controller="Users">
             <div class="modal-content">
                 <div class="modal-body d-flex flex-column gap-3 align-items-center justify-content-center maxW">
@@ -34,7 +34,7 @@
                             <span asp-validation-for="Password" class="text-danger"></span>
                         </div>
                     </div>
-                    <input type="submit" value="Entrar" class="btn btnPu1" />
+                    <input type="submit" value="Entrar" class="btn btnPu1 " />
                 </div>
             </div>
         </form>
@@ -46,7 +46,6 @@
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-body d-flex flex-column gap-3 align-items-center justify-content-center maxW">
-
                 <div class="row maxW">
                     <div class="col"></div>
                     <div class="col d-flex justify-content-center">
@@ -128,6 +127,9 @@
         background: rgb(244, 244, 64);
         background: radial-gradient(circle, rgba(244, 244, 64, 1) 0%, rgba(232, 232, 232, 1) 80%);
         color: #292929;
+
+        display:flex;
+        justify-content: center;
     }
 
     .centralized-div {
