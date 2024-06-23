@@ -31,7 +31,7 @@
                                         <div class="flex-shrink-0">
                                             @if (following.User_Followed?.PictureLocal != null)
                                             {
-                                                <img src="@following.User_Followed?.PictureLocal"
+                                                <img src="@following.User_Following?.PictureLocal"
                                                      alt="Imagem genérica" class="img-fluid rounded-circle"
                                                      style="width: 70px; height: 70px;">
                                             }
@@ -44,7 +44,7 @@
 
                                         </div>
                                         <div class="flex-grow-1 ms-3 h-100 d-flex align-content-center">
-                                            <h6 style="font-size: 1.5rem; color: #e8e8e8">@following.User_Followed?.Name</h6>
+                                            <h6 style="font-size: 1.5rem; color: #e8e8e8">@following.User_Following?.Name</h6>
                                         </div>
                                         <button type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn-outline-light btn-rounded btn-sm d-flex justify-content-center"
                                                 data-mdb-ripple-color="dark">

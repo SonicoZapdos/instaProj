@@ -33,8 +33,8 @@ namespace instaProj.Controllers
                 if (pessoaLogada != null)
                 {
                     ViewBag.User = pessoaLogada;
-                    ViewBag.Following = _context.Follows.Where(m => m.User_Id_Followed == id);
-                    ViewBag.Followed = _context.Follows.Where(m => m.User_Id_Following == id);
+                    ViewBag.Following = _context.Follows.Where(m => m.User_Id_Followed == id).Include(m => m.User_Following);
+                    ViewBag.Followed = _context.Follows.Where(m => m.User_Id_Following == id).Include(m => m.User_Followed);
                     ViewBag.MainPage = page ?? "ForYou";
                     List<Post> post = _context.Posts.Where(m => m.User_Id == id).OrderBy(m => m.DatePub).Reverse().ToList() ?? new List<Post>();
                     foreach (Post p in post) 
