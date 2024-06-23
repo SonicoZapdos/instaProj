@@ -1,37 +1,47 @@
 ﻿@{
     ViewData["Title"] = "Página de Seguidores";
-    var followers = ViewBag.Followers as List<instaProj.Models.Follow>;
-    var followings = ViewBag.Followings as List<instaProj.Models.Follow>;
+    int contar = ((IEnumerable<object>)ViewBag.Following).Count();
+    int contar2 = ((IEnumerable<object>)ViewBag.Followed).Count();
 }
 
 <div class="col">
     <div class="no-config p-3">
         <div class="row">
             <div class="col box-follow-select" id="following" onclick="changeList(1)">
-                <h6 class="no-config text-select">SEGUINDO (@ViewBag.FollowingCount)</h6>
+                <h6 class="no-config text-select">SEGUINDO (@contar)</h6>
             </div>
             <div class="col box-follow-select" id="followed" onclick="changeList(2)">
-                <h6 class="no-config text-select">SEGUIDORES (@ViewBag.FollowerCount)</h6>
+                <h6 class="no-config text-select">SEGUIDORES (@contar2)</h6>
             </div>
         </div>
         <div class="w-100 col d-flex flex-column justify-content-center align-items-center" style="padding-top: 15px;">
 
 
             <div id="seguindo-lista" class="w-100">
-                @if (followings != null && followings.Count > 0)
+                @if (ViewBag.Following != null)
                 {
                     <h5>Seguindo:</h5>
                     <ul>
-                        @foreach (var following in followings)
+                        @foreach (var following in ViewBag.Following)
                         {
                             @* Card User *@
-                            <div class="card w-100">
+                            <div class="card w-100 mt-3">
                                 <div class="card-body p-4 text-black">
                                     <div class="d-flex align-items-center">
                                         <div class="flex-shrink-0">
-                                            <img src="@following.User_Followed?.PictureLocal"
-                                                 alt="Imagem genérica" class="img-fluid rounded-circle"
-                                                 style="width: 70px; height: 70px;">
+                                            @if (following.User_Followed?.PictureLocal != null)
+                                            {
+                                                <img src="@following.User_Followed?.PictureLocal"
+                                                     alt="Imagem genérica" class="img-fluid rounded-circle"
+                                                     style="width: 70px; height: 70px;">
+                                            }
+                                            else
+                                            {
+                                                <img src="https://p2.trrsf.com/image/fget/cf/1200/900/middle/images.terra.com/2024/03/26/kaiju-no-8-to1unk3bslyo.jpg"
+                                                     alt="Imagem genérica" class="img-fluid rounded-circle"
+                                                     style="width: 70px; height: 70px;">
+                                            }
+
                                         </div>
                                         <div class="flex-grow-1 ms-3 h-100 d-flex align-content-center">
                                             <h6 style="font-size: 1.5rem; color: #e8e8e8">@following.User_Followed?.Name</h6>
@@ -54,23 +64,32 @@
             </div>
 
             <div id="seguidores-lista" style="display: none;" class="w-100">
-                @if (followers != null && followers.Count > 0)
+                @if (ViewBag.Followed != null)
                 {
                     <h5>Seguidores:</h5>
                     <ul>
-                        @foreach (var follower in followers)
+                        @foreach (var follower in ViewBag.Followed)
                         {
                             @* Card User *@
-                            <div class="card w-100">
+                            <div class="card w-100 mt-3">
                                 <div class="card-body p-4 text-black">
                                     <div class="d-flex align-items-center">
                                         <div class="flex-shrink-0">
-                                            <img src="@ViewBag."
+                                            @if(follower.User_Followed?.PictureLocal != null){
+                                                <img src="@follower.User_Followed?.PictureLocal"
+                                                     alt="Imagem genérica" class="img-fluid rounded-circle"
+                                                style="width: 70px; height: 70px;">
+                                            }
+                                            else
+                                            {
+                                            <img src="https://www.otempo.com.br/content/dam/otempo/editorias/entretenimento/filmes-e-series/2023/10/entretenimento-pluto-como-o-anime-da-netflix-se-conecta-a-astro-boy-1708750812.jpeg"
                                                  alt="Imagem genérica" class="img-fluid rounded-circle"
                                                  style="width: 70px; height: 70px;">
+                                            }
+
                                         </div>
                                         <div class="flex-grow-1 ms-3 h-100 d-flex align-content-center">
-                                            <h6 style="font-size: 1.5rem; color: #e8e8e8">@follower.User_Followed.Name</h6>
+                                            <h6 style="font-size: 1.5rem; color: #e8e8e8">@follower.User_Followed?.Name</h6>
                                         </div>
                                         <button type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn-outline-light btn-rounded btn-sm d-flex justify-content-center"
                                                 data-mdb-ripple-color="dark">
