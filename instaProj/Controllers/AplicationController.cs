@@ -33,8 +33,8 @@ namespace instaProj.Controllers
                 if (pessoaLogada != null)
                 {
                     ViewBag.User = pessoaLogada;
-                    ViewBag.Following = _context.Follows.Where(m => m.User_Id_Followed == id).Include(m => m.User_Following);
-                    ViewBag.Followed = _context.Follows.Where(m => m.User_Id_Following == id).Include(m => m.User_Followed);
+                    ViewBag.Following = _context.Follows.Where(m => m.User_Id_Followed == id).Include(m => m.User_Following).ToList() ?? new List<Follow>();
+                    ViewBag.Followed = _context.Follows.Where(m => m.User_Id_Following == id).Include(m => m.User_Followed).ToList() ?? new List<Follow>();
                     ViewBag.MainPage = page ?? "ForYou";
                     List<Post> post = _context.Posts.Where(m => m.User_Id == id).OrderBy(m => m.DatePub).Reverse().ToList() ?? new List<Post>();
                     foreach (Post p in post) 
@@ -123,7 +123,7 @@ namespace instaProj.Controllers
         {
             if (post != 0 && HttpContext.Session.GetString("USERLOGADO") != null && int.TryParse(HttpContext.Session.GetString("USERLOGADO"), out int id))
             {
-                Rating r = await _context.Ratings.FirstOrDefaultAsync(m => m.User_Id == id && m.Post_Id == post);
+                Rating? r = await _context.Ratings.FirstOrDefaultAsync(m => m.User_Id == id && m.Post_Id == post);
                 if (r == null)
                 {
                     Rating rNew = new Rating
