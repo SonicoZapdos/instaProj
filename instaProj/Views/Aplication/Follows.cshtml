@@ -15,8 +15,6 @@
             </div>
         </div>
         <div class="w-100 col d-flex flex-column justify-content-center align-items-center" style="padding-top: 15px;">
-
-
             <div id="seguindo-lista" class="w-100">
                 @if (ViewBag.Following != null)
                 {
@@ -24,12 +22,11 @@
                     <ul>
                         @foreach (var following in ViewBag.Following)
                         {
-                            @* Card User *@
                             <div class="card w-100 mt-3">
                                 <div class="card-body p-4 text-black">
                                     <div class="d-flex align-items-center">
                                         <div class="flex-shrink-0">
-                                            @if (following.User_Followed?.PictureLocal != null)
+                                            @if (following.User_Following?.PictureLocal != null)
                                             {
                                                 <img src="@following.User_Following?.PictureLocal"
                                                      alt="Imagem genérica" class="img-fluid rounded-circle"
@@ -41,15 +38,15 @@
                                                      alt="Imagem genérica" class="img-fluid rounded-circle"
                                                      style="width: 70px; height: 70px;">
                                             }
-
                                         </div>
                                         <div class="flex-grow-1 ms-3 h-100 d-flex align-content-center">
-                                            <h6 style="font-size: 1.5rem; color: #e8e8e8">@following.User_Following?.Name</h6>
+                                            <h6 style="font-size: 1.5rem; color: #e8e8e8; overflow: hidden; text-overflow:ellipsis; background-color: rebeccapurple; height:30px">@following.User_Following?.Name</h6>
                                         </div>
-                                        <button type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn-outline-light btn-rounded btn-sm d-flex justify-content-center"
-                                                data-mdb-ripple-color="dark">
-                                            - Seguir
-                                        </button>
+                                        <form asp-action="Unfollow" asp-controller="Aplication" method="post">
+                                            @Html.AntiForgeryToken()
+                                            <input type="hidden" name="followedId" value="@following.User_Following.Id" />
+                                            <button type="submit" class="btn btn-outline-light btn-rounded btn-sm d-flex justify-content-center">- Seguir</button>
+                                        </form>
                                     </div>
                                 </div>
                             </div>
@@ -58,7 +55,6 @@
                 }
                 else
                 {
-
                     <h5>Você não está seguindo ninguém ainda.</h5>
                 }
             </div>
@@ -70,31 +66,31 @@
                     <ul>
                         @foreach (var follower in ViewBag.Followed)
                         {
-                            @* Card User *@
                             <div class="card w-100 mt-3">
                                 <div class="card-body p-4 text-black">
                                     <div class="d-flex align-items-center">
                                         <div class="flex-shrink-0">
-                                            @if(follower.User_Followed?.PictureLocal != null){
+                                            @if (follower.User_Followed?.PictureLocal != null)
+                                            {
                                                 <img src="@follower.User_Followed?.PictureLocal"
                                                      alt="Imagem genérica" class="img-fluid rounded-circle"
-                                                style="width: 70px; height: 70px;">
+                                                     style="width: 70px; height: 70px;">
                                             }
                                             else
                                             {
-                                            <img src="https://www.otempo.com.br/content/dam/otempo/editorias/entretenimento/filmes-e-series/2023/10/entretenimento-pluto-como-o-anime-da-netflix-se-conecta-a-astro-boy-1708750812.jpeg"
-                                                 alt="Imagem genérica" class="img-fluid rounded-circle"
-                                                 style="width: 70px; height: 70px;">
+                                                <img src="https://www.otempo.com.br/content/dam/otempo/editorias/entretenimento/filmes-e-series/2023/10/entretenimento-pluto-como-o-anime-da-netflix-se-conecta-a-astro-boy-1708750812.jpeg"
+                                                     alt="Imagem genérica" class="img-fluid rounded-circle"
+                                                     style="width: 70px; height: 70px;">
                                             }
-
                                         </div>
                                         <div class="flex-grow-1 ms-3 h-100 d-flex align-content-center">
-                                            <h6 style="font-size: 1.5rem; color: #e8e8e8">@follower.User_Followed?.Name</h6>
+                                            <h6 style="font-size: 1.5rem; color: #e8e8e8; overflow: hidden; text-overflow:ellipsis;">@follower.User_Followed?.Name</h6>
                                         </div>
-                                        <button type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn-outline-light btn-rounded btn-sm d-flex justify-content-center"
-                                                data-mdb-ripple-color="dark">
-                                            + Seguir
-                                        </button>
+                                        <form asp-action="Follow" asp-controller="Aplication" method="post">
+                                            @Html.AntiForgeryToken()
+                                            <input type="hidden" name="followedId" value="@follower.User_Followed.Id" />
+                                            <button type="submit" class="btn btn-outline-light btn-rounded btn-sm d-flex justify-content-center">+ Seguir</button>
+                                        </form>
                                     </div>
                                 </div>
                             </div>
@@ -152,7 +148,6 @@
     var followingList = document.getElementById('seguindo-lista');
     var followersList = document.getElementById('seguidores-lista');
 
-    // Inicialmente, exibe a lista de seguindo
     followingTab.classList.add('select-follow');
     followingList.style.display = 'block';
     followersList.style.display = 'none';
@@ -171,5 +166,3 @@
         }
     }
 </script>
-
-
