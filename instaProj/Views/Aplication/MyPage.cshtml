@@ -5,17 +5,24 @@
                 <div class="user"></div>
                 <div>
                     <h3 class="no-config">@ViewBag.User.Name</h3>
-                    <h6 class="no-config" style="color: gray">gustavinDoGrau</h6>
+                    <h6 class="no-config">@ViewBag.User.Url</h6>
                 </div>
             </div>
-            <a class="btn btn-dark" asp-action="Main" asp-route-page="UpdateUser">Editar Perfil</a>
-            @* <button class="btn btn-dark">Editar</button> *@
+            <a class="btn btnPd" asp-action="Main" asp-route-page="UpdateUser">Editar</a>
         </div>
         <div class="box-post " style="height: 150px">
             <p class="no-config" style="height: 150px">@ViewBag.User.Bio</p>
         </div>
     </div>
-    <hr class="maxW hrdiv" />
+@*     <hr class="maxW hrdiv" />
+ *@    <div class="row">
+        <div class="col box-follow-select2" id="MyPosts" onclick="changeList2(1)">
+            <h6 class="no-config text-select">Meus posts</h6>
+        </div>
+        <div class="col box-follow-select2" id="MyArchive" onclick="changeList2(2)">
+            <h6 class="no-config text-select">Posts arquivados</h6>
+        </div>
+    </div>
     <div class="maxW d-flex flex-column">
         @if (ViewBag.MyPosts != null && ViewBag.MyPosts != new List<Post>())
         {
@@ -135,12 +142,45 @@
         else
         {
             <div>
-                Não existe postagens ainda!!!
+                Não existe postagens ainda.
             </div>
         }
 
     </div>
 </div>
+
+<style>
+/*     .box-follow {
+        background-color: gray;
+        height: 45%;
+        margin: 1rem;
+        border-radius: 15px;
+        overflow: hidden;
+    } */
+
+    .box-follow-select2 {
+        text-align: center;
+        height: 30px !important;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #292929;
+        border-radius: 50px;
+        cursor: pointer;
+    }
+
+        .box-follow-select2:hover {
+            background-color: #f5f898;
+            border-radius: 50px;
+        }
+
+/*     .select-follow {
+        background-color: #292929;
+        border-radius: 50px;
+    } */
+
+</style>
+
 
 <script>
     function favItem(id) {
@@ -169,4 +209,19 @@
                 // Tratar o erro conforme necessário
             });
     }
+
+    function changeList2(index) {
+        if (index === 1) {
+            followingTab.classList.add('select-follow');
+            followersTab.classList.remove('select-follow');
+            followingList.style.display = 'block';
+            followersList.style.display = 'none';
+        } else {
+            followingTab.classList.remove('select-follow');
+            followersTab.classList.add('select-follow');
+            followingList.style.display = 'none';
+            followersList.style.display = 'block';
+        }
+    }
+
 </script>
