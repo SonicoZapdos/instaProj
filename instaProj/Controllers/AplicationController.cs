@@ -156,7 +156,7 @@ namespace instaProj.Controllers
                 _context.Follows.Add(follow);
                 await _context.SaveChangesAsync();
             }
-            return RedirectToAction("Follows");
+            return RedirectToAction("Main");
         }
 
         [HttpPost]
@@ -172,7 +172,7 @@ namespace instaProj.Controllers
                     await _context.SaveChangesAsync();
                 }
             }
-            return RedirectToAction("Follows");
+            return RedirectToAction("Main");
         }
     }
 }

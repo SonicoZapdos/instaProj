@@ -44,7 +44,7 @@
                                         </div>
                                         <form asp-action="Unfollow" asp-controller="Aplication" method="post">
                                             @Html.AntiForgeryToken()
-                                            <input type="hidden" name="followedId" value="@following.User_Following.Id" />
+                                            <input type="hidden" name="followedId" value="@following.User_Followed.Id" />
                                             <button type="submit" class="btn btn-outline-light btn-rounded btn-sm d-flex justify-content-center">- Seguir</button>
                                         </form>
                                     </div>
@@ -87,7 +87,7 @@
                                         </div>
                                         <form asp-action="Follow" asp-controller="Aplication" method="post">
                                             @Html.AntiForgeryToken()
-                                            <input type="hidden" name="followedId" value="@follower.User_Followed.Id" />
+                                            <input type="hidden" name="followedId" value="@follower.User_Following.Id" />
                                             <button type="submit" class="btn btn-outline-light btn-rounded btn-sm d-flex justify-content-center">+ Seguir</button>
                                         </form>
                                     </div>
