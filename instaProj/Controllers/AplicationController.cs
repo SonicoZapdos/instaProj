@@ -141,25 +141,38 @@ namespace instaProj.Controllers
             }
             return Json(new { success = true, redirectUrl = Url.Action("Main", "Aplication") }); // Retorna JSON com a URL de redirecionamento
         }
-        /* if (arqRecebido == null && imagem.imagemLink != "")
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Follow(int followedId)
+        {
+            if (HttpContext.Session.GetString("USERLOGADO") != null && int.TryParse(HttpContext.Session.GetString("USERLOGADO"), out int followingId))
             {
-                WebClient cli = new WebClient();
+                var follow = new Follow
+                {
+                    User_Id_Following = followingId,
+                    User_Id_Followed = followedId
+                };
+                _context.Follows.Add(follow);
+                await _context.SaveChangesAsync();
+            }
+            return RedirectToAction("Follows");
+        }
 
-                var idVideo = imagem.imagemLink.Substring(32);
-
-                var imgBytes = cli.DownloadData($"http://img.youtube.com/vi/{idVideo}/0.jpg");
-
-                string fileName = geraNomeRandomizado(25);
-
-                System.IO.File.WriteAllBytes(@"wwwroot/imgMINI/" + fileName + ".jpg", imgBytes);
-
-                imagem.imagemNomeArmazenamento = fileName + ".jpg";
-                imagem.imagemNomeArquivo = fileName + ".jpg";
-
-                _context.Add(imagem);
-                _context.SaveChanges();
-
-                return RedirectToAction("Index");
-            } */
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Unfollow(int followedId)
+        {
+            if (HttpContext.Session.GetString("USERLOGADO") != null && int.TryParse(HttpContext.Session.GetString("USERLOGADO"), out int followingId))
+            {
+                var follow = await _context.Follows.FirstOrDefaultAsync(f => f.User_Id_Following == followingId && f.User_Id_Followed == followedId);
+                if (follow != null)
+                {
+                    _context.Follows.Remove(follow);
+                    await _context.SaveChangesAsync();
+                }
+            }
+            return RedirectToAction("Follows");
+        }
     }
 }
