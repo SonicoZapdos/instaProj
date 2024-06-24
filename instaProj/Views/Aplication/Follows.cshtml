@@ -18,7 +18,6 @@
             <div id="seguindo-lista" class="w-100">
                 @if (ViewBag.Following != new List<Follow>())
                 {
-                    <h5>Seguindo:</h5>
                     <ul>
                         @foreach (var following in ViewBag.Following)
                         {
@@ -62,7 +61,6 @@
             <div id="seguidores-lista" style="display: none;" class="w-100">
                 @if (ViewBag.Followed != new List<Follow>())
                 {
-                    <h5>Seguidores:</h5>
                     <ul>
                         @foreach (var follower in ViewBag.Followed)
                         {
@@ -126,7 +124,7 @@
     }
 
         .box-follow-select:hover {
-            background-color: #F3F6A1;
+            background-color: #f5f898;
             border-radius: 50px;
         }
 
