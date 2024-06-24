@@ -18,7 +18,7 @@
 
 
             <div id="seguindo-lista" class="w-100">
-                @if (ViewBag.Following != null)
+                @if (ViewBag.Following != new List<Follow>())
                 {
                     <h5>Seguindo:</h5>
                     <ul>
@@ -64,7 +64,7 @@
             </div>
 
             <div id="seguidores-lista" style="display: none;" class="w-100">
-                @if (ViewBag.Followed != null)
+                @if (ViewBag.Followed != new List<Follow>())
                 {
                     <h5>Seguidores:</h5>
                     <ul>
@@ -75,7 +75,7 @@
                                 <div class="card-body p-4 text-black">
                                     <div class="d-flex align-items-center">
                                         <div class="flex-shrink-0">
-                                            @if(follower.User_Followed?.PictureLocal != null){
+                                            @if(follower.User_Following?.PictureLocal != null){
                                                 <img src="@follower.User_Followed?.PictureLocal"
                                                      alt="Imagem genérica" class="img-fluid rounded-circle"
                                                 style="width: 70px; height: 70px;">
