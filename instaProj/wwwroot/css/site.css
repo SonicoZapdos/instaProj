@@ -160,8 +160,8 @@ Vermelhos
 }
 
 .fav {
-    --color: #F4F440;
-    --size: 30px;
+    --color: #212529;
+    --size: 24px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -179,6 +179,7 @@ Vermelhos
     }
 
     .fav .star-solid {
+        fill: #F4F440;
         position: absolute;
         animation: keyframes-star .5s;
         display: none;
