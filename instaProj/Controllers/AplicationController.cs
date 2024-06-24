@@ -144,33 +144,30 @@ namespace instaProj.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Follow(int followedId)
+        public async Task<IActionResult> Follow(int followedId, int followingId)
         {
-            if (HttpContext.Session.GetString("USERLOGADO") != null && int.TryParse(HttpContext.Session.GetString("USERLOGADO"), out int followingId))
-            {
                 var follow = new Follow
                 {
                     User_Id_Following = followingId,
                     User_Id_Followed = followedId
                 };
-                _context.Follows.Add(follow);
-                await _context.SaveChangesAsync();
-            }
+                if (!_context.Follows.Contains(follow))
+                {
+                    _context.Follows.Add(follow);
+                    await _context.SaveChangesAsync();
+                }
             return RedirectToAction("Main");
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Unfollow(int followedId)
+        public async Task<IActionResult> Unfollow(int followedId, int followingId)
         {
-            if (HttpContext.Session.GetString("USERLOGADO") != null && int.TryParse(HttpContext.Session.GetString("USERLOGADO"), out int followingId))
-            {
                 var follow = await _context.Follows.FirstOrDefaultAsync(f => f.User_Id_Following == followingId && f.User_Id_Followed == followedId);
                 if (follow != null)
                 {
                     _context.Follows.Remove(follow);
                     await _context.SaveChangesAsync();
-                }
             }
             return RedirectToAction("Main");
         }

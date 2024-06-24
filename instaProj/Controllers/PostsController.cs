@@ -50,7 +50,7 @@ namespace instaProj.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CreatePost([Bind("Id, Description, DatePub, Private, User_Id, ContLike")] Post post, List<IFormFile> Archives, List<string> Link)
+        public async Task<IActionResult> CreatePost([Bind("Id, Description, DatePub, Private, User_Id, ContLike")] Post post, List<IFormFile> Archives, List<string> Links)
         {
             if (ModelState.IsValid)
             {
@@ -67,9 +67,9 @@ namespace instaProj.Controllers
                     {
                         await CreateArchive(post.Id, Archives);
                     }
-                    if (Link != null && Link.Count > 0)
+                    if (Links != null && Links.Count > 0)
                     {
-                        await CreateLink(post.Id, Link);
+                        await CreateLink(post.Id, Links);
                     }
 
                     return Json(new { success = true, redirectUrl = Url.Action("Main", "Aplication") }); // Retorna JSON com a URL de redirecionamento

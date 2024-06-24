@@ -365,7 +365,7 @@
             }
             else {
                 const item = document.createElement('div');
-                var linkShow = 'http://img.youtube.com/vi/' + file.substring(32) + '/0.jpg';
+                var linkShow = 'https://img.youtube.com/vi/' + file.substring(32) + '/0.jpg';
                 item.className = 'carousel-item' + (index === 0 ? ' active' : '');
                 item.innerHTML = `
                                                                     <img src="${linkShow}" class="maxW" style="height: 300px" alt="Imagem Selecionada">
@@ -402,6 +402,7 @@
 
         const formData = new FormData(this);
         selectedFiles.forEach((file, index) => {
+            
             if (typeof file !== 'string') {
                 formData.append('Archives', file); // Adicionar cada arquivo ao FormData
             } else {

@@ -18,37 +18,38 @@
             <div id="seguindo-lista" class="w-100">
                 @if (ViewBag.Following != new List<Follow>())
                 {
-                        @foreach (var following in ViewBag.Following)
-                        {
-                            <div class="card w-100 mt-3">
-                                <div class="card-body p-4 text-black">
-                                    <div class="d-flex align-items-center">
-                                        <div class="flex-shrink-0">
-                                            @if (following.User_Following?.PictureLocal != null)
-                                            {
-                                                <img src="@following.User_Following?.PictureLocal"
-                                                     alt="Imagem genérica" class="img-fluid rounded-circle"
-                                                     style="width: 70px; height: 70px;">
-                                            }
-                                            else
-                                            {
-                                                <img src="https://p2.trrsf.com/image/fget/cf/1200/900/middle/images.terra.com/2024/03/26/kaiju-no-8-to1unk3bslyo.jpg"
-                                                     alt="Imagem genérica" class="img-fluid rounded-circle"
-                                                     style="width: 70px; height: 70px;">
-                                            }
-                                        </div>
-                                        <div class="flex-grow-1 ms-3 h-100 d-flex align-content-center">
-                                            <h6 style="font-size: 1.5rem; color: #e8e8e8; overflow: hidden; text-overflow:ellipsis; height:30px">@following.User_Following?.Name</h6>
-                                        </div>
-                                        <form asp-action="Unfollow" asp-controller="Aplication" method="post">
-                                            @Html.AntiForgeryToken()
-                                            <input type="hidden" name="followedId" value="@following.User_Followed.Id" />
-                                        <button type="submit" class="btn btn-outline-light btn-rounded btn-sm d-flex justify-content-center">Unfollow</button>
-                                        </form>
+                    @foreach (var following in ViewBag.Following)
+                    {
+                        <div class="card w-100 mt-3">
+                            <div class="card-body p-4 text-black">
+                                <div class="d-flex align-items-center">
+                                    <div class="flex-shrink-0">
+                                        @if (following.User_Following?.PictureLocal != null)
+                                        {
+                                            <img src="@following.User_Following?.PictureLocal"
+                                                 alt="Imagem genérica" class="img-fluid rounded-circle"
+                                                 style="width: 70px; height: 70px;">
+                                        }
+                                        else
+                                        {
+                                            <img src="https://p2.trrsf.com/image/fget/cf/1200/900/middle/images.terra.com/2024/03/26/kaiju-no-8-to1unk3bslyo.jpg"
+                                                 alt="Imagem genérica" class="img-fluid rounded-circle"
+                                                 style="width: 70px; height: 70px;">
+                                        }
                                     </div>
+                                    <div class="flex-grow-1 ms-3 h-100 d-flex align-content-center">
+                                        <h6 style="font-size: 1.5rem; color: #e8e8e8; overflow: hidden; text-overflow:ellipsis; height:30px">@following.User_Following?.Name</h6>
+                                    </div>
+                                    <form asp-action="Unfollow" asp-controller="Aplication" method="post">
+                                        @Html.AntiForgeryToken()
+                                        <input type="hidden" name="followedId" value="@following.User_Followed.Id" />
+                                        <input type="hidden" name="followingId" value="@following.User_Following.Id" />
+                                        <button type="submit" class="btn btn-outline-light btn-rounded btn-sm d-flex justify-content-center">Unfollow</button>
+                                    </form>
                                 </div>
                             </div>
-                        }
+                        </div>
+                    }
                 }
                 else
                 {
@@ -59,36 +60,52 @@
             <div id="seguidores-lista" style="display: none;" class="w-100">
                 @if (ViewBag.Followed != new List<Follow>())
                 {
-                        @foreach (var follower in ViewBag.Followed)
-                        {
-                            <div class="card w-100 mt-3">
-                                <div class="card-body p-4 text-black">
-                                    <div class="d-flex align-items-center">
-                                        <div class="flex-shrink-0">
-                                            @if(follower.User_Following?.PictureLocal != null){
-                                                <img src="@follower.User_Followed?.PictureLocal"
-                                                     alt="Imagem genérica" class="img-fluid rounded-circle"
-                                                     style="width: 70px; height: 70px;">
-                                            }
-                                            else
-                                            {
-                                                <img src="https://www.otempo.com.br/content/dam/otempo/editorias/entretenimento/filmes-e-series/2023/10/entretenimento-pluto-como-o-anime-da-netflix-se-conecta-a-astro-boy-1708750812.jpeg"
-                                                     alt="Imagem genérica" class="img-fluid rounded-circle"
-                                                     style="width: 70px; height: 70px;">
-                                            }
-                                        </div>
-                                        <div class="flex-grow-1 ms-3 h-100 d-flex align-content-center">
-                                            <h6 style="font-size: 1.5rem; color: #e8e8e8; overflow: hidden; text-overflow:ellipsis;">@follower.User_Followed?.Name</h6>
-                                        </div>
+                    @foreach (var follower in ViewBag.Followed)
+                    {
+                        <div class="card w-100 mt-3">
+                            <div class="card-body p-4 text-black">
+                                <div class="d-flex align-items-center">
+                                    <div class="flex-shrink-0">
+                                        @if (follower.User_Following?.PictureLocal != null)
+                                        {
+                                            <img src="@follower.User_Followed?.PictureLocal"
+                                                 alt="Imagem genérica" class="img-fluid rounded-circle"
+                                                 style="width: 70px; height: 70px;">
+                                        }
+                                        else
+                                        {
+                                            <img src="https://www.otempo.com.br/content/dam/otempo/editorias/entretenimento/filmes-e-series/2023/10/entretenimento-pluto-como-o-anime-da-netflix-se-conecta-a-astro-boy-1708750812.jpeg"
+                                                 alt="Imagem genérica" class="img-fluid rounded-circle"
+                                                 style="width: 70px; height: 70px;">
+                                        }
+                                    </div>
+                                    <div class="flex-grow-1 ms-3 h-100 d-flex align-content-center">
+                                        <h6 style="font-size: 1.5rem; color: #e8e8e8; overflow: hidden; text-overflow:ellipsis;">@follower.User_Followed?.Name</h6>
+                                    </div>
+                                    @if (!((List<Follow>)ViewBag.Following).Exists(x => x.User_Id_Following == follower.User_Id_Followed && x.User_Id_Followed == follower.User_Id_Following))
+                                    {
+                                        Console.WriteLine("Opaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
                                         <form asp-action="Follow" asp-controller="Aplication" method="post">
                                             @Html.AntiForgeryToken()
                                             <input type="hidden" name="followedId" value="@follower.User_Following.Id" />
+                                            <input type="hidden" name="followingId" value="@follower.User_Followed.Id" />
                                             <button type="submit" class="btn btn-outline-light btn-rounded btn-sm d-flex justify-content-center"> Follow </button>
                                         </form>
-                                    </div>
+                                    }
+                                    else
+                                    {
+                                        <form asp-action="Unfollow" asp-controller="Aplication" method="post">
+                                            @Html.AntiForgeryToken()
+                                            <input type="hidden" name="followedId" value="@ViewBag.User.Id" />
+                                            <input type="hidden" name="followingId" value="@follower.User_Followed.Id" />
+                                            <button type="submit" class="btn btn-outline-light btn-rounded btn-sm d-flex justify-content-center"> Unfollow </button>
+                                        </form>
+                                    }
+
                                 </div>
                             </div>
-                        }
+                        </div>
+                    }
                 }
                 else
                 {
