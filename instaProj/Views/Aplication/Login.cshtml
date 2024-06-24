@@ -66,11 +66,16 @@
                                 <span asp-validation-for="Name" class="text-danger"></span>
                             </div>
                             <div class="form-floating mb-3">
+                                <label asp-for="Url" class="control-label">Nome de usuário</label>
+                                <input asp-for="Url" class="form-control" />
+                                <span asp-validation-for="Url" class="text-danger"></span>
+                            </div>
+@*                             <div class="form-floating mb-3">
                                 <input asp-for="Telefone" type="tel" class="form-control" id="floatingInputPhone"
                                        placeholder="(00) 00000-0000" data-mask="(00) 00000-0000" maxlength="11">
                                 <label asp-for="Telefone" for="floatingInputPhone">Telefone</label>
                                 <span asp-validation-for="Telefone" class="text-danger"></span>
-                            </div>
+                            </div> *@
                             <div class="form-floating mb-3">
                                 <input asp-for="Email" type="email" class="form-control" id="floatingInputEmail"
                                        placeholder="Email">

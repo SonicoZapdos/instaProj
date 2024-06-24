@@ -62,9 +62,9 @@ Vermelhos
 }
 
     .btnPu1:hover {
-        background-color: #d9d93a;
+        background-color: #DFDF3B;
         box-shadow: none;
-        border: #d9d93a;
+        border: #DFDF3B;
     }
 
 .btnPu2 {
@@ -78,6 +78,17 @@ Vermelhos
         background-color: #dcdbdb;
         box-shadow: none;
         border: transparent;
+    }
+
+.btnPd {
+    width: 100px;
+    height: 40px;
+    background-color: #F4F440;
+    color: #292929;
+}
+
+    .btnPd:hover {
+        background-color: #DFDF3B;
     }
 
 .btnLg {
