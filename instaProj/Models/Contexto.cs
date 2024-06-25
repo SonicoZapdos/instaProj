@@ -58,13 +58,7 @@ namespace instaProj.Models
 
             modelBuilder.Entity<SubComment>().HasOne(s => s.User).WithMany().HasForeignKey(s => s.User_Id);
 
-            modelBuilder.Entity<Rating>().HasOne(s => s.Comment).WithMany().HasForeignKey(s => s.Comment_Id);
-
             modelBuilder.Entity<Rating>().HasOne(s => s.User).WithMany().HasForeignKey(s => s.User_Id);
-
-            modelBuilder.Entity<Rating>().HasOne(s => s.Post).WithMany().HasForeignKey(s => s.Post_Id);
-
-            modelBuilder.Entity<Rating>().HasOne(s => s.SubComment).WithMany().HasForeignKey(s => s.SubComment_Id);
         }
     }
 }

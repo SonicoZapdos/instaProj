@@ -139,13 +139,22 @@ namespace instaProj.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("Comment_Id")
+                    b.Property<int?>("CommentId")
                         .HasColumnType("int");
 
-                    b.Property<int>("Post_Id")
+                    b.Property<int?>("Comment_Id")
                         .HasColumnType("int");
 
-                    b.Property<int>("SubComment_Id")
+                    b.Property<int?>("PostId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("Post_Id")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("SubCommentId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("SubComment_Id")
                         .HasColumnType("int");
 
                     b.Property<int>("User_Id")
@@ -153,11 +162,11 @@ namespace instaProj.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("Comment_Id");
+                    b.HasIndex("CommentId");
 
-                    b.HasIndex("Post_Id");
+                    b.HasIndex("PostId");
 
-                    b.HasIndex("SubComment_Id");
+                    b.HasIndex("SubCommentId");
 
                     b.HasIndex("User_Id");
 
@@ -205,18 +214,22 @@ namespace instaProj.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Email")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Password")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PictureLocal")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Telefone")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Url")
@@ -291,21 +304,15 @@ namespace instaProj.Migrations
                 {
                     b.HasOne("instaProj.Models.Comment", "Comment")
                         .WithMany()
-                        .HasForeignKey("Comment_Id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("CommentId");
 
                     b.HasOne("instaProj.Models.Post", "Post")
                         .WithMany()
-                        .HasForeignKey("Post_Id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("PostId");
 
                     b.HasOne("instaProj.Models.SubComment", "SubComment")
                         .WithMany()
-                        .HasForeignKey("SubComment_Id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("SubCommentId");
 
                     b.HasOne("instaProj.Models.User", "User")
                         .WithMany()

@@ -17,10 +17,10 @@ namespace instaProj.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Email = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Password = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Telefone = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Password = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Telefone = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Url = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Bio = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     PictureLocal = table.Column<string>(type: "nvarchar(max)", nullable: true)
@@ -120,7 +120,7 @@ namespace instaProj.Migrations
                         column: x => x.Post_Id,
                         principalTable: "Posts",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.NoAction);
                     table.ForeignKey(
                         name: "FK_Comments_Users_User_Id",
                         column: x => x.User_Id,
@@ -154,7 +154,7 @@ namespace instaProj.Migrations
                         column: x => x.User_Id,
                         principalTable: "Users",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.NoAction);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -164,37 +164,37 @@ namespace instaProj.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     User_Id = table.Column<int>(type: "int", nullable: false),
-                    Post_Id = table.Column<int>(type: "int", nullable: false),
-                    Comment_Id = table.Column<int>(type: "int", nullable: false),
-                    SubComment_Id = table.Column<int>(type: "int", nullable: false)
+                    Post_Id = table.Column<int>(type: "int", nullable: true),
+                    PostId = table.Column<int>(type: "int", nullable: true),
+                    Comment_Id = table.Column<int>(type: "int", nullable: true),
+                    CommentId = table.Column<int>(type: "int", nullable: true),
+                    SubComment_Id = table.Column<int>(type: "int", nullable: true),
+                    SubCommentId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Ratings", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Ratings_Comments_Comment_Id",
-                        column: x => x.Comment_Id,
+                        name: "FK_Ratings_Comments_CommentId",
+                        column: x => x.CommentId,
                         principalTable: "Comments",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.NoAction);
+                        principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_Ratings_Posts_Post_Id",
-                        column: x => x.Post_Id,
+                        name: "FK_Ratings_Posts_PostId",
+                        column: x => x.PostId,
                         principalTable: "Posts",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.NoAction);
+                        principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_Ratings_SubComments_SubComment_Id",
-                        column: x => x.SubComment_Id,
+                        name: "FK_Ratings_SubComments_SubCommentId",
+                        column: x => x.SubCommentId,
                         principalTable: "SubComments",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.NoAction);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Ratings_Users_User_Id",
                         column: x => x.User_Id,
                         principalTable: "Users",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.NoAction);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
@@ -228,19 +228,19 @@ namespace instaProj.Migrations
                 column: "User_Id");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Ratings_Comment_Id",
+                name: "IX_Ratings_CommentId",
                 table: "Ratings",
-                column: "Comment_Id");
+                column: "CommentId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Ratings_Post_Id",
+                name: "IX_Ratings_PostId",
                 table: "Ratings",
-                column: "Post_Id");
+                column: "PostId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Ratings_SubComment_Id",
+                name: "IX_Ratings_SubCommentId",
                 table: "Ratings",
-                column: "SubComment_Id");
+                column: "SubCommentId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Ratings_User_Id",
