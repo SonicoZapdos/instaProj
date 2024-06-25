@@ -73,6 +73,10 @@ namespace instaProj.Controllers
         {
             if (ModelState.IsValid)
             {
+                string userUrl = "@"+user.Name.ToLower();
+
+                user.Url = userUrl;
+
                 _context.Add(user);
                 await _context.SaveChangesAsync();
                 WriteCookie(user.Id.ToString());
@@ -97,10 +101,7 @@ namespace instaProj.Controllers
                 {
                     ModelState.AddModelError("Password", "Campo Senha não pode ser Vazio!");
                 }
-                if (string.IsNullOrWhiteSpace(user.Telefone))
-                {
-                    ModelState.AddModelError("Telefone", "Campo Telefone não pode ser Vazio!");
-                }
+
 
                 return View(user); // Return to the form view with validation errors
             }
@@ -199,23 +200,31 @@ namespace instaProj.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> UpdateUser(int id, [Bind("Id,Name,Email,Password,Telefone,Url,Bio")] User user)
+        public async Task<IActionResult> UpdateUser(int id)
         {
-            if (id != user.Id)
+            // Localiza o usuário no banco de dados pelo ID
+            var userToUpdate = await _context.Users.FindAsync(id);
+            if (userToUpdate == null)
             {
                 return NotFound();
             }
 
-            if (ModelState.IsValid)
+            // Tenta atualizar o modelo com os valores do formulário
+            if (await TryUpdateModelAsync<User>(
+                userToUpdate,
+                "",
+                u => u.Name, u => u.Bio))
             {
                 try
                 {
-                    _context.Update(user);
+                    // Salva as alterações no banco de dados
                     await _context.SaveChangesAsync();
+                    return RedirectToAction("Main", "Aplication", new { page = "MyPage" });
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!UserExists(user.Id))
+                    // Captura exceções de concorrência e verifica se o usuário ainda existe
+                    if (!UserExists(userToUpdate.Id))
                     {
                         return NotFound();
                     }
@@ -224,10 +233,13 @@ namespace instaProj.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction("Main","Aplication", new { page = "MyPage"});
             }
-            return View(user);
+
+            // Adiciona um erro geral ao ModelState em caso de falha
+            ModelState.AddModelError(string.Empty, "Não foi possível salvar as alterações. Tente novamente.");
+            return View(userToUpdate);
         }
+
 
         // GET: Users/Delete/5
         public async Task<IActionResult> Delete(int? id)

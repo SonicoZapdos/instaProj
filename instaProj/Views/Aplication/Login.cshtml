@@ -60,31 +60,23 @@
                         <div class="row justify-content-center">
                             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                             <div class="form-floating mb-3">
-                                <input asp-for="Name" type="text" class="form-control" id="floatingInputName"
-                                       placeholder="Nome">
+                                <input asp-for="Name" type="text" class="form-control" id="floatingInputName" placeholder="Nome">
                                 <label asp-for="Name" for="floatingInputName">Nome</label>
                                 <span asp-validation-for="Name" class="text-danger"></span>
                             </div>
-                            <div class="form-floating mb-3">
-                                <label asp-for="Url" class="control-label">Nome de usuário</label>
-                                <input asp-for="Url" class="form-control" />
-                                <span asp-validation-for="Url" class="text-danger"></span>
-                            </div>
+
 @*                             <div class="form-floating mb-3">
-                                <input asp-for="Telefone" type="tel" class="form-control" id="floatingInputPhone"
-                                       placeholder="(00) 00000-0000" data-mask="(00) 00000-0000" maxlength="11">
-                                <label asp-for="Telefone" for="floatingInputPhone">Telefone</label>
-                                <span asp-validation-for="Telefone" class="text-danger"></span>
+                                <input asp-for="Url" type="url" class="form-control" id="floatingInputEmail" placeholder="Seu &commat">
+                                <label asp-for="Url" for="floatingInputEmail">Seu @</label>
+                                <span asp-validation-for="Url" class="text-danger"></span>
                             </div> *@
                             <div class="form-floating mb-3">
-                                <input asp-for="Email" type="email" class="form-control" id="floatingInputEmail"
-                                       placeholder="Email">
+                                <input asp-for="Email" type="email" class="form-control" id="floatingInputEmail" placeholder="Email">
                                 <label asp-for="Email" for="floatingInputEmail">Email</label>
                                 <span asp-validation-for="Email" class="text-danger"></span>
                             </div>
                             <div class="form-floating mb-3">
-                                <input asp-for="Password" type="password" class="form-control"
-                                       id="floatingInputRegisterPassword" placeholder="Senha">
+                                <input asp-for="Password" type="password" class="form-control" id="floatingInputRegisterPassword" placeholder="Senha">
                                 <label asp-for="Password" for="floatingInputRegisterPassword">Senha</label>
                                 <span asp-validation-for="Password" class="text-danger"></span>
                             </div>
@@ -92,6 +84,7 @@
                         <input type="submit" value="Registrar" class="btn btnPu1" />
                     </div>
                 </form>
+
             </div>
         </div>
     </div>

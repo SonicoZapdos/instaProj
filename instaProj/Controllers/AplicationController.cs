@@ -62,14 +62,10 @@ namespace instaProj.Controllers
                     foreach (Post p in post)
                     {
                         p.Archives = _context.Archives.Where(m => m.Post_Id == p.Id).ToList();
-                        if (_context.Ratings.FirstOrDefault(m => m.Post_Id == p.Id && m.User_Id == id) != null)
-                        {
-                            p.Rating = true;
-                        }
-                        else
-                        {
-                            p.Rating = false;
-                        }
+
+                        var ratingExists = _context.Ratings.Any(m => m.Post_Id == p.Id && m.User_Id == id);
+
+                        p.Rating = ratingExists;
                         p.Comment = _context.Comments.Where(m => m.Post_Id == p.Id).ToList() ?? new List<Comment>();
                     }
                     ViewBag.OtherPosts = post;

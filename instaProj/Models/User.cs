@@ -18,7 +18,6 @@ namespace instaProj.Models
         [DataType(DataType.Password)]
         public string? Password { get; set; }
 
-        [Required(ErrorMessage = "O campo Telefone é obrigatório.")]
         [Phone(ErrorMessage = "O campo Telefone deve ser um número de telefone válido.")]
         [DisplayFormat(DataFormatString = "{0:(###) ###-####}", ApplyFormatInEditMode = true)]
         public string? Telefone { get; set; }
