@@ -40,14 +40,13 @@ namespace instaProj.Controllers
                     foreach (Post p in post) 
                     {
                         p.Archives = _context.Archives.Where(m => m.Post_Id == p.Id).ToList();
-                        if (_context.Ratings.FirstOrDefault(m => m.Post_Id == p.Id && m.User_Id == id) != null)
-                        {
-                            p.Rating = true;
-                        }
-                        else
-                        {
-                            p.Rating = false;
-                        }
+
+                        // Verifica se há uma avaliação (favorito) do usuário para o post
+                        var ratingExists = _context.Ratings.Any(m => m.Post_Id == p.Id && m.User_Id == id);
+
+                        // Atribui o valor de 'Rating' com base na existência da avaliação
+                        p.Rating = ratingExists;
+
                         p.Comment = _context.Comments.Where(m => m.Post_Id == p.Id).ToList() ?? new List<Comment>();
                     }
                     ViewBag.MyPosts = post;
@@ -123,23 +122,31 @@ namespace instaProj.Controllers
         {
             if (post != 0 && HttpContext.Session.GetString("USERLOGADO") != null && int.TryParse(HttpContext.Session.GetString("USERLOGADO"), out int id))
             {
-                Rating? r = await _context.Ratings.FirstOrDefaultAsync(m => m.User_Id == id && m.Post_Id == post);
+                // Verifica se já existe uma entrada de Rating para o usuário atual e o post específico
+                Rating r = await _context.Ratings.FirstOrDefaultAsync(m => m.User_Id == id && m.Post_Id == post);
+
                 if (r == null)
                 {
+                    // Se não existe, cria uma nova entrada de Rating
                     Rating rNew = new Rating
                     {
                         User_Id = id,
                         Post_Id = post
                     };
                     _context.Ratings.Add(rNew);
-                    return Json(new { success = true, redirectUrl = Url.Action("Main", "Aplication") }); // Retorna JSON com a URL de redirecionamento
                 }
                 else
                 {
+                    // Se já existe uma entrada de Rating, remove-a
                     _context.Ratings.Remove(r);
                 }
+
+                // Salva as mudanças no banco de dados
+                await _context.SaveChangesAsync();
             }
-            return Json(new { success = true, redirectUrl = Url.Action("Main", "Aplication") }); // Retorna JSON com a URL de redirecionamento
+
+            // Redireciona para a página principal após a operação
+            return RedirectToAction("Main", "Aplication");
         }
 
         [HttpPost]
