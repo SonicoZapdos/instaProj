@@ -91,6 +91,12 @@ Vermelhos
         background-color: #DFDF3B;
     }
 
+.btnConfig{
+    width:100px;
+    text-align:left;
+    color: gray:
+}
+
 .btnLg {
     width: 130px;
     height: auto;

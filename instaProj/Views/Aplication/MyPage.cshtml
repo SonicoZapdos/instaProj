@@ -18,15 +18,7 @@
             <p class="no-config" style="height: 150px; padding: 40px; text-align:justify; ">@ViewBag.User.Bio</p>
         </div>
     </div>
-    @*     <hr class="maxW hrdiv" />
-    *@    <div class="row">
-        <div class="col box-follow-select2" id="MyPosts" onclick="changeList2(1)">
-            <h6 class="no-config text-select">Meus posts</h6>
-        </div>
-        <div class="col box-follow-select2" id="MyArchive" onclick="changeList2(2)">
-            <h6 class="no-config text-select">Posts arquivados</h6>
-        </div>
-    </div>
+        <hr class="maxW hrdiv" />
     <div class="maxW d-flex flex-column">
         @if (ViewBag.MyPosts != null && ViewBag.MyPosts != new List<Post>() && ((List<Post>)ViewBag.MyPosts).Count() > 0)
         {
