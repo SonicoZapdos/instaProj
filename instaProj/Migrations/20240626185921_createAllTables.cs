@@ -80,6 +80,28 @@ namespace instaProj.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Ratings",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    User_Id = table.Column<int>(type: "int", nullable: false),
+                    Post_Id = table.Column<int>(type: "int", nullable: true),
+                    Comment_Id = table.Column<int>(type: "int", nullable: true),
+                    SubComment_Id = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Ratings", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Ratings_Users_User_Id",
+                        column: x => x.User_Id,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Archives",
                 columns: table => new
                 {
@@ -157,46 +179,6 @@ namespace instaProj.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
-            migrationBuilder.CreateTable(
-                name: "Ratings",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    User_Id = table.Column<int>(type: "int", nullable: false),
-                    Post_Id = table.Column<int>(type: "int", nullable: true),
-                    PostId = table.Column<int>(type: "int", nullable: true),
-                    Comment_Id = table.Column<int>(type: "int", nullable: true),
-                    CommentId = table.Column<int>(type: "int", nullable: true),
-                    SubComment_Id = table.Column<int>(type: "int", nullable: true),
-                    SubCommentId = table.Column<int>(type: "int", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Ratings", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Ratings_Comments_CommentId",
-                        column: x => x.CommentId,
-                        principalTable: "Comments",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_Ratings_Posts_PostId",
-                        column: x => x.PostId,
-                        principalTable: "Posts",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_Ratings_SubComments_SubCommentId",
-                        column: x => x.SubCommentId,
-                        principalTable: "SubComments",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_Ratings_Users_User_Id",
-                        column: x => x.User_Id,
-                        principalTable: "Users",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
             migrationBuilder.CreateIndex(
                 name: "IX_Archives_Post_Id",
                 table: "Archives",
@@ -226,21 +208,6 @@ namespace instaProj.Migrations
                 name: "IX_Posts_User_Id",
                 table: "Posts",
                 column: "User_Id");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Ratings_CommentId",
-                table: "Ratings",
-                column: "CommentId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Ratings_PostId",
-                table: "Ratings",
-                column: "PostId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Ratings_SubCommentId",
-                table: "Ratings",
-                column: "SubCommentId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Ratings_User_Id",

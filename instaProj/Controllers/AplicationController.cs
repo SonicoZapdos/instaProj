@@ -169,7 +169,7 @@ namespace instaProj.Controllers
             if (post != 0 && HttpContext.Session.GetString("USERLOGADO") != null && int.TryParse(HttpContext.Session.GetString("USERLOGADO"), out int id))
             {
                 // Verifica se já existe uma entrada de Rating para o usuário atual e o post específico
-                Rating? r = await _context.Ratings.FirstOrDefaultAsync(m => m.User_Id == id && m.Post_Id == post) ?? null;
+                Rating? r = await _context.Ratings.FirstOrDefaultAsync(m => m.User_Id == id && m.Post_Id == post);
 
                 if (r == new Rating() || r == null)
                 {
