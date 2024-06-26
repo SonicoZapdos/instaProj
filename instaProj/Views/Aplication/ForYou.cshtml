@@ -164,55 +164,51 @@
                 <hr class="maxW hrdiv" />
 
 
-        <!-- Modal Comentarios -->
-        <div class="modal fade" id="commentModal-@p.Id" tabindex="-1" aria-labelledby="commentModal" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable d-flex justify-content-center align-items-center" style="max-width: none">
-                <div class="modal-content" style="width: 700px">
-                    <div class="modal-header">
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body" id="bodyComment" style="height: 40vh">
-                        @if (p.Comment != null && p.Comment.Count() > 0)
-                        {
-                            @foreach (Comment c in p.Comment)
-                            {
-                                <div class="maxW row">
-                                    <partial name="CommentShow" model="c" />
-                                </div>
-                            }
-                        }
-                        else
-                        {
-                            <p>Não existe comentários ainda!!!</p>
-                        }
-                    </div>
-                    <div class="modal-footer row" style="height: 10vh">
-                        <div class="col-1 d-flex justify-content-center align-items-center">
-                            <img src="/images/ppic.png" alt="" class="user">
-                        </div>
-                        @using (Html.BeginForm("CreatePostCommentMyPage", "Aplication", FormMethod.Post, new { id = "commentForm-" + p.Id, page = "MyPage" }))
-                        {
-                            @Html.AntiForgeryToken()
-                            <input type="hidden" name="post" value="@p.Id" />
-                            <input type="hidden" name="page" value="MyPage" />
-
-                            @Html.Hidden("postId", p.Id)
-                            <div class="row d-flex align-items-center justify-content-between p-2 pt-0 pb-2" style="width: 100%;">
-                                <div class="form-floating col-10" style="width: 90%;">
-                                    <textarea class="form-control" name="Description" placeholder="Leave a comment here" id="floatingTextarea" style="width: 100%;"></textarea>
-                                    <label for="floatingTextarea" style="padding-left: 20px;">Comments</label>
-                                </div>
-                                <div class="col-2 d-flex justify-content-end align-items-center">
-                                    <button type="submit" class="btn-icon" style="width: auto;">
-                                        <span class="material-symbols-outlined no-config" style="width: auto;">send</span>
-                                    </button>
-                                </div>
+                <!-- Modal Comentarios -->
+                <div class="modal fade" id="commentModal-@p.Id" tabindex="-1" aria-labelledby="commentModal" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable d-flex justify-content-center align-items-center" style="max-width: none">
+                        <div class="modal-content" style="width: 700px">
+                            <div class="modal-header">
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
-                        }
+                            <div class="modal-body" id="bodyComment" style="height: 40vh">
+                                @if (p.Comment != null && p.Comment.Count() > 0)
+                                {
+                                    @foreach (Comment c in p.Comment)
+                                    {
+                                        <div class="maxW row">
+                                            <partial name="CommentShow" model="c" />
+                                        </div>
+                                    }
+                                }
+                                else
+                                {
+                                    <p>Não existe comentários ainda!!!</p>
+                                }
+                            <div class="modal-footer row" style="height: 10vh">
+                                <div class="col-1 d-flex justify-content-center align-items-center">
+                                    <img src="/images/ppic.png" alt="" class="user">
+                                </div>
+                                @using (Html.BeginForm("CreatePostComment", "Aplication", FormMethod.Post, new { id = "commentForm-" + p.Id }))
+                                {
+                                    @Html.AntiForgeryToken()
+                                    @Html.Hidden("postId", p.Id)
+                                    <div class="row d-flex align-items-center justify-content-between p-2 pt-0 pb-2" style="width: 100%;">
+                                        <div class="form-floating col-10" style="width: 90%;">
+                                            <textarea class="form-control" name="Description" placeholder="Leave a comment here" id="floatingTextarea" style="width: 100%;"></textarea>
+                                            <label for="floatingTextarea" style="padding-left: 20px;">Comments</label>
+                                        </div>
+                                        <div class="col-2 d-flex justify-content-end align-items-center">
+                                            <button type="submit" class="btn-icon" style="width: auto;">
+                                                <span class="material-symbols-outlined no-config" style="width: auto;">send</span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </div>
             }
         }
         else
