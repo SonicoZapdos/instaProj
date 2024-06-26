@@ -28,7 +28,7 @@
         </div>
     </div>
     <div class="maxW d-flex flex-column">
-        @if (ViewBag.MyPosts != null && ViewBag.MyPosts != new List<Post>())
+        @if (ViewBag.MyPosts != null && ViewBag.MyPosts != new List<Post>() && ((List<Post>)ViewBag.MyPosts).Count() > 0)
         {
             foreach (Post p in ViewBag.MyPosts)
             {
@@ -160,16 +160,20 @@
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div class="modal-body" id="bodyComment" style="height: 40vh">
-                                @if(p.Comment != null && p.Comment != new List<Comment>())
+                                @if (p.Comment != null && p.Comment != new List<Comment>() && p.Comment.Count() > 0)
                                 {
-                                    @foreach (Comment c in p.Comment)
+                                    foreach (Comment c in p.Comment)
                                     {
                                         <div class="maxW row">
                                             <partial name="CommentShow" model="c" />
                                         </div>
                                     }
                                 }
-                               
+                                else
+                                {
+                                    <p>Não existe comentários ainda!!!</p>
+                                }
+
                             </div>
                             <div class="modal-footer row" style="height: 10vh">
                                 <div class="col-1 d-flex justify-content-center align-items-center">

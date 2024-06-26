@@ -3,10 +3,10 @@
 }
 
 <div class="maxW d-flex flex-column gap-4" style="height: 100%; overflow: auto;" id="forYou">
-    <partial name="NewPost" />
+    @* <partial name="NewPost" /> *@
 
     <div class="maxW d-flex flex-column">
-        @if (ViewBag.OtherPosts != null && ViewBag.OtherPosts != new List<Post>())
+        @if (ViewBag.OtherPosts != null && ViewBag.OtherPosts != new List<Post>() && ((List<Post>)ViewBag.OtherPosts).Count() > 0)
         {
             foreach (Post p in ViewBag.OtherPosts)
             {
@@ -130,6 +130,46 @@
                     </div>
                 </div>
                 <hr class="maxW hrdiv" />
+
+                <!-- Modal -->
+                <div class="modal fade" id="commentModal-@p.Id" tabindex="-1" aria-labelledby="commentModal" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable d-flex justify-content-center align-items-center" style="max-width: none">
+                        <div class="modal-content" style="width: 700px">
+                            <div class="modal-header">
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body" id="bodyComment" style="height: 40vh">
+                                @if (p.Comment != null && p.Comment != new List<Comment>() && p.Comment.Count() > 0)
+                                {
+                                    @foreach (Comment c in p.Comment)
+                                    {
+                                        <div class="maxW row">
+                                            <partial name="CommentShow" model="c" />
+                                        </div>
+                                    }
+                                }
+                                else
+                                {
+                                    <p>Não existe comentários ainda!!!</p>
+                                }
+
+                            </div>
+                            <div class="modal-footer row" style="height: 10vh">
+                                <div class="col-1 d-flex justify-content-center align-items-center">
+                                    <img src="/images/ppic.png" alt="" class="user">
+                                </div>
+                                @using (Html.BeginForm("Favorite", "Aplication", FormMethod.Post, new { id = "favoriteForm-" + 0, page = "Mypage" }))
+                                {
+                                    @Html.AntiForgeryToken()
+                                    <div class="form-floating">
+                                        <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea"></textarea>
+                                        <label for="floatingTextarea">Comments</label>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
             }
         }
         else
