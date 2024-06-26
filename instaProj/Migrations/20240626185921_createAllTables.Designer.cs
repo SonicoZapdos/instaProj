@@ -12,7 +12,7 @@ using instaProj.Models;
 namespace instaProj.Migrations
 {
     [DbContext(typeof(Contexto))]
-    [Migration("20240625170623_createAllTables")]
+    [Migration("20240626185921_createAllTables")]
     partial class createAllTables
     {
         /// <inheritdoc />
@@ -142,19 +142,10 @@ namespace instaProj.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int?>("CommentId")
-                        .HasColumnType("int");
-
                     b.Property<int?>("Comment_Id")
                         .HasColumnType("int");
 
-                    b.Property<int?>("PostId")
-                        .HasColumnType("int");
-
                     b.Property<int?>("Post_Id")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("SubCommentId")
                         .HasColumnType("int");
 
                     b.Property<int?>("SubComment_Id")
@@ -164,12 +155,6 @@ namespace instaProj.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("CommentId");
-
-                    b.HasIndex("PostId");
-
-                    b.HasIndex("SubCommentId");
 
                     b.HasIndex("User_Id");
 
@@ -232,7 +217,6 @@ namespace instaProj.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Telefone")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Url")
@@ -305,29 +289,11 @@ namespace instaProj.Migrations
 
             modelBuilder.Entity("instaProj.Models.Rating", b =>
                 {
-                    b.HasOne("instaProj.Models.Comment", "Comment")
-                        .WithMany()
-                        .HasForeignKey("CommentId");
-
-                    b.HasOne("instaProj.Models.Post", "Post")
-                        .WithMany()
-                        .HasForeignKey("PostId");
-
-                    b.HasOne("instaProj.Models.SubComment", "SubComment")
-                        .WithMany()
-                        .HasForeignKey("SubCommentId");
-
                     b.HasOne("instaProj.Models.User", "User")
                         .WithMany()
                         .HasForeignKey("User_Id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Comment");
-
-                    b.Navigation("Post");
-
-                    b.Navigation("SubComment");
 
                     b.Navigation("User");
                 });

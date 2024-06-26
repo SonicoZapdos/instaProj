@@ -13,6 +13,8 @@ namespace instaProj.Models
         public bool Private { get; set; } /* - false */
 
         public int User_Id { get; set; } /* . */
+        [NotMapped]
+        [JsonIgnore]
         public User? User { get; set; } /* auto */
 
         [NotMapped]
