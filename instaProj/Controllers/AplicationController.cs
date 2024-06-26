@@ -129,7 +129,42 @@ namespace instaProj.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Favorite(int post, string page)
+        public async Task<IActionResult> FavoriteForYou(int post, string page)
+        {
+            if (post != 0 && HttpContext.Session.GetString("USERLOGADO") != null && int.TryParse(HttpContext.Session.GetString("USERLOGADO"), out int id))
+            {
+                // Verifica se já existe uma entrada de Rating para o usuário atual e o post específico
+                Rating? r = await _context.Ratings.FirstOrDefaultAsync(m => m.User_Id == id && m.Post_Id == post) ?? null;
+
+                if (r == new Rating() || r == null)
+                {
+                    // Se não existe, cria uma nova entrada de Rating
+                    Rating rNew = new Rating
+                    {
+                        User_Id = id,
+                        Post_Id = post,
+                        Comment_Id = 0,
+                        SubComment_Id = 0
+                    };
+                    _context.Ratings.Add(rNew);
+                }
+                else
+                {
+                    // Se já existe uma entrada de Rating, remove-a
+                    _context.Ratings.Remove(r);
+                }
+
+                // Salva as mudanças no banco de dados
+                await _context.SaveChangesAsync();
+            }
+
+            // Redireciona para a página principal após a operação
+            return RedirectToAction("Main", "Aplication", new { page = page });
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> FavoriteMyPage(int post, string page)
         {
             if (post != 0 && HttpContext.Session.GetString("USERLOGADO") != null && int.TryParse(HttpContext.Session.GetString("USERLOGADO"), out int id))
             {
