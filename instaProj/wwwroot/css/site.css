@@ -279,3 +279,98 @@ input{
     overflow: hidden;
     text-overflow: ellipsis;
 }
+
+.border {
+    border: 1px solid;
+    border-radius: 15px;
+    height: 100px;
+}
+
+#new-post {
+    height: auto;
+}
+
+.box-post {
+    background-color: lightgray;
+}
+
+.file-input-container {
+    overflow: hidden;
+    border-radius: 50%;
+    width: 50px;
+    align-items: center;
+    height: 50px;
+    margin-right: 4px;
+    position: relative;
+    display: inline-block;
+}
+
+    .file-input-container:hover {
+        color: rgb(35, 35, 35);
+    }
+
+    .file-input-container input[type="file"] {
+        position: absolute;
+        opacity: 0;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        cursor: pointer;
+    }
+
+.btn-icon {
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 50px;
+    height: 50px;
+    background-color: transparent;
+    border: none;
+}
+
+    .btn-icon:focus {
+        outline: none;
+    }
+
+twtaw
+/* Garantir que as imagens do carrossel tenham uma altura de 200px */
+.carousel-inner img {
+    height: 200px;
+    object-fit: cover;
+    /* Manter a proporção da imagem */
+}
+
+/* Estilizar o botão de remoção ("X") */
+.remove-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+}
+
+    .remove-btn:hover {
+        background-color: rgba(255, 0, 0, 0.7);
+        color: white;
+    }
+
+/* Reduzir o tamanho dos botões de controle do carrossel */
+.small-carousel-control {
+    width: 30px;
+    height: 30px;
+}
+
+.small-carousel-icon {
+    width: 20px;
+    height: 20px;
+}
