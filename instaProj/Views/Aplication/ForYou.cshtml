@@ -43,16 +43,32 @@
                                                 </div>
                                             </div>
                                         }
-                                        else if (x.Type != ".mp4")
+                                        else if (x.Type == ".mp3")
                                         {
                                             <div class="carousel-item active">
-                                                <img src="@x.NameLocal" class="maxW" style="height: 300px" />
+                                                <div class="d-flex justify-content-center">
+                                                    <audio controls>
+                                                        <source src="@x.NameLocal" type="audio/mpeg">
+                                                        Your browser does not support the audio element.
+                                                    </audio>
+                                                </div>
+                                            </div>
+                                        }
+                                        else if (x.Type == ".mp4")
+                                        {
+                                            <div class="carousel-item active">
+                                                <div class="d-flex justify-content-center">
+                                                    <video width="560" height="315" controls>
+                                                        <source src="@x.NameLocal" type="video/mp4">
+                                                        Your browser does not support the video tag.
+                                                    </video>
+                                                </div>
                                             </div>
                                         }
                                         else
                                         {
                                             <div class="carousel-item active">
-                                                <p>This is Video Local</p>
+                                                <img src="@x.NameLocal" class="maxW" style="height: 300px" />
                                             </div>
                                         }
                                         firstRun = false;
@@ -68,16 +84,32 @@
                                                 </div>
                                             </div>
                                         }
-                                        else if (x.Type != ".mp4")
+                                        else if (x.Type == ".mp3")
                                         {
                                             <div class="carousel-item">
-                                                <img src="@x.NameLocal" class="maxW" style="height: 300px" />
+                                                <div class="d-flex justify-content-center">
+                                                    <audio controls>
+                                                        <source src="@x.NameLocal" type="audio/mpeg">
+                                                        Your browser does not support the audio element.
+                                                    </audio>
+                                                </div>
+                                            </div>
+                                        }
+                                        else if (x.Type == ".mp4")
+                                        {
+                                            <div class="carousel-item">
+                                                <div class="d-flex justify-content-center">
+                                                    <video width="560" height="315" controls>
+                                                        <source src="@x.NameLocal" type="video/mp4">
+                                                        Your browser does not support the video tag.
+                                                    </video>
+                                                </div>
                                             </div>
                                         }
                                         else
                                         {
                                             <div class="carousel-item">
-                                                <p>This is Video Local</p>
+                                                <img src="@x.NameLocal" class="maxW" style="height: 300px" />
                                             </div>
                                         }
                                     }
@@ -182,6 +214,7 @@
 
     </div>
 </div>
+
 
 <style>
     .border {

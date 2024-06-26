@@ -14,12 +14,12 @@
             </div>
             <a class="btn btnPd" asp-action="Main" asp-route-page="UpdateUser">Editar</a>
         </div>
-        <div class="box-post " style="height: 150px">
-            <p class="no-config" style="height: 150px; padding: 40px; text-align:justify; ">@ViewBag.User.Bio</p>
+        <div class="box-post" style="height: 150px">
+            <p class="no-config" style="height: 150px; padding: 40px; text-align:justify;">@ViewBag.User.Bio</p>
         </div>
     </div>
-    @*     <hr class="maxW hrdiv" />
-    *@    <div class="row">
+
+    <div class="row">
         <div class="col box-follow-select2" id="MyPosts" onclick="changeList2(1)">
             <h6 class="no-config text-select">Meus posts</h6>
         </div>
@@ -27,8 +27,9 @@
             <h6 class="no-config text-select">Posts arquivados</h6>
         </div>
     </div>
+    
     <div class="maxW d-flex flex-column">
-        @if (ViewBag.MyPosts != null && ViewBag.MyPosts != new List<Post>() && ((List<Post>)ViewBag.MyPosts).Count() > 0)
+        @if (ViewBag.MyPosts != null && ViewBag.MyPosts.Count > 0)
         {
             foreach (Post p in ViewBag.MyPosts)
             {
@@ -39,11 +40,10 @@
                             <div class="user"></div>
                             <h4 class="no-config">@ViewBag.User.Name</h4>
                         </div>
-                        <span class="material-symbols-outlined" style="height: 20px">
-                            more_horiz
-                        </span>
+                        <span class="material-symbols-outlined" style="height: 20px">more_horiz</span>
                     </div>
                     <hr class="maxW no-config" />
+
                     @if (p.Archives != null && p.Archives.Count > 0)
                     {
                         string id = "carousel-" + p.Id.ToString();
@@ -62,16 +62,32 @@
                                                 </div>
                                             </div>
                                         }
-                                        else if (x.Type != ".mp4")
+                                        else if (x.Type == ".mp3")
                                         {
                                             <div class="carousel-item active">
-                                                <img src="@x.NameLocal" class="maxW" />
+                                                <div class="d-flex justify-content-center">
+                                                    <audio controls>
+                                                        <source src="@x.NameLocal" type="audio/mpeg">
+                                                        Your browser does not support the audio element.
+                                                    </audio>
+                                                </div>
+                                            </div>
+                                        }
+                                        else if (x.Type == ".mp4")
+                                        {
+                                            <div class="carousel-item active">
+                                                <div class="d-flex justify-content-center">
+                                                    <video width="560" height="315" controls>
+                                                        <source src="@x.NameLocal" type="video/mp4">
+                                                        Your browser does not support the video tag.
+                                                    </video>
+                                                </div>
                                             </div>
                                         }
                                         else
                                         {
                                             <div class="carousel-item active">
-                                                <p>This is Video Local</p>
+                                                <img src="@x.NameLocal" class="maxW" style="height: 300px" />
                                             </div>
                                         }
                                         firstRun = false;
@@ -87,16 +103,32 @@
                                                 </div>
                                             </div>
                                         }
-                                        else if (x.Type != ".mp4")
+                                        else if (x.Type == ".mp3")
                                         {
                                             <div class="carousel-item">
-                                                <img src="@x.NameLocal" class="maxW" />
+                                                <div class="d-flex justify-content-center">
+                                                    <audio controls>
+                                                        <source src="@x.NameLocal" type="audio/mpeg">
+                                                        Your browser does not support the audio element.
+                                                    </audio>
+                                                </div>
+                                            </div>
+                                        }
+                                        else if (x.Type == ".mp4")
+                                        {
+                                            <div class="carousel-item">
+                                                <div class="d-flex justify-content-center">
+                                                    <video width="560" height="315" controls>
+                                                        <source src="@x.NameLocal" type="video/mp4">
+                                                        Your browser does not support the video tag.
+                                                    </video>
+                                                </div>
                                             </div>
                                         }
                                         else
                                         {
                                             <div class="carousel-item">
-                                                <p>This is Video Local</p>
+                                                <img src="@x.NameLocal" class="maxW" style="height: 300px" />
                                             </div>
                                         }
                                     }
@@ -112,6 +144,7 @@
                             </button>
                         </div>
                     }
+
                     <div class="maxW d-flex justify-content-end align-items-center p-1 ps-3 pe-3 gap-2" style="height: 50px;">
                         @{
                             bool isFavorited = p.Rating; //p.Rating indica se o post foi favoritado pelo usuário
@@ -130,16 +163,14 @@
                                 <!-- Ícone de estrela preenchida -->
                                 <path d="M316.9 18C311.6 7 300.4 0 288.1 0s-23.4 7-28.8 18L195 150.3 51.4 171.5c-12 1.8-22 10.2-25.7 21.7s-.7 24.2 7.9 32.7L137.8 329 113.2 474.7c-2 12 3 24.2 12.9 31.3s23 8 33.8 2.3l128.3-68.5 128.3 68.5c10.8 5.7 23.9 4.9 33.8-2.3s14.9-19.3 12.9-31.3L438.5 329 542.7 225.9c8.6-8.5 11.7-21.2 7.9-32.7s-13.7-19.9-25.7-21.7L381.2 150.3 316.9 18z"></path>
                             </svg>
-                            @using (Html.BeginForm("FavoriteMyPage", "Aplication", FormMethod.Post, new { id = "favoriteForm-" + p.Id, page = "Mypage" }))
+                            @using (Html.BeginForm("FavoriteMyPage", "Aplication", FormMethod.Post, new { id = "favoriteForm-" + p.Id, page = "MyPage" }))
                             {
                                 @Html.AntiForgeryToken()
                                 <input type="hidden" name="post" value="@p.Id" />
                                 <input type="hidden" name="page" value="MyPage" />
                             }
                         </label>
-
-
-                        <button type="button" class="btn mt-2" data-bs-toggle="modal" data-bs-target="#commentModal">
+                        <button type="button" class="btn mt-2" data-bs-toggle="modal" data-bs-target="#commentModal-@p.Id">
                             <span class="material-symbols-outlined" style="height: 24px">
                                 comment
                             </span>
@@ -206,9 +237,8 @@
                 Não existe postagens ainda.
             </div>
         }
-
     </div>
-</div>
+
 
 <style>
     /*     .box-follow {
