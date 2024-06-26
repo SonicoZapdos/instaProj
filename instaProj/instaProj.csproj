@@ -12,6 +12,32 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Remove="wwwroot\img\11hKIGugpac16oV6fq94PRv95.png" />
+    <Content Remove="wwwroot\img\2kTK6YlVYn8rew9Hwzh1CdtSo.png" />
+    <Content Remove="wwwroot\img\3WRlH6L1KzG8Pgz17NR5AAB3c.png" />
+    <Content Remove="wwwroot\img\AQVym0TvPc5MmsIAMA6XYXV4S.png" />
+    <Content Remove="wwwroot\img\b4L6jMxx6QzB282G82MvFroB1.png" />
+    <Content Remove="wwwroot\img\gYQ5i1rGombrgxmaDqVFua7eN.png" />
+    <Content Remove="wwwroot\img\Hb85eszoGqbLCsRxXBgGt9ZaG.png" />
+    <Content Remove="wwwroot\img\hNGP1nCC04uNVm5bSv9WPSdpf.png" />
+    <Content Remove="wwwroot\img\ifaw3VagPnABHbAmWlKRnZIT5.mp4" />
+    <Content Remove="wwwroot\img\L6K17DtU0BqD3BmS8uQlBHAGh.png" />
+    <Content Remove="wwwroot\img\nYIqOzH2X2OIpWJ45MR3gRtLo.png" />
+    <Content Remove="wwwroot\img\NzQabJg9La1HEVfOQSjXKC7cH.png" />
+    <Content Remove="wwwroot\img\pYSJXb7sAFdXgIa9MMxX2Ri8j.png" />
+    <Content Remove="wwwroot\img\ROPnugfj4qlbT0CTm5sxdmsXE.png" />
+    <Content Remove="wwwroot\img\SdZ7zm9fBNU8pMP7wUStbOC7P.png" />
+    <Content Remove="wwwroot\img\sP8ESlSTwF0yxvZFAUE2LzP8M.png" />
+    <Content Remove="wwwroot\img\tfJXvt4MZbtiqqMVSbwP8uupQ.png" />
+    <Content Remove="wwwroot\img\uYUeQjocbBN5VReFtaotJ236v.png" />
+    <Content Remove="wwwroot\img\Vhz5gGZhVGus5oPrQBwUFFcw1.png" />
+    <Content Remove="wwwroot\img\wUiSu3ZM42Bii1UUEABUyF2Ly.png" />
+    <Content Remove="wwwroot\img\y6V6OrADHMPugJ3mAdjHMGWbi.png" />
+    <Content Remove="wwwroot\img\YqM7K3rxRsRqnrBSYXdQfwNSA.png" />
+    <Content Remove="wwwroot\img\ZFmzrCUZpZ9T2zHq028QsCQaL.png" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.11" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.11">
       <PrivateAssets>all</PrivateAssets>
@@ -25,6 +51,10 @@
     </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.16" />
     <PackageReference Include="SixLabors.ImageSharp" Version="3.1.4" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\img\" />
   </ItemGroup>
 
 </Project>
