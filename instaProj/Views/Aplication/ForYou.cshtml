@@ -204,13 +204,10 @@
                                 {
                                     <p>Não existe comentários ainda!!!</p>
                                 }
-                            </div>
-
                             <div class="modal-footer row" style="height: 10vh">
                                 <div class="col-1 d-flex justify-content-center align-items-center">
                                     <img src="/images/ppic.png" alt="" class="user">
                                 </div>
-
                                 @using (Html.BeginForm("CreatePostComment", "Aplication", FormMethod.Post, new { id = "commentForm-" + p.Id }))
                                 {
                                     @Html.AntiForgeryToken()
