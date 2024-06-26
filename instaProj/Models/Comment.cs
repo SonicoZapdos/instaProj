@@ -13,8 +13,12 @@ namespace instaProj.Models
         public bool rating { get; set; }
 
         public int User_Id { get; set; }
+        [NotMapped]
+        [JsonIgnore]
         public User? User { get; set; }
         public int Post_Id {  get; set; }
+        [NotMapped]
+        [JsonIgnore]
         public Post? Post {  get; set; }
         
     }

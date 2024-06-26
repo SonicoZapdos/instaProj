@@ -22,11 +22,9 @@
                         </span>
                     </div>
                     <hr class="maxW no-config mb-1" />
+
                     @if (p.Archives != null && p.Archives.Count > 0)
                     {
-                        <script>
-                            console.log('@p.Archives.Count')
-                        </script>
                         string id = "carousel-" + p.Id.ToString();
                         <div id="@id" class="carousel slide maxW" data-bs-ride="carousel" data-bs-interval="false" style="height: 300px;">
                             <div class="carousel-inner">
@@ -43,16 +41,32 @@
                                                 </div>
                                             </div>
                                         }
-                                        else if (x.Type != ".mp4")
+                                        else if (x.Type == ".mp3")
                                         {
                                             <div class="carousel-item active">
-                                                <img src="@x.NameLocal" class="maxW" style="height: 300px" />
+                                                <div class="d-flex justify-content-center">
+                                                    <audio controls>
+                                                        <source src="@x.NameLocal" type="audio/mpeg">
+                                                        Your browser does not support the audio element.
+                                                    </audio>
+                                                </div>
+                                            </div>
+                                        }
+                                        else if (x.Type == ".mp4")
+                                        {
+                                            <div class="carousel-item active">
+                                                <div class="d-flex justify-content-center">
+                                                    <video width="560" height="315" controls>
+                                                        <source src="@x.NameLocal" type="video/mp4">
+                                                        Your browser does not support the video tag.
+                                                    </video>
+                                                </div>
                                             </div>
                                         }
                                         else
                                         {
                                             <div class="carousel-item active">
-                                                <p>This is Video Local</p>
+                                                <img src="@x.NameLocal" class="maxW" style="height: 300px" />
                                             </div>
                                         }
                                         firstRun = false;
@@ -68,31 +82,48 @@
                                                 </div>
                                             </div>
                                         }
-                                        else if (x.Type != ".mp4")
+                                        else if (x.Type == ".mp3")
                                         {
                                             <div class="carousel-item">
-                                                <img src="@x.NameLocal" class="maxW" style="height: 300px" />
+                                                <div class="d-flex justify-content-center">
+                                                    <audio controls>
+                                                        <source src="@x.NameLocal" type="audio/mpeg">
+                                                        Your browser does not support the audio element.
+                                                    </audio>
+                                                </div>
+                                            </div>
+                                        }
+                                        else if (x.Type == ".mp4")
+                                        {
+                                            <div class="carousel-item">
+                                                <div class="d-flex justify-content-center">
+                                                    <video width="560" height="315" controls>
+                                                        <source src="@x.NameLocal" type="video/mp4">
+                                                        Your browser does not support the video tag.
+                                                    </video>
+                                                </div>
                                             </div>
                                         }
                                         else
                                         {
                                             <div class="carousel-item">
-                                                <p>This is Video Local</p>
+                                                <img src="@x.NameLocal" class="maxW" style="height: 300px" />
                                             </div>
                                         }
                                     }
                                 }
                             </div>
-                            <button class="carousel-control-prev small-carousel-control" type="button" data-bs-target="#@id" data-bs-slide="prev">
-                                <span class="carousel-control-prev-icon small-carousel-icon" aria-hidden="true"></span>
+                            <button class="carousel-control-prev" type="button" data-bs-target="#@id" data-bs-slide="prev">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                                 <span class="visually-hidden">Previous</span>
                             </button>
-                            <button class="carousel-control-next small-carousel-control" type="button" data-bs-target="#@id" data-bs-slide="next">
-                                <span class="carousel-control-next-icon small-carousel-icon" aria-hidden="true"></span>
+                            <button class="carousel-control-next" type="button" data-bs-target="#@id" data-bs-slide="next">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
                                 <span class="visually-hidden">Next</span>
                             </button>
                         </div>
                     }
+
                     <div class="maxW d-flex justify-content-end align-items-center p-1 ps-3 pe-3 gap-2" style="height: 50px;">
                         @{
                             bool isFavorited = p.Rating; //p.Rating indica se o post foi favoritado pelo usuário
@@ -118,7 +149,7 @@
                                 <input type="hidden" name="page" value="ForYou" />
                             }
                         </label>
-                        <button type="button" class="btn mt-2" data-bs-toggle="modal" data-bs-target="#commentModal">
+                        <button type="button" class="btn mt-2" data-bs-toggle="modal" data-bs-target="#commentModal-@p.Id">
                             <span class="material-symbols-outlined" style="height: 24px">
                                 comment
                             </span>
@@ -140,7 +171,7 @@
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div class="modal-body" id="bodyComment" style="height: 40vh">
-                                @if (p.Comment != null && p.Comment != new List<Comment>() && p.Comment.Count() > 0)
+                                @if (p.Comment != null && p.Comment.Count() > 0)
                                 {
                                     @foreach (Comment c in p.Comment)
                                     {
@@ -153,18 +184,27 @@
                                 {
                                     <p>Não existe comentários ainda!!!</p>
                                 }
-
                             </div>
+
                             <div class="modal-footer row" style="height: 10vh">
                                 <div class="col-1 d-flex justify-content-center align-items-center">
                                     <img src="/images/ppic.png" alt="" class="user">
                                 </div>
-                                @using (Html.BeginForm("Favorite", "Aplication", FormMethod.Post, new { id = "favoriteForm-" + 0, page = "Mypage" }))
+
+                                @using (Html.BeginForm("CreatePostComment", "Aplication", FormMethod.Post, new { id = "commentForm-" + p.Id }))
                                 {
                                     @Html.AntiForgeryToken()
-                                    <div class="form-floating">
-                                        <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea"></textarea>
-                                        <label for="floatingTextarea">Comments</label>
+                                    @Html.Hidden("postId", p.Id)
+                                    <div class="row d-flex align-items-center justify-content-between p-2 pt-0 pb-2" style="width: 100%;">
+                                        <div class="form-floating col-10" style="width: 90%;">
+                                            <textarea class="form-control" name="Description" placeholder="Leave a comment here" id="floatingTextarea" style="width: 100%;"></textarea>
+                                            <label for="floatingTextarea" style="padding-left: 20px;">Comments</label>
+                                        </div>
+                                        <div class="col-2 d-flex justify-content-end align-items-center">
+                                            <button type="submit" class="btn-icon" style="width: auto;">
+                                                <span class="material-symbols-outlined no-config" style="width: auto;">send</span>
+                                            </button>
+                                        </div>
                                     </div>
                                 }
                             </div>
@@ -183,101 +223,9 @@
     </div>
 </div>
 
+
 <style>
-    .border {
-        border: 1px solid;
-        border-radius: 15px;
-        height: 100px;
-    }
-
-    #new-post {
-        height: auto;
-    }
-
-    .box-post {
-        background-color: lightgray;
-    }
-
-    .file-input-container {
-        overflow: hidden;
-        border-radius: 50%;
-        width: 50px;
-        align-items: center;
-        height: 50px;
-        margin-right: 4px;
-        position: relative;
-        display: inline-block;
-    }
-
-        .file-input-container:hover {
-            color: rgb(35, 35, 35);
-        }
-
-        .file-input-container input[type="file"] {
-            position: absolute;
-            opacity: 0;
-            width: 100%;
-            height: 100%;
-            top: 0;
-            left: 0;
-            cursor: pointer;
-        }
-
-    .btn-icon {
-        cursor: pointer;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        width: 50px;
-        height: 50px;
-        background-color: transparent;
-        border: none;
-    }
-
-        .btn-icon:focus {
-            outline: none;
-        }
-
-    twtaw
-    /* Garantir que as imagens do carrossel tenham uma altura de 200px */
-    .carousel-inner img {
-        height: 200px;
-        object-fit: cover;
-        /* Manter a proporção da imagem */
-    }
-
-    /* Estilizar o botão de remoção ("X") */
-    .remove-btn {
-        position: absolute;
-        top: 10px;
-        right: 10px;
-        border: none;
-        font-size: 1.5rem;
-        cursor: pointer;
-        border-radius: 50%;
-        width: 30px;
-        height: 30px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        z-index: 2;
-    }
-
-        .remove-btn:hover {
-            background-color: rgba(255, 0, 0, 0.7);
-            color: white;
-        }
-
-    /* Reduzir o tamanho dos botões de controle do carrossel */
-    .small-carousel-control {
-        width: 30px;
-        height: 30px;
-    }
-
-    .small-carousel-icon {
-        width: 20px;
-        height: 20px;
-    }
+    
 </style>
 
 @section Scripts {
