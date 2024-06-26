@@ -1,0 +1,181 @@
+﻿@model instaProj.Models.Post
+
+<div class="maxW box-post p-1" id="new-post">
+    <div class="col">
+        <form asp-action="CreatePost" asp-controller="Posts" enctype="multipart/form-data" method="post"
+              id="postForm">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="row d-flex align-items-center gap-3 p-2">
+                <div class="logo">
+                    <img src="/images/ppic.png" alt="" class="user">
+                </div>
+                <br>
+                <div class="form-floating p-1" style="width:85%">
+                    <textarea class="form-control" id="floatingTextarea" maxlength="250" placeholder="Novo Post"
+                              asp-for="Description" style="background-color: lightgrey"></textarea>
+                    <label for="floatingTextarea">Novo Post</label>
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                </div>
+            </div>
+            <input type="file" id="inputFile" class="d-none" multiple onchange="handleFileSelect(event)" />
+
+            <!-- Carrossel de Imagens -->
+            <div id="carouselExampleControls" class="carousel slide d-none maxW" data-bs-ride="carousel" style="height: 300px">
+                <div class="carousel-inner" id="carouselInner">
+                    <!-- Imagens selecionadas aparecerão aqui -->
+                </div>
+                <button class="carousel-control-prev" type="button"
+                        data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button"
+                        data-bs-target="#carouselExampleControls" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
+            </div>
+
+            <div class="row d-flex align-items-center justify-content-between p-2 pt-0 pb-2">
+                <div class="row d-flex gap-1 align-items-center justify-content-start" style="width: 70%">
+                    <div class="file-input-container">
+                        <label class="btn-icon" for="inputFile">
+                            <span class="material-symbols-outlined no-config"
+                                  style="width: auto;">upload_file</span>
+                        </label>
+                    </div>
+                    <div class="file-input-container">
+                        <label class="btn-icon" for="checkLink">
+                            <span class="material-symbols-outlined no-config" style="width: auto;">link</span>
+                        </label>
+                    </div>
+                    <div class="d-none w-auto gap-1" id="linkShow">
+                        <div class="form-floating linkA" style="height: 40px">
+                            <input type="url" class="form-control p-0" id="linkInput" placeholder="Insira um Link" style="height: 40px">
+                            <label class="pt-2" for="linkInput" style="overflow:hidden;">Insira um Link</label>
+                        </div>
+                        <button type="button" onclick="stringSelect()" class="btn btn-dark">Enviar</button>
+                        <div class="form-check d-none">
+                            <input class="form-check-input" type="checkbox" value="" id="checkLink" onchange="onOpen()">
+                        </div>
+                    </div>
+                </div>
+                <div class="file-input-container">
+                    <button type="submit" class="btn-icon" style="width: auto">
+                        <span class="material-symbols-outlined no-config" style="width: auto;">send</span>
+                    </button>
+                </div>
+            </div>
+        </form>
+        <div id="error-message" class="text-danger" style="display: none;">Por favor, preencha a descrição ou adicione pelo menos um arquivo.</div>
+    </div>
+</div>
+
+
+<script>
+    let selectedFiles = [];
+
+    function handleFileSelect(event) {
+        const files = event.target.files;
+        for (let i = 0; i < files.length; i++) {
+            selectedFiles.push(files[i]);
+        }
+        displaySelectedFiles();
+    }
+
+    function stringSelect() {
+        selectedFiles.push(document.getElementById('linkInput').value);
+        displaySelectedFiles();
+    }
+
+    function displaySelectedFiles() {
+        const carouselInner = document.getElementById('carouselInner');
+        carouselInner.innerHTML = '';
+
+        selectedFiles.forEach((file, index) => {
+            if (typeof file !== 'string') {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    const item = document.createElement('div');
+                    item.className = 'carousel-item' + (index === 0 ? ' active' : '');
+                    item.innerHTML = `
+                                                                <img src="${e.target.result}" class="maxW" style="height: 300px" alt="Imagem Selecionada">
+                                                                    <button type="button" class="remove-btn z-3" onclick="removeFile(${index})"><span class="material-symbols-outlined no-config">
+                                        close
+                                        </span></button>
+                                                            `;
+                    carouselInner.appendChild(item);
+                    document.getElementById('carouselExampleControls').classList.remove('d-none');
+                };
+                reader.readAsDataURL(file);
+            }
+            else {
+                const item = document.createElement('div');
+                var linkShow = 'https://img.youtube.com/vi/' + file.substring(32) + '/0.jpg';
+                item.className = 'carousel-item' + (index === 0 ? ' active' : '');
+                item.innerHTML = `
+                                                                            <img src="${linkShow}" class="maxW" style="height: 300px" alt="Imagem Selecionada">
+                                                                        <button type="button" class="remove-btn z-3" onclick="removeFile(${index})"><span class="material-symbols-outlined no-config">
+                                            close
+                                            </span></button>
+                                                                `;
+                carouselInner.appendChild(item);
+                document.getElementById('carouselExampleControls').classList.remove('d-none');
+            }
+        });
+    }
+
+    function removeFile(index) {
+        selectedFiles.splice(index, 1);
+        if (selectedFiles.length == 0) {
+            document.getElementById('carouselExampleControls').classList.add('d-none');
+        }
+        displaySelectedFiles();
+    }
+
+    document.getElementById('postForm').addEventListener('submit', function (event) {
+        event.preventDefault(); // Evitar o envio automático do formulário
+
+        const description = document.getElementById('floatingTextarea').value.trim();
+        const errorMessage = document.getElementById('error-message');
+
+        if (description === "" && selectedFiles.length === 0) {
+            errorMessage.style.display = 'block';
+            return;
+        } else {
+            errorMessage.style.display = 'none';
+        }
+
+        const formData = new FormData(this);
+        selectedFiles.forEach((file, index) => {
+
+            if (typeof file !== 'string') {
+                formData.append('Archives', file); // Adicionar cada arquivo ao FormData
+            } else {
+                formData.append('Links', file); // Adicionar cada link ao FormData
+            }
+        });
+
+        fetch('@Url.Action("CreatePost", "Posts")', {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'X-CSRF-TOKEN': $('input[name="__RequestVerificationToken"]').val() // CSRF token
+            }
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    console.log('Post enviado com sucesso:', data);
+                    window.location.href = data.redirectUrl; // Redireciona para a URL de sucesso
+                } else {
+                    console.error('Erro ao enviar o post.');
+                    window.location.href = data.redirectUrl; // Redireciona para a URL de falha, se desejado
+                }
+            })
+            .catch(error => {
+                console.error('Erro:', error);
+                // Tratar o erro conforme necessário
+            });
+    });
+</script>

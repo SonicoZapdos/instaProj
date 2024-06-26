@@ -42,12 +42,19 @@ namespace instaProj.Controllers
                         p.Archives = _context.Archives.Where(m => m.Post_Id == p.Id).ToList();
 
                         // Verifica se há uma avaliação (favorito) do usuário para o post
-                        var ratingExists = _context.Ratings.Any(m => m.Post_Id == p.Id && m.User_Id == id);
+                        var ratingPostExists = _context.Ratings.Any(m => m.Post_Id == p.Id && m.User_Id == id);
 
                         // Atribui o valor de 'Rating' com base na existência da avaliação
-                        p.Rating = ratingExists;
+                        p.Rating = ratingPostExists;
 
                         p.Comment = _context.Comments.Where(m => m.Post_Id == p.Id).ToList() ?? new List<Comment>();
+
+                        foreach(Comment c in p.Comment)
+                        {
+                            var ratingCommentExists = _context.Ratings.Any(m => m.Comment_Id == c.Id && m.User_Id == id);
+
+                            p.Rating = ratingCommentExists;
+                        }
                     }
                     ViewBag.MyPosts = post;
                     if (page == "UpdateUser")
@@ -63,10 +70,18 @@ namespace instaProj.Controllers
                     {
                         p.Archives = _context.Archives.Where(m => m.Post_Id == p.Id).ToList();
 
-                        var ratingExists = _context.Ratings.Any(m => m.Post_Id == p.Id && m.User_Id == id);
+                        var ratingPostExists = _context.Ratings.Any(m => m.Post_Id == p.Id && m.User_Id == id);
 
-                        p.Rating = ratingExists;
+                        p.Rating = ratingPostExists;
+
                         p.Comment = _context.Comments.Where(m => m.Post_Id == p.Id).ToList() ?? new List<Comment>();
+
+                        foreach (Comment c in p.Comment)
+                        {
+                            var ratingCommentExists = _context.Ratings.Any(m => m.Comment_Id == c.Id && m.User_Id == id);
+
+                            p.Rating = ratingCommentExists;
+                        }
                     }
                     ViewBag.OtherPosts = post;
                 }
