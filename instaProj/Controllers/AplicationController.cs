@@ -232,6 +232,7 @@ namespace instaProj.Controllers
         {
             if (HttpContext.Session.GetString("USERLOGADO") != null && int.TryParse(HttpContext.Session.GetString("USERLOGADO"), out int userId))
             {
+
                 var comment = new Comment
                 {
                     Description = description,

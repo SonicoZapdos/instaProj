@@ -229,7 +229,7 @@
                                 <div class="col-1 d-flex justify-content-center align-items-center">
                                     <img src="/images/ppic.png" alt="" class="user">
                                 </div>
-                                @using (Html.BeginForm("CreatePostCommentMyPage", "Aplication", FormMethod.Post, new { id = "commentForm-" + p.Id, page = "MyPage" }))
+                                @using (Html.BeginForm("CreatePostCommentMyPage", "Aplication", FormMethod.Post, new { id = "commentForm-" + p.Id, page = "MyPage", onsubmit = "return validateComment(this);" }))
                                 {
                                     @Html.AntiForgeryToken()
                                     <input type="hidden" name="post" value="@p.Id" />
@@ -341,5 +341,16 @@
                 followersList.style.display = 'block';
             }
         }
+
+
+    function validateComment(form) {
+        var comment = form.Description.value.trim();
+        if (comment === '') {
+            alert('Adicione um comentario');
+            return false; // Prevent form submission
+        }
+        return true; // Allow form submission
+    }
+
 
 </script>

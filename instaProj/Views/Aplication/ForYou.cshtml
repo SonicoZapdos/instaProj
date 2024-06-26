@@ -211,7 +211,7 @@
                                     <img src="/images/ppic.png" alt="" class="user">
                                 </div>
 
-                                @using (Html.BeginForm("CreatePostComment", "Aplication", FormMethod.Post, new { id = "commentForm-" + p.Id }))
+                                @using (Html.BeginForm("CreatePostComment", "Aplication", FormMethod.Post, new { id = "commentForm-" + p.Id, onsubmit = "return validateComment(this);" }))
                                 {
                                     @Html.AntiForgeryToken()
                                     @Html.Hidden("postId", p.Id)
@@ -243,7 +243,6 @@
     </div>
 </div>
 
-}}
 <style>
 
 </style>
@@ -253,3 +252,13 @@
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
 }
+<script>
+    function validateComment(form) {
+        var comment = form.Description.value.trim();
+        if (comment === '') {
+            alert('Adicione um comentario');
+            return false; // Prevent form submission
+        }
+        return true; // Allow form submission
+    }
+</script>
