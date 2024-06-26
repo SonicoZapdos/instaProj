@@ -22,11 +22,9 @@
                         </span>
                     </div>
                     <hr class="maxW no-config mb-1" />
+
                     @if (p.Archives != null && p.Archives.Count > 0)
                     {
-                        <script>
-                            console.log('@p.Archives.Count')
-                        </script>
                         string id = "carousel-" + p.Id.ToString();
                         <div id="@id" class="carousel slide maxW" data-bs-ride="carousel" data-bs-interval="false" style="height: 300px;">
                             <div class="carousel-inner">
@@ -115,16 +113,17 @@
                                     }
                                 }
                             </div>
-                            <button class="carousel-control-prev small-carousel-control" type="button" data-bs-target="#@id" data-bs-slide="prev">
-                                <span class="carousel-control-prev-icon small-carousel-icon" aria-hidden="true"></span>
+                            <button class="carousel-control-prev" type="button" data-bs-target="#@id" data-bs-slide="prev">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                                 <span class="visually-hidden">Previous</span>
                             </button>
-                            <button class="carousel-control-next small-carousel-control" type="button" data-bs-target="#@id" data-bs-slide="next">
-                                <span class="carousel-control-next-icon small-carousel-icon" aria-hidden="true"></span>
+                            <button class="carousel-control-next" type="button" data-bs-target="#@id" data-bs-slide="next">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
                                 <span class="visually-hidden">Next</span>
                             </button>
                         </div>
                     }
+
                     <div class="maxW d-flex justify-content-end align-items-center p-1 ps-3 pe-3 gap-2" style="height: 50px;">
                         @{
                             bool isFavorited = p.Rating; //p.Rating indica se o post foi favoritado pelo usuário
@@ -185,7 +184,6 @@
                                 {
                                     <p>Não existe comentários ainda!!!</p>
                                 }
-                            </div>
                             <div class="modal-footer row" style="height: 10vh">
                                 <div class="col-1 d-flex justify-content-center align-items-center">
                                     <img src="/images/ppic.png" alt="" class="user">

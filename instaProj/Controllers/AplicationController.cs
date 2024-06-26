@@ -253,6 +253,34 @@ namespace instaProj.Controllers
 
             return RedirectToAction("Main", "Aplication"); // Redireciona para a página principal
         }
+
+        [HttpPost]
+        public async Task<IActionResult> CreatePostCommentMyPage(int postId, string description, string page)
+        {
+            if (HttpContext.Session.GetString("USERLOGADO") != null && int.TryParse(HttpContext.Session.GetString("USERLOGADO"), out int userId))
+            {
+                var comment = new Comment
+                {
+                    Description = description,
+                    Ocult = false,
+                    User_Id = userId,
+                    Post_Id = postId
+                };
+
+                _context.Comments.Add(comment);
+                await _context.SaveChangesAsync();
+
+                var comments = await _context.Comments
+                    .Include(c => c.User)
+                    .Where(c => c.Post_Id == postId)
+                    .ToListAsync();
+
+                return RedirectToAction("Main", "Aplication", new { page = page });
+            }
+
+            return RedirectToAction("Main", "Aplication", new { page = page });
+        }
+
     }
 }
     
