@@ -11,13 +11,15 @@
             foreach (Post p in ViewBag.OtherPosts)
             {
                 bool firstRun = true;
-                <div class="maxW d-flex flex-column box-post">
-                    <div class="maxW d-flex justify-content-between align-items-center pe-4 ps-4">
+                <div class="maxW d-flex flex-column box-post" >
+                    <div class="maxW d-flex justify-content-between align-items-center pe-4 ps-4" style="background-color: #000">
                         <div class="d-flex gap-3 justify-content-center align-items-center">
-                            <div class="user"></div>
-                            <h4 class="no-config">@p.User.Name</h4>
+                            <div class="user">
+
+                            </div>
+                            <h4 class="no-config" style="color: #f4f440">@p.User.Name</h4>
                         </div>
-                        <span class="material-symbols-outlined" style="height: 20px">
+                        <span class="material-symbols-outlined" style="height: 20px; color: #f4f440">
                             more_horiz
                         </span>
                     </div>
@@ -131,10 +133,10 @@
                             </button>
                         </div>
                     }
-                    <p style=" margin-left: 40px; margin-top:10px;">
+                    <p style=" margin-left: 40px; margin-top:5px; font-size: 0.8rem;" class="mt-0 mb-1">
                         @p.DatePub
                     </p>
-                    <hr class="mb-0" />
+                    <hr class="mb-0 mt-1" />
                     <div class="maxW d-flex justify-content-end align-items-center mt-0 ps-3 pe-3 mb-2" style="height: 50px;">
                         @{
                             bool isFavorited = p.Rating; //p.Rating indica se o post foi favoritado pelo usuário
@@ -150,7 +152,7 @@
                             }
                         </div>
 
-                        <label class="fav" style="width: 50px; background-color:rebeccapurple" onclick="document.getElementById('favoriteForm-@p.Id').submit();">
+                        <label class="fav" style="width: 50px;" onclick="document.getElementById('favoriteForm-@p.Id').submit();">
                             <input type="checkbox" @if (isFavorited)
                             {
                                 <text>checked</text>
