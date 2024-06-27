@@ -12,16 +12,13 @@
             {
                 bool firstRun = true;
                 <div class="maxW d-flex flex-column box-post" >
-                    <div class="maxW d-flex justify-content-between align-items-center pe-4 ps-4" style="background-color: #000">
+                    <div class="maxW d-flex justify-content-between align-items-center pe-4 ps-4">
                         <div class="d-flex gap-3 justify-content-center align-items-center">
                             <div class="user">
 
                             </div>
-                            <h4 class="no-config" style="color: #f4f440">@p.User.Name</h4>
+                            <h4 class="no-config">@p.User.Name</h4>
                         </div>
-                        <span class="material-symbols-outlined" style="height: 20px; color: #f4f440">
-                            more_horiz
-                        </span>
                     </div>
                     <hr class="maxW no-config mb-1" />
 
@@ -137,7 +134,7 @@
                         @p.DatePub
                     </p>
                     <hr class="mb-0 mt-1" />
-                    <div class="maxW d-flex justify-content-end align-items-center mt-0 ps-3 pe-3 mb-2" style="height: 50px;">
+                    <div class="maxW d-flex justify-content-end align-items-center mt-0 ps-3 pe-3 mb-2" style="height: fit-content;">
                         @{
                             bool isFavorited = p.Rating; //p.Rating indica se o post foi favoritado pelo usuário
                         }
@@ -192,7 +189,7 @@
                             <div class="modal-header">
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
-                            <div class="modal-body" id="bodyComment" style="height: 40vh">
+                            <div class="modal-body" id="bodyComment" style="height: 40vh; ">
                                 @if (p.Comment != null && p.Comment.Count() > 0)
                                 {
                                     @foreach (Comment c in p.Comment)
