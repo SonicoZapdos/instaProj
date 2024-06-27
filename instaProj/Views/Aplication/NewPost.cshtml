@@ -18,7 +18,7 @@
             <input type="file" id="inputFile" class="d-none" multiple onchange="handleFileSelect(event)" />
 
             <!-- Carrossel de Imagens -->
-            <div id="carouselExampleControls" class="carousel slide d-none maxW" data-bs-ride="carousel" style="height: 300px">
+            <div id="carouselExampleControls" class="carousel slide d-none maxW" data-bs-ride="carousel" style="fit-content; padding-top:10px; padding-bottom:10px;">
                 <div class="carousel-inner" id="carouselInner">
                     <!-- Imagens selecionadas aparecerão aqui -->
                 </div>
@@ -33,7 +33,7 @@
             </div>
 
             <div class="row d-flex align-items-center justify-content-between p-2 pt-0 pb-2">
-                <div class="row d-flex gap-1 align-items-center justify-content-start" style="width: 70%">
+                <div class="row d-flex gap-1 align-items-center justify-content-start" style="width: 70%;">
                     <div class="file-input-container">
                         <label class="btn-icon" for="inputFile">
                             <span class="material-symbols-outlined no-config" style="width: auto;">upload_file</span>
@@ -66,7 +66,6 @@
     </div>
 </div>
 
-
 <script>
     let selectedFiles = [];
 
@@ -75,10 +74,13 @@
         for (let i = 0; i < files.length; i++) {
             selectedFiles.push(files[i]);
             if (files[i].type.startsWith('video/')) {
-                // Se o arquivo for um vídeo, processar thumbnail
+                // Processar thumbnail de vídeo
                 const video = document.createElement('video');
                 video.preload = 'metadata';
                 video.onloadedmetadata = function () {
+                    video.currentTime = Math.min(1, video.duration - 1); // Capturar o quadro após 1 segundo
+                };
+                video.onseeked = function () {
                     const canvas = document.createElement('canvas');
                     canvas.width = video.videoWidth;
                     canvas.height = video.videoHeight;
@@ -89,32 +91,50 @@
                     const thumbnailUrl = canvas.toDataURL('image/png'); // Convertendo para base64
 
                     const item = document.createElement('div');
+                    item.className = 'carousel-item' + (selectedFiles.length - 1 === 0 ? ' active' : '');
                     item.innerHTML = `
-                                <img src="${thumbnailUrl}" class="maxW" style="height: 300px" alt="Thumbnail do Vídeo">
-                                <button type="button" class="remove-btn z-3" onclick="removeFile(${selectedFiles.length - 1})">
-                                    <span class="material-symbols-outlined no-config">close</span>
-                                </button>
-                            `;
+                            <img src="${thumbnailUrl}" class="maxW" style="height: 300px" alt="Thumbnail do Vídeo">
+                            <button type="button" class="remove-btn z-3" onclick="removeFile(${selectedFiles.length - 1})">
+                                <span class="material-symbols-outlined no-config">close</span>
+                            </button>
+                        `;
                     const carouselInner = document.getElementById('carouselInner');
-                    carouselInner.innerHTML = '';
                     carouselInner.appendChild(item);
                     document.getElementById('carouselExampleControls').classList.remove('d-none');
                 };
-
-                // Carregar o vídeo para obter os metadados e extrair um quadro
                 video.src = URL.createObjectURL(files[i]);
+            } else if (files[i].type.startsWith('audio/')) {
+                // Processar arquivos de áudio
+                const audioUrl = URL.createObjectURL(files[i]);
+                const item = document.createElement('div');
+                item.className = 'carousel-item' + (selectedFiles.length - 1 === 0 ? ' active' : '');
+                item.innerHTML = `
+                        <div class="d-flex justify-content-center pt-4" style="height:200px;">
+                                                    <audio controls class="maxW mt-5" style="height: 50px; width: 300px ">
+                                <source src="${audioUrl}" type="${files[i].type}">
+                                Seu navegador não suporta o elemento de áudio.
+                            </audio>
+                </div>
+
+                        <button type="button" class="remove-btn z-3" onclick="removeFile(${selectedFiles.length - 1})">
+                            <span class="material-symbols-outlined no-config">close</span>
+                        </button>
+                    `;
+                const carouselInner = document.getElementById('carouselInner');
+                carouselInner.appendChild(item);
+                document.getElementById('carouselExampleControls').classList.remove('d-none');
             } else {
-                // Se não for um vídeo, continuar com o comportamento atual para imagens
+                // Processar imagens
                 const reader = new FileReader();
                 reader.onload = function (e) {
                     const item = document.createElement('div');
                     item.className = 'carousel-item' + (selectedFiles.length - 1 === 0 ? ' active' : '');
                     item.innerHTML = `
-                                <img src="${e.target.result}" class="maxW" style="height: 300px" alt="Imagem Selecionada">
-                                <button type="button" class="remove-btn z-3" onclick="removeFile(${selectedFiles.length - 1})">
-                                    <span class="material-symbols-outlined no-config">close</span>
-                                </button>
-                            `;
+                            <img src="${e.target.result}" class="maxW" style="height: 300px" alt="Imagem Selecionada">
+                            <button type="button" class="remove-btn z-3" onclick="removeFile(${selectedFiles.length - 1})">
+                                <span class="material-symbols-outlined no-config">close</span>
+                            </button>
+                        `;
                     const carouselInner = document.getElementById('carouselInner');
                     carouselInner.appendChild(item);
                     document.getElementById('carouselExampleControls').classList.remove('d-none');
@@ -133,8 +153,11 @@
     }
 
     function stringSelect() {
-        selectedFiles.push(document.getElementById('linkInput').value);
-        displaySelectedFiles();
+        const linkInput = document.getElementById('linkInput').value.trim();
+        if (linkInput) {
+            selectedFiles.push(linkInput);
+            displaySelectedFiles();
+        }
     }
 
     function displaySelectedFiles() {
@@ -142,40 +165,56 @@
         carouselInner.innerHTML = '';
 
         selectedFiles.forEach((file, index) => {
-            if (typeof file !== 'string') {
+            const item = document.createElement('div');
+            item.className = 'carousel-item' + (index === 0 ? ' active' : '');
+
+            if (typeof file === 'string') {
+                item.innerHTML = `
+                        <div class="maxW" style="height: 300px; display: flex; align-items: center; justify-content: center;">
+                            <a href="${file}" target="_blank">${file}</a>
+                            <button type="button" class="remove-btn z-3" onclick="removeFile(${index})">
+                                <span class="material-symbols-outlined no-config">close</span>
+                            </button>
+                        </div>
+                    `;
+            } else {
                 if (file.type.startsWith('video/')) {
-                    // Se for um arquivo de vídeo, mostrar miniatura adequada
-                    const item = document.createElement('div');
-                    const linkShow = 'https://img.youtube.com/vi/' + file.name.substring(0, file.name.lastIndexOf('.')) + '/0.jpg';
-                    item.className = 'carousel-item' + (index === 0 ? ' active' : '');
+                    const videoThumbnailUrl = URL.createObjectURL(file);
                     item.innerHTML = `
-                                <img src="${linkShow}" class="maxW" style="height: 300px" alt="Thumbnail do Vídeo">
+                            <img src="${videoThumbnailUrl}" class="maxW" style="height: 300px" alt="Thumbnail do Vídeo">
+                            <button type="button" class="remove-btn z-3" onclick="removeFile(${index})">
+                                <span class="material-symbols-outlined no-config">close</span>
+                            </button>
+                        `;
+                } else if (file.type.startsWith('audio/')) {
+                    const audioUrl = URL.createObjectURL(file);
+                    item.innerHTML = `
+                            <div class="d-flex justify-content-center pt-4" style="height:200px; background-color: red">
+
+                                <audio controls style="height: 50px; width: 250px;">
+                                <source src="${audioUrl}" type="${file.type}">
+                                Seu navegador não suporta o elemento de áudio.
+                            </audio>
+                            </div>
+                            <button type="button" class="remove-btn z-3" onclick="removeFile(${index})">
+                                <span class="material-symbols-outlined no-config">close</span>
+                            </button>
+                        `;
+                } else {
+                    const reader = new FileReader();
+                    reader.onload = function (e) {
+                        item.innerHTML = `
+                                <img src="${e.target.result}" class="maxW" style="height: 300px" alt="Imagem Selecionada">
                                 <button type="button" class="remove-btn z-3" onclick="removeFile(${index})">
                                     <span class="material-symbols-outlined no-config">close</span>
                                 </button>
                             `;
-                    carouselInner.appendChild(item);
-                    document.getElementById('carouselExampleControls').classList.remove('d-none');
-                } else {
-                    // Se for um arquivo de imagem, mostrar miniatura de imagem
-                    const reader = new FileReader();
-                    reader.onload = function (e) {
-                        const item = document.createElement('div');
-                        item.className = 'carousel-item' + (index === 0 ? ' active' : '');
-                        item.innerHTML = `
-                                    <img src="${e.target.result}" class="maxW" style="height: 300px" alt="Imagem Selecionada">
-                                    <button type="button" class="remove-btn z-3" onclick="removeFile(${index})">
-                                        <span class="material-symbols-outlined no-config">close</span>
-                                    </button>
-                                `;
-                        carouselInner.appendChild(item);
-                        document.getElementById('carouselExampleControls').classList.remove('d-none');
                     };
                     reader.readAsDataURL(file);
                 }
-            } else {
-                // Se for um link, tratar conforme necessário (não há código específico fornecido)
             }
+
+            carouselInner.appendChild(item);
         });
     }
 
