@@ -67,34 +67,41 @@ Vermelhos
         border: #DFDF3B;
     }
 
-.btnPu2 {
-    width: 130px;
-    height: auto;
-    background-color: #F6F6F6;
-    color: #292929;
-}
-
-    .btnPu2:hover {
-        background-color: #dcdbdb;
-        box-shadow: none;
-        border: transparent;
-    }
-
 .btnPd {
     width: 100px;
     height: 40px;
     background-color: #F4F440;
+    border: outset;
+    border-color: #DFDF3B;
+    border-radius: 30px;
     color: #292929;
+    font-weight: 500;
 }
 
     .btnPd:hover {
         background-color: #DFDF3B;
     }
 
+.btnPd2 {
+    width: 100px;
+    height: 40px;
+    background-color: #F6F6F6;
+    border: outset;
+    border-color: #dcdbdb;
+    border-radius: 30px;
+    color: #292929;
+    font-weight: 500;
+}
+
+    .btnPd2:hover {
+        background-color: #dcdbdb;
+    }
+
 .btnConfig{
     width:100px;
     text-align:left;
-    color: gray:
+    height:50px;
+    font-size:large;
 }
 
 .btnLg {

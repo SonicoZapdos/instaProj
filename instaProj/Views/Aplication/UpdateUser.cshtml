@@ -24,8 +24,14 @@
             <span asp-validation-for="Bio" class="text-danger"></span>
         </div>
 
-        <div class="d-flex justify-content-end">
-            <button type="submit" class="btn btnPd" style="width:20%; font-weight: 700;">Salvar</button>
+        <div class="maxW d-flex justify-content-end">
+            <div>
+                <button class="btn btnPd2" asp-action="Main" asp-route-page="MyPage">Voltar</button>
+            </div>
+            <div class="p-1"></div>
+            <div>
+                <button type="submit" class="btn btnPd">Salvar</button>
+            </div>
         </div>
         <input type="hidden" asp-for="Id" />
     </div>
