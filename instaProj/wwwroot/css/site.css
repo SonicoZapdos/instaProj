@@ -71,7 +71,7 @@ Vermelhos
     width: 100px;
     height: 40px;
     background-color: #F4F440;
-    border: outset;
+    border: outset 0.5px;
     border-color: #DFDF3B;
     border-radius: 30px;
     color: #292929;
@@ -86,7 +86,7 @@ Vermelhos
     width: 100px;
     height: 40px;
     background-color: #F6F6F6;
-    border: outset;
+    border: outset 0.5px;
     border-color: #dcdbdb;
     border-radius: 30px;
     color: #292929;
