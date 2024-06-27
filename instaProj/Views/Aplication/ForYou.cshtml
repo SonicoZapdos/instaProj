@@ -11,7 +11,7 @@
             foreach (Post p in ViewBag.OtherPosts)
             {
                 bool firstRun = true;
-                <div class="maxW d-flex flex-column box-post" >
+                <div class="maxW d-flex flex-column box-post card" >
                     <div class="maxW d-flex justify-content-between align-items-center pe-4 ps-4">
                         <div class="d-flex gap-3 justify-content-center align-items-center">
                             <div class="user">
@@ -25,7 +25,7 @@
                     @if (p.Archives != null && p.Archives.Count > 0)
                     {
                         string id = "carousel-" + p.Id.ToString();
-                        <div id="@id" class="carousel slide maxW" data-bs-ride="carousel" data-bs-interval="false" style="fit-content; padding-top:10px; padding-bottom:10px;">
+                        <div id="@id" class="carousel slide maxW" data-bs-ride="carousel" data-bs-interval="false" style="height: fit-content; padding-top:10px; padding-bottom:10px;">
                             <div class="carousel-inner">
                                 @foreach (Archive x in p.Archives)
                                 {
@@ -153,7 +153,8 @@
                             <input type="checkbox" @if (isFavorited)
                             {
                                 <text>checked</text>
-                            }>
+                            }
+                            >
                             <svg class="star-regular" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 576 512">
                                 <!-- Ícone de estrela Vazia -->
                                 <path d="M287.9 0c9.2 0 17.6 5.2 21.6 13.5l68.6 141.3 153.2 22.6c9 1.3 16.5 7.6 19.3 16.3s.5 18.1-5.9 24.5L433.6 328.4l26.2 155.6c1.5 9-2.2 18.1-9.6 23.5s-17.3 6-25.3 1.7l-137-73.2L151 509.1c-8.1 4.3-17.9 3.7-25.3-1.7s-11.2-14.5-9.7-23.5l26.2-155.6L31.1 218.2c-6.5-6.4-8.7-15.9-5.9-24.5s10.3-14.9 19.3-16.3l153.2-22.6L266.3 13.5C270.4 5.2 278.7 0 287.9 0zm0 79L235.4 187.2c-3.5 7.1-10.2 12.1-18.1 13.3L99 217.9 184.9 303c5.5 5.5 8.1 13.3 6.8 21L171.4 443.7l105.2-56.2c7.1-3.8 15.6-3.8 22.6 0l105.2 56.2L384.2 324.1c-1.3-7.7 1.2-15.5 6.8-21l85.9-85.1L358.6 200.5c-7.8-1.2-14.6-6.1-18.1-13.3L287.9 79z"></path>
@@ -172,7 +173,7 @@
 
                         <button type="button" class="btn mt-2" data-bs-toggle="modal" data-bs-target="#commentModal-@p.Id">
 
-                            <span class="material-symbols-outlined" style="height: 24px">
+                            <span class="material-symbols-outlined comment" style="height: 24px">
                                 comment
                             </span>
                         </button>
@@ -187,6 +188,7 @@
                     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable d-flex justify-content-center align-items-center" style="max-width: none">
                         <div class="modal-content" style="width: 700px">
                             <div class="modal-header">
+                                <h5>Comentários</h5>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div class="modal-body" id="bodyComment" style="height: 40vh; ">
@@ -201,7 +203,7 @@
                                 }
                                 else
                                 {
-                                    <p>Não existe comentários ainda!!!</p>
+                                    <p>Não existe comentários ainda.</p>
                                 }
                             </div>
 
@@ -219,9 +221,9 @@
                                             <textarea class="form-control" name="Description" placeholder="Leave a comment here" id="floatingTextarea" style="width: 100%;"></textarea>
                                             <label for="floatingTextarea" style="padding-left: 20px;">Comments</label>
                                         </div>
-                                        <div class="col-2 d-flex justify-content-end align-items-center">
+                                        <div class="col-2 d-flex justify-content-end align-items-center" style="padding-right:30px;">
                                             <button type="submit" class="btn-icon" style="width: auto;">
-                                                <span class="material-symbols-outlined no-config" style="width: auto;">send</span>
+                                                <span class="material-symbols-outlined no-config" style="width: auto; color:white;">send</span>
                                             </button>
                                         </div>
                                     </div>
@@ -243,6 +245,19 @@
 </div>
 
 <style>
+    .modal-content {
+        background-color: #292929;
+        color:white;
+    }
+
+    .modal-title {
+        color: #e8e8e8;
+    }
+
+    .btn-close {
+        background-color: white;
+        color: white;
+    }
 
 </style>
 

@@ -38,6 +38,12 @@ Vermelhos
 #BA0001 - Hover
 */
 
+.card{
+    background-color: #292929;
+    color: #f6f6f6;
+}
+
+
 .user {
     width: 50px;
     height: 50px;
@@ -183,6 +189,10 @@ Vermelhos
     }
 }
 
+.comment{
+    color: white;
+}
+
 .fav {
     --color: #212529;
     --size: 24px;
@@ -200,6 +210,7 @@ Vermelhos
         position: absolute;
         animation: keyframes-star .5s;
         display: block;
+        fill:white;
     }
 
     .fav .star-solid {

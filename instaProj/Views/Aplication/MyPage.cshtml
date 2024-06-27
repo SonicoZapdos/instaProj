@@ -3,8 +3,8 @@
 }
 
 <div class="maxW d-flex flex-column" style="height: 100%; overflow: auto;">
-    <div class="maxW">
-        <div class="maxW d-flex gap-2 justify-content-between align-items-center ps-2 pe-2 box-post pt-3">
+    <div class="maxW card">
+        <div class="maxW d-flex gap-2 justify-content-between align-items-center ps-2 pe-2 box-post pt-3" style="background-color:transparent">
             <div class="d-flex gap-3 justify-content-center align-items-center">
                 <div class="user"></div>
                 <div>
@@ -14,7 +14,7 @@
             </div>
             <a class="btn btnPd" asp-action="Main" asp-route-page="UpdateUser">Editar</a>
         </div>
-        <div class="box-post" style="height: 150px">
+        <div class="box-post" style="height: 150px; background-color:transparent;">
             <p class="no-config" style="height: 150px; padding: 40px; text-align:justify;">@ViewBag.User.Bio</p>
         </div>
     </div>
@@ -27,7 +27,7 @@
             foreach (Post p in ViewBag.MyPosts)
             {
                 bool firstRun = true;
-                <div class="maxW d-flex flex-column box-post">
+                <div class="maxW d-flex flex-column box-post card">
                     <div class="maxW d-flex justify-content-between align-items-center pe-4 ps-4">
                         <div class="d-flex gap-3 justify-content-center align-items-center">
                             <div class="user"></div>
@@ -188,7 +188,7 @@
 
                         <button type="button" class="btn mt-2" data-bs-toggle="modal" data-bs-target="#commentModal-@p.Id">
 
-                            <span class="material-symbols-outlined" style="height: 24px">
+                            <span class="material-symbols-outlined comment" style="height: 24px">
                                 comment
                             </span>
                         </button>
