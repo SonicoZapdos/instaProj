@@ -131,71 +131,81 @@ namespace instaProj.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> FavoriteForYou(int post, string page)
         {
-            if (post != 0 && HttpContext.Session.GetString("USERLOGADO") != null && int.TryParse(HttpContext.Session.GetString("USERLOGADO"), out int id))
+            if (post != 0 && HttpContext.Session.GetString("USERLOGADO") != null && int.TryParse(HttpContext.Session.GetString("USERLOGADO"), out int userId))
             {
                 // Verifica se já existe uma entrada de Rating para o usuário atual e o post específico
-                Rating? r = await _context.Ratings.FirstOrDefaultAsync(m => m.User_Id == id && m.Post_Id == post);
+                Rating rating = await _context.Ratings.FirstOrDefaultAsync(r => r.User_Id == userId && r.Post_Id == post);
 
-                if (r == new Rating() || r == null)
+                if (rating == null)
                 {
                     // Se não existe, cria uma nova entrada de Rating
-                    Rating rNew = new Rating
+                    rating = new Rating
                     {
-                        User_Id = id,
+                        User_Id = userId,
                         Post_Id = post,
                         Comment_Id = 0,
                         SubComment_Id = 0
                     };
-                    _context.Ratings.Add(rNew);
+                    _context.Ratings.Add(rating);
                 }
                 else
                 {
                     // Se já existe uma entrada de Rating, remove-a
-                    _context.Ratings.Remove(r);
+                    _context.Ratings.Remove(rating);
                 }
 
-                // Salva as mudanças no banco de dados
+                // Salva as mudanças no banco de dados apenas uma vez
                 await _context.SaveChangesAsync();
+
+                // Retorna o status da operação como JSON
+                return Json(new { success = true });
             }
 
-            // Redireciona para a página principal após a operação
-            return RedirectToAction("Main", "Aplication", new { page = page });
+            // Retorna um erro caso não seja possível processar a requisição
+            return BadRequest("Erro ao favoritar o post.");
         }
+
+
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> FavoriteMyPage(int post, string page)
         {
-            if (post != 0 && HttpContext.Session.GetString("USERLOGADO") != null && int.TryParse(HttpContext.Session.GetString("USERLOGADO"), out int id))
+            if (post != 0 && HttpContext.Session.GetString("USERLOGADO") != null && int.TryParse(HttpContext.Session.GetString("USERLOGADO"), out int userId))
             {
                 // Verifica se já existe uma entrada de Rating para o usuário atual e o post específico
-                Rating? r = await _context.Ratings.FirstOrDefaultAsync(m => m.User_Id == id && m.Post_Id == post);
+                Rating rating = await _context.Ratings.FirstOrDefaultAsync(r => r.User_Id == userId && r.Post_Id == post);
 
-                if (r == new Rating() || r == null)
+                if (rating == null)
                 {
                     // Se não existe, cria uma nova entrada de Rating
-                    Rating rNew = new Rating
+                    rating = new Rating
                     {
-                        User_Id = id,
+                        User_Id = userId,
                         Post_Id = post,
                         Comment_Id = 0,
                         SubComment_Id = 0
                     };
-                    _context.Ratings.Add(rNew);
+                    _context.Ratings.Add(rating);
                 }
                 else
                 {
                     // Se já existe uma entrada de Rating, remove-a
-                    _context.Ratings.Remove(r);
+                    _context.Ratings.Remove(rating);
                 }
 
-                // Salva as mudanças no banco de dados
+                // Salva as mudanças no banco de dados apenas uma vez
                 await _context.SaveChangesAsync();
+
+                // Retorna o status da operação como JSON
+                return Json(new { success = true });
             }
 
-            // Redireciona para a página principal após a operação
-            return RedirectToAction("Main", "Aplication", new { page = page });
+            // Retorna um erro caso não seja possível processar a requisição
+            return BadRequest("Erro ao favoritar o post.");
         }
+
+
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -232,7 +242,6 @@ namespace instaProj.Controllers
         {
             if (HttpContext.Session.GetString("USERLOGADO") != null && int.TryParse(HttpContext.Session.GetString("USERLOGADO"), out int userId))
             {
-
                 var comment = new Comment
                 {
                     Description = description,
@@ -244,16 +253,28 @@ namespace instaProj.Controllers
                 _context.Comments.Add(comment);
                 await _context.SaveChangesAsync();
 
-                var comments = await _context.Comments
+                var newComment = await _context.Comments
                     .Include(c => c.User)
-                    .Where(c => c.Post_Id == postId)
-                    .ToListAsync();
+                    .Where(c => c.Id == comment.Id)
+                    .Select(c => new
+                    {
+                        c.Id,
+                        c.Description,
+                        User = new
+                        {
+                            c.User.Name,
+                            PictureLocal = c.User.PictureLocal ?? "/images/ppic.png"
+                        }
+                    })
+                    .FirstOrDefaultAsync();
 
-                return RedirectToAction("Main", "Aplication"); // Redireciona para a página principal
+                return Json(newComment);
             }
 
-            return RedirectToAction("Main", "Aplication"); // Redireciona para a página principal
+            return BadRequest("User not logged in");
         }
+
+
 
         [HttpPost]
         public async Task<IActionResult> CreatePostCommentMyPage(int postId, string description, string page)
@@ -271,15 +292,25 @@ namespace instaProj.Controllers
                 _context.Comments.Add(comment);
                 await _context.SaveChangesAsync();
 
-                var comments = await _context.Comments
-                    .Include(c => c.User)
-                    .Where(c => c.Post_Id == postId)
-                    .ToListAsync();
+                var user = await _context.Users.FindAsync(userId);
+                if (user != null)
+                {
+                    var response = new
+                    {
+                        Id = comment.Id,
+                        Description = comment.Description,
+                        User = new
+                        {
+                            Name = user.Name,
+                            PictureLocal = user.PictureLocal
+                        }
+                    };
 
-                return RedirectToAction("Main", "Aplication", new { page = page });
+                    return Json(response);
+                }
             }
 
-            return RedirectToAction("Main", "Aplication", new { page = page });
+            return BadRequest("Erro ao adicionar o comentário");
         }
 
     }
