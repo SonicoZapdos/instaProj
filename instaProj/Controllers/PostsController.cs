@@ -25,6 +25,7 @@ namespace instaProj.Controllers
         // GET: Posts
         public async Task<IActionResult> Index()
         {
+
             var contexto = _context.Posts.Include(p => p.User);
             return View(await contexto.ToListAsync());
         }
@@ -123,6 +124,22 @@ namespace instaProj.Controllers
             }
         }
 
+        public string VerificaExtensao(string nomeArquivo)
+        {
+            string extensaoArquivo = Path.GetExtension(nomeArquivo).ToLower();
+            string[] validacaoLista = { ".gif", ".jpeg", ".jpg", ".png", ".mp4", ".mp3" };
+
+            return validacaoLista.Contains(extensaoArquivo) ? extensaoArquivo : "none";
+        }
+
+        // Gera um nome de arquivo randomizado com um comprimento especificado
+        static string geraNomeRandomizado(int comprimento)
+        {
+            const string caracteres = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+            Random random = new();
+            return new string(Enumerable.Range(0, comprimento).Select(_ => caracteres[random.Next(caracteres.Length)]).ToArray());
+        }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task CreateLink(int postId, List<string> link)
@@ -143,21 +160,7 @@ namespace instaProj.Controllers
             }
         }
 
-        public string VerificaExtensao(string nomeArquivo)
-        {
-            string extensaoArquivo = Path.GetExtension(nomeArquivo).ToLower();
-            string[] validacaoLista = { ".gif", ".jpeg", ".jpg", ".png", ".mp4", ".mp3" };
 
-            return validacaoLista.Contains(extensaoArquivo) ? extensaoArquivo : "none";
-        }
-
-        // Gera um nome de arquivo randomizado com um comprimento especificado
-        static string geraNomeRandomizado(int comprimento)
-        {
-            const string caracteres = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-            Random random = new();
-            return new string(Enumerable.Range(0, comprimento).Select(_ => caracteres[random.Next(caracteres.Length)]).ToArray());
-        }
 
         // GET: Posts/Edit/5
         public async Task<IActionResult> Edit(int? id)

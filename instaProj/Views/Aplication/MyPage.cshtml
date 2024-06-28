@@ -5,7 +5,9 @@
     <div class="maxW card mt-3">
         <div class="maxW d-flex gap-2 justify-content-between align-items-center ps-2 pe-2 box-post p-2" style="background-color:transparent;">
             <div class="d-flex gap-3 justify-content-center align-items-center" >
-                <div class="user"></div>
+
+                    <img class="user" id="AttImage" src="@(ViewBag.User.PictureLocal ?? "/images/ppic.png")" alt="Foto de perfil do usuário" style="border-radius: 50%" />
+
                 <div>
                     <h3 class="no-config">@ViewBag.User.Name</h3>
                     <h6 class="no-config">@ViewBag.User.Url</h6>
@@ -29,8 +31,10 @@
                 bool firstRun = true;
                 <div class="maxW d-flex flex-column box-post card">
                     <div class="maxW d-flex justify-content-between align-items-center pe-4 ps-4">
-                        <div class="d-flex gap-3 justify-content-center align-items-center">
-                            <div class="user"></div>
+                        <div class="d-flex gap-3 justify-content-center align-items-center p-2">
+
+                                <img class="user" id="AttImage" src="@(ViewBag.User.PictureLocal ?? "/images/ppic.png")" alt="Foto de perfil do usuário" style="border-radius: 50%" />
+                     
                             <h4 class="no-config">@ViewBag.User.Name</h4>
                         </div>
                         <span class="material-symbols-outlined" style="height: 20px">more_horiz</span>

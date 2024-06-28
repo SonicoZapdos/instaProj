@@ -14,13 +14,14 @@
 
                 <div class="maxW d-flex flex-column box-post card">
                     <div class="maxW d-flex justify-content-between align-items-center pe-4 ps-4">
-                        <div class="d-flex gap-3 justify-content-center align-items-center">
-                            <div class="user">
+                        <div class="d-flex gap-3 justify-content-center align-items-center p-2">
 
-                            </div>
+                            <img class="user" id="AttImage" src="@(p.User.PictureLocal ?? "/images/ppic.png")" alt="Foto de perfil do usuário" style="border-radius: 50%" />
+
                             <h4 class="no-config">@p.User.Name</h4>
                         </div>
                     </div>
+                    <hr class="maxW no-config" />
 
 
                     @if (p.Archives != null && p.Archives.Count > 0)

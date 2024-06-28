@@ -1,6 +1,6 @@
 ﻿@model instaProj.Models.Post
 
-<div class="maxW box-post p-1" id="new-post">
+<div class="maxW box-post p-1 card" id="new-post">
     <div class="col">
         <form asp-action="CreatePost" asp-controller="Posts" enctype="multipart/form-data" method="post" id="postForm">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -8,10 +8,11 @@
                 <div class="logo">
                     <img src="/images/ppic.png" alt="" class="user">
                 </div>
+          
                 <br>
-                <div class="form-floating p-1" style="width:85%">
-                    <textarea class="form-control" id="floatingTextarea" maxlength="250" placeholder="Novo Post" asp-for="Description" style="background-color: lightgrey"></textarea>
-                    <label for="floatingTextarea">Novo Post</label>
+                <div class="form-floating p-1" style="width:70%">
+                    <textarea  class="form-control" id="floatingTextarea" maxlength="250" placeholder="Novo Post" asp-for="Description" style="background-color: lightgrey"></textarea>
+                    <label for="floatingTextarea" style="color: black" >Nova mensagem...</label>
                     <span asp-validation-for="Description" class="text-danger"></span>
                 </div>
             </div>
@@ -57,7 +58,7 @@
                 </div>
                 <div class="file-input-container">
                     <button type="submit" class="btn-icon" style="width: auto">
-                        <span class="material-symbols-outlined no-config" style="width: auto;">send</span>
+                        <span class="material-symbols-outlined no-config" style="width: auto; color: white; ">send</span>
                     </button>
                 </div>
             </div>

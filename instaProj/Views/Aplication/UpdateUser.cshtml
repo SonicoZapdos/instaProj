@@ -4,10 +4,14 @@
     ViewData["Title"] = "UpdateUser";
 }
 
-<form asp-action="UpdateUser" asp-controller="Users" class="w-100 d-flex justify-content-center">
-    <div class="maxW pe-5 ps-5 d-flex gap-3 flex-column">
+<form asp-action="UpdateUser" asp-controller="Users" enctype="multipart/form-data" class="w-100 d-flex justify-content-center">
+    <div class="maxW pe-5 ps-5 d-flex gap-3 flex-column mt-4">
         <div class="d-flex justify-content-center">
-            <img id="AttImage" src="/images/ppic.png" alt="Foto de perfil do usuário" />
+            <label for="profilePicture" style="cursor: pointer;">
+                <img id="AttImage" src="@(Model.PictureLocal ?? "/images/ppic.png")" alt="Foto de perfil do usuário" style="border-radius: 50%; width: 150px; height: 150px;" />
+            </label>
+            <input asp-for="PictureLocal" type="file" id="profilePicture" class="form-control-file d-none" aria-label="Foto de Perfil do Usuário" />
+            <span asp-validation-for="PictureLocal" class="text-danger"></span>
         </div>
 
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -59,10 +63,25 @@
     form {
         height: 90%;
     }
+
+    .d-none {
+        display: none;
+    }
 </style>
 
 <script>
     $(document).ready(function () {
         $('#floatingInputPhone').mask('(00) 00000-0000');
+
+        $('#profilePicture').change(function (e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    $('#AttImage').attr('src', e.target.result);
+                }
+                reader.readAsDataURL(file);
+            }
+        });
     });
 </script>

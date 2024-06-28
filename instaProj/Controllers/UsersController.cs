@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using instaProj.Models;
 
@@ -12,8 +13,6 @@ namespace instaProj.Controllers
     public class UsersController : Controller
     {
         private readonly Contexto _context;
-
-
 
         public UsersController(Contexto context)
         {
@@ -25,19 +24,17 @@ namespace instaProj.Controllers
             return View();
         }
 
-
-        public IActionResult Maim()
+        public IActionResult Main()
         {
             return View();
         }
 
-
         // GET: Users
         public async Task<IActionResult> Index()
         {
-              return _context.Users != null ? 
-                          View(await _context.Users.ToListAsync()) :
-                          Problem("Entity set 'Contexto.Users'  is null.");
+            return _context.Users != null ?
+                View(await _context.Users.ToListAsync()) :
+                Problem("Entity set 'Contexto.Users'  is null.");
         }
 
         // GET: Users/Details/5
@@ -65,26 +62,20 @@ namespace instaProj.Controllers
         }
 
         // POST: Users/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Name,Email,Password,Telefone,Url,Bio")] User user)
         {
             if (ModelState.IsValid)
             {
-                string userUrl = "@"+user.Name.ToLower();
-
+                string userUrl = "@" + user.Name.ToLower();
                 user.Url = userUrl;
 
                 _context.Add(user);
                 await _context.SaveChangesAsync();
                 WriteCookie(user.Id.ToString());
 
-                Console.WriteLine("Entrou no IF");
-
                 HttpContext.Session.SetString("USERLOGADO", user.Id.ToString());
-
                 return RedirectToAction("verifyLogin", "Users");
             }
             else
@@ -102,7 +93,6 @@ namespace instaProj.Controllers
                     ModelState.AddModelError("Password", "Campo Senha não pode ser Vazio!");
                 }
 
-
                 return View(user); // Return to the form view with validation errors
             }
         }
@@ -110,20 +100,11 @@ namespace instaProj.Controllers
         [HttpPost]
         public async Task<IActionResult> Login(string Name, string Password)
         {
-            string usuario = Name;
-            string senha = Password;
+            var pessoa = await _context.Users.FirstOrDefaultAsync(m => m.Name == Name);
 
-            var pessoa = await _context.Users.FirstOrDefaultAsync(m => m.Name == usuario);
-
-            if (pessoa != null && pessoa.Password == senha)
+            if (pessoa != null && pessoa.Password == Password)
             {
-                
-               // WriteCookie(pessoa.Id.ToString());
-
-                Console.WriteLine("Entrou no IF");
-
                 HttpContext.Session.SetString("USERLOGADO", pessoa.Id.ToString());
-
                 return RedirectToAction("verifyLogin", "Users");
             }
 
@@ -133,7 +114,6 @@ namespace instaProj.Controllers
         public IActionResult Logout()
         {
             HttpContext.Session.Clear();
-
             return RedirectToAction("verifyLogin", "Users");
         }
 
@@ -141,25 +121,19 @@ namespace instaProj.Controllers
         {
             string? userId = HttpContext.Session.GetString("USERLOGADO");
 
-            if (!string.IsNullOrEmpty(userId))
+            if (!string.IsNullOrEmpty(userId) && int.TryParse(userId, out int parsedUserId))
             {
-                // Tenta converter userId para um inteiro
-                if (int.TryParse(userId, out int parsedUserId))
+                User? pessoaLogada = await _context.Users.FirstOrDefaultAsync(m => m.Id == parsedUserId);
+
+                if (pessoaLogada != null)
                 {
-                    User? pessoaLogada = await _context.Users.FirstOrDefaultAsync(m => m.Id == parsedUserId);
+                    bool cookieRecebido = HttpContext.Request.Cookies.TryGetValue("LOGADO", out string? valor);
 
-                    if (pessoaLogada != null)
+                    if (cookieRecebido)
                     {
-                        string? nomeUsuarioLogado = pessoaLogada.Name;
-
-                        bool cookieRecebido = HttpContext.Request.Cookies.TryGetValue("LOGADO", out string? valor);
-
-                        if (cookieRecebido)
-                        {
-                            Console.WriteLine("\n\n:::::::: Valor do Cookie ::::::::    " + valor);
-                        }
-                        return RedirectToAction("Main", "Aplication");
+                        Console.WriteLine("\n\n:::::::: Valor do Cookie ::::::::    " + valor);
                     }
+                    return RedirectToAction("Main", "Aplication");
                 }
             }
 
@@ -168,16 +142,13 @@ namespace instaProj.Controllers
 
         public IActionResult WriteCookie(string value)
         {
-            Response.Cookies.Append("LOGADO", value, new Microsoft.AspNetCore.Http.CookieOptions
+            Response.Cookies.Append("LOGADO", value, new CookieOptions
             {
                 HttpOnly = true,
                 Expires = DateTimeOffset.Now.AddDays(7)
             });
             return Ok("Cookie gravado com sucesso!");
         }
-
-
-
 
         // GET: Users/Edit/5
         public async Task<IActionResult> Edit(int? id)
@@ -195,35 +166,40 @@ namespace instaProj.Controllers
             return View(user);
         }
 
-        // POST: Users/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        // POST: Users/UpdateUser
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> UpdateUser(int id)
+        public async Task<IActionResult> UpdateUser(int id, IFormFile PictureLocal)
         {
-            // Localiza o usuário no banco de dados pelo ID
             var userToUpdate = await _context.Users.FindAsync(id);
             if (userToUpdate == null)
             {
                 return NotFound();
             }
 
-            // Tenta atualizar o modelo com os valores do formulário
-            if (await TryUpdateModelAsync<User>(
-                userToUpdate,
-                "",
-                u => u.Name, u => u.Bio))
+            if (await TryUpdateModelAsync<User>(userToUpdate, "", u => u.Name, u => u.Bio))
             {
                 try
                 {
-                    // Salva as alterações no banco de dados
+                    if (PictureLocal != null && PictureLocal.Length > 0)
+                    {
+                        string picturePath = await UploadProfilePicture(PictureLocal);
+                        userToUpdate.PictureLocal = picturePath;
+                        Console.WriteLine(userToUpdate.PictureLocal);
+                        Console.WriteLine(picturePath);
+
+                    }
+                    else
+                    {
+                        userToUpdate.PictureLocal = "/imgPerfil/" + userToUpdate.PictureLocal;
+                        Console.WriteLine(userToUpdate.PictureLocal);
+                    }
+
                     await _context.SaveChangesAsync();
                     return RedirectToAction("Main", "Aplication", new { page = "MyPage" });
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    // Captura exceções de concorrência e verifica se o usuário ainda existe
                     if (!UserExists(userToUpdate.Id))
                     {
                         return NotFound();
@@ -234,10 +210,12 @@ namespace instaProj.Controllers
                     }
                 }
             }
+            else
+            {
+                ModelState.AddModelError(string.Empty, "Não foi possível salvar as alterações. Tente novamente.");
+            }
 
-            // Adiciona um erro geral ao ModelState em caso de falha
-            ModelState.AddModelError(string.Empty, "Não foi possível salvar as alterações. Tente novamente.");
-            return View(userToUpdate);
+            return RedirectToAction("Main", "Aplication", new { page = "MyPage" });
         }
 
 
@@ -273,14 +251,45 @@ namespace instaProj.Controllers
             {
                 _context.Users.Remove(user);
             }
-            
+
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
+        private async Task<string?> UploadProfilePicture(IFormFile profilePicture)
+        {
+            if (profilePicture != null && profilePicture.Length > 0)
+            {
+                string extension = Path.GetExtension(profilePicture.FileName).ToLower();
+                string filename = geraNomeRandomizado(25) + extension;
+
+                if (!Directory.Exists(Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "imgPerfil")))
+                {
+                    Directory.CreateDirectory(Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "imgPerfil"));
+                }
+                string uploadPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "imgPerfil", filename);
+
+                using (var stream = new FileStream(uploadPath, FileMode.Create))
+                {
+                    await profilePicture.CopyToAsync(stream);
+                }
+
+                return "/imgPerfil/" + filename;
+            }
+
+            return null;
+        }
+
+        static string geraNomeRandomizado(int comprimento)
+        {
+            const string caracteres = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+            Random random = new();
+            return new string(Enumerable.Range(0, comprimento).Select(_ => caracteres[random.Next(caracteres.Length)]).ToArray());
+        }
+
         private bool UserExists(int id)
         {
-          return (_context.Users?.Any(e => e.Id == id)).GetValueOrDefault();
+            return (_context.Users?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }

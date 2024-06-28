@@ -54,6 +54,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="wwwroot\imgPerfil\" />
     <Folder Include="wwwroot\img\" />
   </ItemGroup>
 
