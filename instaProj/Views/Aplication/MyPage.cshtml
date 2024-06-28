@@ -1,11 +1,10 @@
 ﻿@{
     ViewBag.MainPage = "MyPage";
 }
-
 <div class="maxW d-flex flex-column" style="height: 100%; overflow: auto;">
-    <div class="maxW card">
-        <div class="maxW d-flex gap-2 justify-content-between align-items-center ps-2 pe-2 box-post pt-3" style="background-color:transparent">
-            <div class="d-flex gap-3 justify-content-center align-items-center">
+    <div class="maxW card mt-3">
+        <div class="maxW d-flex gap-2 justify-content-between align-items-center ps-2 pe-2 box-post p-2" style="background-color:transparent;">
+            <div class="d-flex gap-3 justify-content-center align-items-center" >
                 <div class="user"></div>
                 <div>
                     <h3 class="no-config">@ViewBag.User.Name</h3>
@@ -14,14 +13,15 @@
             </div>
             <a class="btn btnPd" asp-action="Main" asp-route-page="UpdateUser">Editar</a>
         </div>
-        <div class="box-post" style="height: 150px; background-color:transparent;">
-            <p class="no-config" style="height: 150px; padding: 40px; text-align:justify;">@ViewBag.User.Bio</p>
+        <div class="box-post" style="height: fit-content; background-color: transparent;">
+            <p class="no-config" style="height: fit-content;min-height:100px; padding-left: 40px;padding-top:10px; text-align:justify;">&#11088; @ViewBag.User.Bio</p>
         </div>
     </div>
 
     <hr />
 
     <div class="maxW d-flex flex-column">
+
         @if (ViewBag.MyPosts != null && ViewBag.MyPosts.Count > 0)
         {
             foreach (Post p in ViewBag.MyPosts)
@@ -287,6 +287,20 @@
                     background-color: #292929;
                     border-radius: 50px;
                 } */
+
+    .modal-content {
+        background-color: #292929;
+        color: white;
+    }
+
+    .modal-title {
+        color: #e8e8e8;
+    }
+
+    .btn-close {
+        background-color: white;
+        color: white;
+    }
 
 </style>
 
