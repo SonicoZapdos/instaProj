@@ -79,6 +79,18 @@ namespace instaProj.Controllers
             return Json(new { success = false, redirectUrl = Url.Action("Main", "Aplication") }); // Retorna JSON em caso de falha
         }
 
+        public async Task<IActionResult> Ocultar (int id)
+        {
+            Post? p = await _context.Posts.FindAsync(id) ?? null;
+            if (p != null)
+            {
+                p.Private = true;
+                _context.Posts.Update(p);
+                await _context.SaveChangesAsync();
+            }
+            return RedirectToAction("Main", "Aplication", new { page = "MyPage"});
+        }
+
         public List<Post> ListPost()
         {
             if (HttpContext.Session.GetString("USERLOGADO") != null && int.TryParse(HttpContext.Session.GetString("USERLOGADO"), out int id))
@@ -216,7 +228,7 @@ namespace instaProj.Controllers
         }
 
         // GET: Posts/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        /*public async Task<IActionResult> Delete(int? id)
         {
             if (id == null || _context.Posts == null)
             {
@@ -232,12 +244,10 @@ namespace instaProj.Controllers
             }
 
             return View(post);
-        }
+        }*/
 
         // POST: Posts/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> Delete(int id)
         {
             if (_context.Posts == null)
             {
@@ -246,11 +256,16 @@ namespace instaProj.Controllers
             var post = await _context.Posts.FindAsync(id);
             if (post != null)
             {
+                var comment = _context.Comments.Where(m => m.Post_Id == post.Id).ToList();
+                if (comment != null)
+                {
+                    _context.Comments.RemoveRange(comment);
+                }
                 _context.Posts.Remove(post);
             }
 
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction("Main", "Aplication", new {page = "MyPage"});
         }
 
         private bool PostExists(int id)

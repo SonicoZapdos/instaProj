@@ -20,6 +20,9 @@ namespace instaProj.Models
         [NotMapped]
         [JsonIgnore]
         public Post? Post {  get; set; }
+        [NotMapped]
+        [JsonIgnore]
+        public bool Rating {  get; set; }
         
     }
 }

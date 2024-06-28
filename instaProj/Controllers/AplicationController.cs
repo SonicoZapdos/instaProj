@@ -36,7 +36,7 @@ namespace instaProj.Controllers
                     ViewBag.Following = _context.Follows.Where(m => m.User_Id_Followed == id).Include(m => m.User_Following).ToList() ?? new List<Follow>();
                     ViewBag.Followed = _context.Follows.Where(m => m.User_Id_Following == id).Include(m => m.User_Followed).ToList() ?? new List<Follow>();
                     ViewBag.MainPage = page ?? "ForYou";
-                    List<Post> post = _context.Posts.Where(m => m.User_Id == id).OrderBy(m => m.DatePub).Reverse().ToList() ?? new List<Post>();
+                    List<Post> post = _context.Posts.Where(m => m.User_Id == id && m.Private != true).Include(m => m.User).OrderBy(m => m.DatePub).Reverse().ToList() ?? new List<Post>();
                     foreach (Post p in post) 
                     {
                         p.Archives = _context.Archives.Where(m => m.Post_Id == p.Id).ToList();
@@ -47,13 +47,13 @@ namespace instaProj.Controllers
                         // Atribui o valor de 'Rating' com base na existência da avaliação
                         p.Rating = ratingPostExists;
 
-                        p.Comment = _context.Comments.Where(m => m.Post_Id == p.Id).ToList() ?? new List<Comment>();
+                        p.Comment = _context.Comments.Where(m => m.Post_Id == p.Id).Include(m => m.User).ToList() ?? new List<Comment>();
 
                         foreach(Comment c in p.Comment)
                         {
                             var ratingCommentExists = _context.Ratings.Any(m => m.Comment_Id == c.Id && m.User_Id == id);
 
-                            p.Rating = ratingCommentExists;
+                            c.Rating = ratingCommentExists;
                         }
                     }
                     ViewBag.MyPosts = post;
@@ -65,7 +65,7 @@ namespace instaProj.Controllers
                     {
                         ViewBag.Model = null;
                     }
-                    post = _context.Posts.Where(m => m.User_Id != id).Include(m => m.User).ToList() ?? new List<Post>();
+                    post = _context.Posts.Where(m => m.User_Id != id && m.Private != true).Include(m => m.User).ToList() ?? new List<Post>();
                     foreach (Post p in post)
                     {
                         p.Archives = _context.Archives.Where(m => m.Post_Id == p.Id).ToList();
@@ -74,13 +74,13 @@ namespace instaProj.Controllers
 
                         p.Rating = ratingPostExists;
 
-                        p.Comment = _context.Comments.Where(m => m.Post_Id == p.Id).ToList() ?? new List<Comment>();
+                        p.Comment = _context.Comments.Where(m => m.Post_Id == p.Id).Include(m => m.User).ToList() ?? new List<Comment>();
 
                         foreach (Comment c in p.Comment)
                         {
                             var ratingCommentExists = _context.Ratings.Any(m => m.Comment_Id == c.Id && m.User_Id == id);
 
-                            p.Rating = ratingCommentExists;
+                            c.Rating = ratingCommentExists;
                         }
                     }
                     ViewBag.OtherPosts = post;
@@ -129,24 +129,24 @@ namespace instaProj.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> FavoriteForYou(int post, string page)
+        public async Task<IActionResult> Favorite(int post)
         {
             if (post != 0 && HttpContext.Session.GetString("USERLOGADO") != null && int.TryParse(HttpContext.Session.GetString("USERLOGADO"), out int userId))
             {
                 // Verifica se já existe uma entrada de Rating para o usuário atual e o post específico
-                Rating rating = await _context.Ratings.FirstOrDefaultAsync(r => r.User_Id == userId && r.Post_Id == post);
+                Rating? rating = await _context.Ratings.FirstOrDefaultAsync(r => r.User_Id == userId && r.Post_Id == post);
 
                 if (rating == null)
                 {
                     // Se não existe, cria uma nova entrada de Rating
-                    rating = new Rating
+                    Rating r = new Rating
                     {
                         User_Id = userId,
                         Post_Id = post,
                         Comment_Id = 0,
                         SubComment_Id = 0
                     };
-                    _context.Ratings.Add(rating);
+                    _context.Ratings.Add(r);
                 }
                 else
                 {
@@ -164,29 +164,27 @@ namespace instaProj.Controllers
             // Retorna um erro caso não seja possível processar a requisição
             return BadRequest("Erro ao favoritar o post.");
         }
-
-
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> FavoriteMyPage(int post, string page)
+        public async Task<IActionResult> FavoriteComment(int post)
         {
             if (post != 0 && HttpContext.Session.GetString("USERLOGADO") != null && int.TryParse(HttpContext.Session.GetString("USERLOGADO"), out int userId))
             {
                 // Verifica se já existe uma entrada de Rating para o usuário atual e o post específico
-                Rating rating = await _context.Ratings.FirstOrDefaultAsync(r => r.User_Id == userId && r.Post_Id == post);
+                Rating? rating = await _context.Ratings.FirstOrDefaultAsync(r => r.User_Id == userId && r.Comment_Id == post);
 
                 if (rating == null)
                 {
                     // Se não existe, cria uma nova entrada de Rating
-                    rating = new Rating
+                    Rating? r = new Rating
                     {
                         User_Id = userId,
-                        Post_Id = post,
-                        Comment_Id = 0,
+                        Post_Id = 0,
+                        Comment_Id = post,
                         SubComment_Id = 0
                     };
-                    _context.Ratings.Add(rating);
+                    _context.Ratings.Add(r);
                 }
                 else
                 {
@@ -204,8 +202,6 @@ namespace instaProj.Controllers
             // Retorna um erro caso não seja possível processar a requisição
             return BadRequest("Erro ao favoritar o post.");
         }
-
-
 
         [HttpPost]
         [ValidateAntiForgeryToken]

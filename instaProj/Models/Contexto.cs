@@ -50,8 +50,6 @@ namespace instaProj.Models
 
             modelBuilder.Entity<Archive>().HasOne(a => a.Post).WithMany().HasForeignKey(a => a.Post_Id);
 
-            modelBuilder.Entity<Comment>().HasOne(c => c.Post).WithMany().HasForeignKey(c => c.Post_Id);
-
             modelBuilder.Entity<Comment>().HasOne(c => c.User).WithMany().HasForeignKey(c => c.User_Id);
 
             modelBuilder.Entity<SubComment>().HasOne(s => s.Comment).WithMany().HasForeignKey(s => s.Comment_Id);

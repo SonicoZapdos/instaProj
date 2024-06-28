@@ -6,7 +6,7 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="row d-flex align-items-center gap-3 p-2">
                 <div class="logo">
-                    <img src="/images/ppic.png" alt="" class="user">
+                    <img src="@(ViewBag.User.PictureLocal ?? "/images/ppic.png")" alt="" class="user">
                 </div>
           
                 <br>
@@ -170,14 +170,17 @@
             item.className = 'carousel-item' + (index === 0 ? ' active' : '');
 
             if (typeof file === 'string') {
+                const item = document.createElement('div');
+                var linkShow = 'https://img.youtube.com/vi/' + file.substring(32) + '/0.jpg';
+                item.className = 'carousel-item' + (index === 0 ? ' active' : '');
                 item.innerHTML = `
-                        <div class="maxW" style="height: 300px; display: flex; align-items: center; justify-content: center;">
-                            <a href="${file}" target="_blank">${file}</a>
-                            <button type="button" class="remove-btn z-3" onclick="removeFile(${index})">
-                                <span class="material-symbols-outlined no-config">close</span>
-                            </button>
-                        </div>
-                    `;
+                                                                                <img src="${linkShow}" class="maxW" style="height: 300px" alt="Imagem Selecionada">
+                                                                            <button type="button" class="remove-btn z-3" onclick="removeFile(${index})"><span class="material-symbols-outlined no-config">
+                                                close
+                                                </span></button>
+                                                                    `;
+                carouselInner.appendChild(item);
+                document.getElementById('carouselExampleControls').classList.remove('d-none');
             } else {
                 if (file.type.startsWith('video/')) {
                     const videoThumbnailUrl = URL.createObjectURL(file);
