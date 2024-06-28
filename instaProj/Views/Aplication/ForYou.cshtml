@@ -20,12 +20,24 @@
 
                             <h4 class="no-config">@p.User.Name</h4>
 
-                            <form asp-action="Follow" asp-controller="Aplication" method="post">
-                                @Html.AntiForgeryToken()
-                                <input type="hidden" name="followedId" value="@null" />
-                                <input type="hidden" name="followingId" value="@null" />
-                                <button type="submit" class="btn btn-outline-light btn-rounded btn-sm d-flex justify-content-center"> Follow </button>
-                            </form>
+                            @if (!((List<Follow>)ViewBag.Following).Exists(x => x.User_Id_Following == p.User_Id && x.User_Id_Followed == ViewBag.User.Id))
+                            {
+                                <form asp-action="Follow" asp-controller="Aplication" method="post">
+                                    @Html.AntiForgeryToken()
+                                    <input type="hidden" name="followedId" value="@ViewBag.User.Id" />
+                                    <input type="hidden" name="followingId" value="@p.User_Id" />
+                                    <button type="submit" class="btn btn-outline-light btn-rounded btn-sm d-flex justify-content-center"> Follow </button>
+                                </form>
+                            }
+                            else
+                            {
+                                <form asp-action="Unfollow" asp-controller="Aplication" method="post">
+                                    @Html.AntiForgeryToken()
+                                    <input type="hidden" name="followedId" value="@ViewBag.User.Id" />
+                                    <input type="hidden" name="followingId" value="@p.User_Id" />
+                                    <button type="submit" class="btn btn-outline-light btn-rounded btn-sm d-flex justify-content-center"> Unfollow </button>
+                                </form>
+                            }
 
                         </div>
 
