@@ -19,7 +19,15 @@
                             <img class="user" id="AttImage" src="@(p.User.PictureLocal ?? "/images/ppic.png")" alt="Foto de perfil do usuário" style="border-radius: 50%" />
 
                             <h4 class="no-config">@p.User.Name</h4>
+
+
                         </div>
+                        <form asp-action="Follow" asp-controller="Aplication" method="post">
+                            @Html.AntiForgeryToken()
+                            <input type="hidden" name="followedId" value="" />
+                            <input type="hidden" name="followingId" value="" />
+                            <button type="submit" class="btn btnPd"> Follow </button>
+                        </form>
                     </div>
                     <hr class="maxW no-config" />
 
